@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="DoAn1.UI.UserControls.CountingTextBoxUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoAn1.UI.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="92.275" d:DesignWidth="277.949">
+    <DockPanel d:Background="White" LastChildFill="True">
+        <DockPanel DockPanel.Dock="Top" Margin="5 0 5 0">
+            <TextBlock DockPanel.Dock="Left" FontWeight="SemiBold">
+                <Run Text="{Binding UC_Title}" d:Text="Title"/>
+                <Run Text=":"/>
+            </TextBlock>
+            <TextBlock DockPanel.Dock="Right" TextAlignment="Right" Foreground="Gray">
+                <Run Text="{Binding ElementName=textBox, Path=Text.Length, Mode=OneWay}"/>
+                <Run Text="/"/>
+                <Run Text="{Binding UC_MaxLength}" d:Text="10"/>
+            </TextBlock>
+        </DockPanel>
+        <TextBox x:Name="textBox" d:Text="ABC" DockPanel.Dock="Bottom" Margin="0 5 0 0">
+        </TextBox>
+    </DockPanel>
+</UserControl>
