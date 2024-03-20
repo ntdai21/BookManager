@@ -29,15 +29,12 @@
         <Grid Grid.Column="1" Visibility="Visible" x:Name="loginPanel">
             <DockPanel Margin="30 20 30 20">
                 <TextBlock Text="Đăng nhập" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                <Button Click="loginBtn_Click" DockPanel.Dock="Bottom" Width="90" Style="{StaticResource backgroundBtn}">
-                    <TextBlock Text="Đăng nhập"/>
-                </Button>
+                <userControl:TextOnlyButtonUC Click="loginBtn_Click" UC_Text="Đăng nhập" DockPanel.Dock="Bottom" Width="90"/>
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="Width" Value="70"/>
                             <Setter Property="FontWeight" Value="DemiBold"/>
-                            <Setter Property="Foreground" Value="DimGray"/>
                         </Style>
                         <Style TargetType="DockPanel">
                             <Setter Property="Margin" Value="0 0 0 10"/>
@@ -54,20 +51,17 @@
                     <CheckBox Content="Lưu tài khoản" HorizontalAlignment="Center"/>
                 </StackPanel>
             </DockPanel>
-            <Button Content="{materialIcons:MaterialIconExt Kind=Settings}" Click="LoginPanelToSettingsPanel" Margin="10" Grid.Column="1" Width="18" Height="18" BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <userControl:IconOnlyButtonUC UC_IconSize="18" UC_Kind="Settings" Click="LoginPanelToSettingsPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
         <Grid Grid.Column="1" Visibility="Collapsed" x:Name="databaseSettingsPanel">
             <DockPanel Margin="30 20 30 20">
                 <TextBlock Text="Cài đặt CSDL" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                <Button DockPanel.Dock="Bottom" Width="90" Style="{StaticResource backgroundBtn}">
-                    <TextBlock Text="Lưu"/>
-                </Button>
+                <userControl:TextOnlyButtonUC UC_Text="Lưu" DockPanel.Dock="Bottom" Width="90"/>
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="Width" Value="70"/>
                             <Setter Property="FontWeight" Value="DemiBold"/>
-                            <Setter Property="Foreground" Value="DimGray"/>
                         </Style>
                         <Style TargetType="DockPanel">
                             <Setter Property="Margin" Value="0 0 0 10"/>
@@ -91,18 +85,14 @@
                     </DockPanel>
                 </StackPanel>
             </DockPanel>
-            <Button Content="{materialIcons:MaterialIconExt Kind=ArrowBack}" Click="SettingsPanelToLoginPanel" Margin="10" Grid.Column="1" Width="18" Height="18" BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <userControl:IconOnlyButtonUC UC_IconSize="18" UC_Kind="ArrowBack" Click="SettingsPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
         <Grid Grid.Column="1" Visibility="Collapsed" x:Name="expirationDuePanel">
             <DockPanel Margin="30 20 30 20">
                 <TextBlock Text="Đăng nhập thành công" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Style="{StaticResource backgroundBtn}" Width="90" Margin="0 0 10 0">
-                        <TextBlock Text="Xác thực Key"/>
-                    </Button>
-                    <Button Click="skipBtn_Click" Style="{StaticResource outlineBtn}" Width="90">
-                        <TextBlock Text="Bỏ qua"/>
-                    </Button>
+                    <userControl:TextOnlyButtonUC UC_Text="Xác thực Key" DockPanel.Dock="Bottom" Width="150" Margin="0 0 10 0"/>
+                    <userControl:TextOnlyOutlineButtonUC UC_Text="Bỏ qua" Click="skipBtn_Click" DockPanel.Dock="Bottom" Width="90"/>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                     <StackPanel.Resources>
@@ -112,12 +102,12 @@
                     </StackPanel.Resources>
                     <TextBlock Text="Tài khoản còn 14 ngày sử dụng miễn phí. Vui lòng mua key bản quyền để sử dụng vĩnh viễn." TextWrapping="Wrap" Foreground="Red" Margin="0 0 0 20"/>
                     <DockPanel>
-                        <TextBlock Text="Key:" Width="70" FontWeight="DemiBold" Foreground="DimGray"/>
+                        <TextBlock Text="Key:" Width="70" FontWeight="DemiBold"/>
                         <TextBox />
                     </DockPanel>
                 </StackPanel>
             </DockPanel>
-            <Button Content="{materialIcons:MaterialIconExt Kind=ArrowBack}" Click="ExpirationPanelToLoginPanel" Margin="10" Grid.Column="1" Width="18" Height="18" BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <userControl:IconOnlyButtonUC UC_IconSize="18" UC_Kind="ArrowBack" Click="ExpirationPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Window>

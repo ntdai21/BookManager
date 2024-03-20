@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="DoAn1.UI.UserControls.IconOnlyButtonUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoAn1.UI.UserControls"
+             mc:Ignorable="d"
+             xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             d:Background="WhiteSmoke">
+    <Button x:Name="button" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Background="#01FFFFFF" Foreground="{Binding UC_Foreground}" d:Foreground="#593122">
+        <materialIcons:MaterialIcon Kind="{Binding UC_Kind}" Height="{Binding UC_IconSize}"/>
+    </Button>
+</UserControl>

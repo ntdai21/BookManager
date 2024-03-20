@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="DoAn1.UI.UserControls.IconWithTextButtonUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoAn1.UI.UserControls"
+             mc:Ignorable="d"
+             xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             d:Background="WhiteSmoke" d:DesignHeight="19.464" d:DesignWidth="113.962">
+    <Button x:Name="button" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Background="{Binding UC_Background}" d:Background="{x:Null}">
+        <DockPanel>
+            <materialIcons:MaterialIcon Kind="{Binding UC_Kind}" d:Height="20" Height="{Binding UC_IconSize}" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" DockPanel.Dock="Left"/>
+            <TextBlock Text="{Binding UC_Text}" d:Text="Button" FontSize="{Binding UC_FontSize}" Margin="20 0 0 0" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" FontWeight="Bold" VerticalAlignment="Center"/>
+        </DockPanel>
+    </Button>
+</UserControl>

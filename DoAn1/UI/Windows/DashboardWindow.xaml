@@ -14,50 +14,24 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border BorderThickness="0 0 1 0" BorderBrush="#593122">
-            <Grid Margin="20 40 20 40">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="140"/>
-                </Grid.ColumnDefinitions>
-                <Grid.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Height" Value="30"/>
-                        <Setter Property="Grid.ColumnSpan" Value="2"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Background" Value="{x:Null}"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    </Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontWeight" Value="Light"/>
-                        <Setter Property="Margin" Value="10 0 0 0"/>
-                        <Setter Property="Foreground" Value="DimGray"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                    </Style>
-                </Grid.Resources>
-                <Button Content="{materialIcons:MaterialIconExt Kind=Menu, Size=18}" Grid.Row="0"/>
-                <Button Content="{materialIcons:MaterialIconExt Kind=Bookshelf, Size=18}" Grid.Row="2"/>
-                <Button Content="{materialIcons:MaterialIconExt Kind=TextBox, Size=18}" Grid.Row="3"/>
-                <Button Content="{materialIcons:MaterialIconExt Kind=TicketPercent, Size=18}" Grid.Row="4"/>
-                <Button Content="{materialIcons:MaterialIconExt Kind=BarChart, Size=18}" Grid.Row="5"/>
-                <Button Content="{materialIcons:MaterialIconExt Kind=WrenchSettings, Size=18}" Grid.Row="7"/>
-                <TextBlock Text="Dashboard" Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontSize="20"/>
-                <TextBlock Text="Quản lý sách" Grid.Row="2" Grid.Column="1"/>
-                <TextBlock Text="Quản lý hoá đơn" Grid.Row="3" Grid.Column="1"/>
-                <TextBlock Text="Quản lý mã giảm giá" Grid.Row="4" Grid.Column="1"/>
-                <TextBlock Text="Báo cáo thống kê" Grid.Row="5" Grid.Column="1"/>
-                <TextBlock Text="Cấu hình" Grid.Row="7" Grid.Column="1"/>
-            </Grid>
+            <DockPanel x:Name="menuPanel" Margin="20 40 20 40" Width="200">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center">
+                    <userControl:IconOnlyButtonUC UC_Kind="Menu" Click="switchMenuMode"/>
+                    <TextBlock Margin="20 0 0 0" Text="Dashboard" FontWeight="Bold" FontSize="20"/>
+                </StackPanel>
+                <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Cấu hình" UC_Kind="WrenchSettings"/>
+                <StackPanel Margin="0 40 0 0">
+                    <StackPanel.Resources>
+                        <Style TargetType="userControl:IconWithTextButtonUC">
+                            <Setter Property="Margin" Value="0 0 0 10"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <userControl:IconWithTextButtonUC UC_Text="Quản lý sách" UC_Kind="Bookshelf" Click="Btn_Click"/>
+                    <userControl:IconWithTextButtonUC UC_Text="Quản lý hoá đơn" UC_Kind="TextBox"/>
+                    <userControl:IconWithTextButtonUC UC_Text="Quản lý mã giảm giá" UC_Kind="TicketPercent"/>
+                    <userControl:IconWithTextButtonUC UC_Text="Thống kê báo cáo" UC_Kind="BarChart"/>
+                </StackPanel>
+            </DockPanel>
         </Border>
 
         <Grid Grid.Column="1" Margin="30">

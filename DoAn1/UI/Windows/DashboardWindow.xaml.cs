@@ -19,9 +19,27 @@ namespace DoAn1.UI.Windows
     /// </summary>
     public partial class DashboardWindow : Window
     {
+
         public DashboardWindow()
         {
             InitializeComponent();
+        }
+
+        private void Btn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Success");
+        }
+
+        private void switchMenuMode(object sender, RoutedEventArgs e)
+        {
+            var size = menuPanel.Width;
+            if (size > 20)
+            {
+                menuPanel.Width = 20;
+            } else
+            {
+                menuPanel.Width = 200;
+            }
         }
     }
 }

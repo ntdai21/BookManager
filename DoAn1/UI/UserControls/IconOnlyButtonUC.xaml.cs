@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -16,15 +17,21 @@ using System.Windows.Shapes;
 namespace DoAn1.UI.UserControls
 {
     /// <summary>
-    /// Interaction logic for IconButtonUC.xaml
+    /// Interaction logic for IconOnlyButtonUC.xaml
     /// </summary>
-    public partial class IconButtonUC : UserControl
+    public partial class IconOnlyButtonUC : UserControl
     {
         public string UC_Kind { get; set; }
-        public string UC_Foreground { get; set; } = "DimGray";
-        public string UC_Title { get; set; }
+        public string UC_Foreground { get; set; } = "#593122";
+        public int UC_IconSize { get; set; } = 20;
 
-        public IconButtonUC()
+        public event RoutedEventHandler Click
+        {
+            add { button.AddHandler(ButtonBase.ClickEvent, value); }
+            remove { button.RemoveHandler(ButtonBase.ClickEvent, value); }
+        }
+
+        public IconOnlyButtonUC()
         {
             InitializeComponent();
             this.DataContext = this;
