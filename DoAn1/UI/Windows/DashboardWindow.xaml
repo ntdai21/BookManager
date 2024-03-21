@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DoAn1.UI.Windows"
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Book Manager - Dashboard" Height="720" Width="1080">
     <Grid>
@@ -20,7 +21,7 @@
                     <TextBlock Margin="20 0 0 0" Text="Dashboard" FontWeight="Bold" FontSize="20"/>
                 </StackPanel>
                 <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Cấu hình" UC_Kind="WrenchSettings"/>
-                <StackPanel Margin="0 40 0 0">
+                <StackPanel Margin="0 60 0 0">
                     <StackPanel.Resources>
                         <Style TargetType="userControl:IconWithTextButtonUC">
                             <Setter Property="Margin" Value="0 0 0 10"/>

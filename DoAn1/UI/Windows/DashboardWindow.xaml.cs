@@ -32,10 +32,10 @@ namespace DoAn1.UI.Windows
 
         private void switchMenuMode(object sender, RoutedEventArgs e)
         {
-            var size = menuPanel.Width;
-            if (size > 20)
+            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
+            if (menuPanel.Width > size)
             {
-                menuPanel.Width = 20;
+                menuPanel.Width = size;
             } else
             {
                 menuPanel.Width = 200;

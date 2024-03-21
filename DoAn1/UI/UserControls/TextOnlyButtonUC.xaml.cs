@@ -21,9 +21,9 @@ namespace DoAn1.UI.UserControls
     /// </summary>
     public partial class TextOnlyButtonUC : UserControl
     {
-        public string UC_Foreground { get; set; } = "#F2F0EB";
+        public string UC_Foreground { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_Background;
         public string UC_Text { get; set; }
-        public string UC_Background { get; set; } = "#593122";
+        public string UC_Background { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_ButtonColor;
 
         public event RoutedEventHandler Click
         {

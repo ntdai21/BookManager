@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:properties="clr-namespace:DoAn1.Properties"
              xmlns:local="clr-namespace:DoAn1.UI.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100" d:Background="WhiteSmoke">
-    <Border BorderBrush="{Binding UC_BorderBrush}" d:BorderBrush="NavajoWhite" BorderThickness="1">
-        <Grid Background="{Binding UC_Background}" d:Background="DarkKhaki">
-            <TextBlock d:Text="Title" Text="{Binding UC_Title}" Margin="10 5 0 0" FontSize="18" FontWeight="Light" Foreground="{Binding UC_Foreground}" d:Foreground="WhiteSmoke" TextWrapping="Wrap"/>
-            <TextBlock d:Text="100" Text="{Binding UC_Number}" Margin="0 0 10 5" FontSize="32" FontWeight="Bold" Foreground="{Binding UC_Foreground}" d:Foreground="WhiteSmoke" TextAlignment="Right" VerticalAlignment="Bottom"/>
+    <Border BorderBrush="{Binding UC_BorderBrush}" d:BorderBrush="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Border}" BorderThickness="1">
+        <Grid Background="{Binding UC_Background}" d:Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_SubBackground}">
+            <TextBlock d:Text="Title" Text="{Binding UC_Title}" Margin="10 5 0 0" FontSize="18" FontWeight="Light" Foreground="{Binding UC_Foreground}" d:Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}" TextWrapping="Wrap"/>
+            <TextBlock d:Text="100" Text="{Binding UC_Number}" Margin="0 0 10 5" FontSize="32" FontWeight="Bold" Foreground="{Binding UC_Foreground}" d:Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}" TextAlignment="Right" VerticalAlignment="Bottom"/>
         </Grid>
     </Border>
 </UserControl>

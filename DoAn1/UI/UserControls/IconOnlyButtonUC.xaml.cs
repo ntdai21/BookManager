@@ -23,7 +23,7 @@ namespace DoAn1.UI.UserControls
     {
         public string UC_Kind { get; set; }
         public string UC_Foreground { get; set; } = "#593122";
-        public int UC_IconSize { get; set; } = 20;
+        public int UC_Height { get; set; } = DoAn1.Properties.Settings.Default.ButtonSize;
 
         public event RoutedEventHandler Click
         {

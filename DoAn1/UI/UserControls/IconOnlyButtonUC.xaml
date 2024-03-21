@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              d:Background="WhiteSmoke">
-    <Button x:Name="button" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Background="#01FFFFFF" Foreground="{Binding UC_Foreground}" d:Foreground="#593122">
-        <materialIcons:MaterialIcon Kind="{Binding UC_Kind}" Height="{Binding UC_IconSize}"/>
+    <Button x:Name="button" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Background="#01FFFFFF" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" Height="{Binding UC_Height}">
+        <materialIcons:MaterialIcon Kind="{Binding UC_Kind}"/>
     </Button>
 </UserControl>

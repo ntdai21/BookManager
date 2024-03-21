@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:DoAn1.UI.UserControls"
              mc:Ignorable="d"
              xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-             d:Background="WhiteSmoke" d:DesignHeight="19.464" d:DesignWidth="113.962">
+             d:Background="WhiteSmoke">
     <Button x:Name="button" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Background="{Binding UC_Background}" d:Background="{x:Null}">
         <DockPanel>
-            <materialIcons:MaterialIcon Kind="{Binding UC_Kind}" d:Height="20" Height="{Binding UC_IconSize}" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" DockPanel.Dock="Left"/>
-            <TextBlock Text="{Binding UC_Text}" d:Text="Button" FontSize="{Binding UC_FontSize}" Margin="20 0 0 0" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" FontWeight="Bold" VerticalAlignment="Center"/>
+            <materialIcons:MaterialIcon Kind="{Binding UC_Kind}" Height="{Binding UC_IconSize}" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" DockPanel.Dock="Left"/>
+            <TextBlock Text="{Binding UC_Text}" d:Text="Button" FontSize="{Binding UC_FontSize}" Margin="20 10 0 10" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" FontWeight="Bold" VerticalAlignment="Center"/>
         </DockPanel>
     </Button>
 </UserControl>

@@ -24,7 +24,7 @@ namespace DoAn1.UI.UserControls
         public string UC_Kind { get; set; } = "";
         public string UC_Foreground { get; set; } = "#593122";
         public string UC_Text { get; set; }
-        public int UC_IconSize { get; set; } = 20;
+        public int UC_IconSize { get; set; } = DoAn1.Properties.Settings.Default.ButtonSize;
         public int UC_FontSize { get; set; } = 12;
         public string UC_Background { get; set; } = "#01FFFFFF";
 

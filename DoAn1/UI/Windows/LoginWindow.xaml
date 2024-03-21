@@ -51,7 +51,7 @@
                     <CheckBox Content="Lưu tài khoản" HorizontalAlignment="Center"/>
                 </StackPanel>
             </DockPanel>
-            <userControl:IconOnlyButtonUC UC_IconSize="18" UC_Kind="Settings" Click="LoginPanelToSettingsPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="Settings" Click="LoginPanelToSettingsPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
         <Grid Grid.Column="1" Visibility="Collapsed" x:Name="databaseSettingsPanel">
             <DockPanel Margin="30 20 30 20">
@@ -85,7 +85,7 @@
                     </DockPanel>
                 </StackPanel>
             </DockPanel>
-            <userControl:IconOnlyButtonUC UC_IconSize="18" UC_Kind="ArrowBack" Click="SettingsPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="SettingsPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
         <Grid Grid.Column="1" Visibility="Collapsed" x:Name="expirationDuePanel">
             <DockPanel Margin="30 20 30 20">
@@ -107,7 +107,7 @@
                     </DockPanel>
                 </StackPanel>
             </DockPanel>
-            <userControl:IconOnlyButtonUC UC_IconSize="18" UC_Kind="ArrowBack" Click="ExpirationPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="ExpirationPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Window>
