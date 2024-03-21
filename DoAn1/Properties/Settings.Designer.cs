@@ -61,19 +61,28 @@ namespace DoAn1.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#A6774E")]
-        public string ColorPalatte_Border {
+        [global::System.Configuration.DefaultSettingValueAttribute("#BFAE99")]
+        public string ColorPalatte_SubBackground {
             get {
-                return ((string)(this["ColorPalatte_Border"]));
+                return ((string)(this["ColorPalatte_SubBackground"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#BFAE99")]
-        public string ColorPalatte_SubBackground {
+        [global::System.Configuration.DefaultSettingValueAttribute("#A6774E")]
+        public string ColorPalatte_DarkerSubBackground {
             get {
-                return ((string)(this["ColorPalatte_SubBackground"]));
+                return ((string)(this["ColorPalatte_DarkerSubBackground"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#E1DDD2")]
+        public string ColorPalatte_DarkerBackground {
+            get {
+                return ((string)(this["ColorPalatte_DarkerBackground"]));
             }
         }
     }

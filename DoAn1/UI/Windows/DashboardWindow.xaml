@@ -14,7 +14,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border BorderThickness="0 0 1 0" BorderBrush="#593122">
+        <Border BorderThickness="0 0 1 0" BorderBrush="#593122" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_DarkerBackground}">
             <DockPanel x:Name="menuPanel" Margin="20 40 20 40" Width="200">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center">
                     <userControl:IconOnlyButtonUC UC_Kind="Menu" Click="switchMenuMode"/>
@@ -35,19 +35,88 @@
             </DockPanel>
         </Border>
 
-        <Grid Grid.Column="1" Margin="30">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="Số lượng sách"/>
-            <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 15 0" UC_Title="Đơn hàng mới" UC_Background="SeaGreen"/>
-            <userControl:NumberFrameUC Grid.Column="2" Margin="15 0 0 0" UC_Title="Số lượng mã giảm giá"/>
-        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
+            <StackPanel Margin="40">
+                <DockPanel>
+                    <TextBlock Text="Tổng quan" FontWeight="Bold" FontSize="18"/>
+                    <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                </DockPanel>
+                <Grid Height="100" Margin="20 20 20 60">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="0 0 15 0" Style="{StaticResource emptyButton}" Click="Btn_Click">
+                        <userControl:NumberFrameUC UC_Title="Số lượng sách" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="15 0 15 0" Style="{StaticResource emptyButton}">
+                        <userControl:NumberFrameUC UC_Title="Số lượng đơn hàng" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
+                    </Button>
+                    <Button Grid.Column="2" Margin="15 0 0 0" Style="{StaticResource emptyButton}">
+                        <userControl:NumberFrameUC UC_Title="Số lượng mã giảm giá" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
+                    </Button>
+                </Grid>
+                <DockPanel>
+                    <TextBlock Text="Cập nhật nhanh" FontWeight="Bold" FontSize="18"/>
+                    <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                </DockPanel>
+                <TextBlock Text="Hôm nay" Margin="20 20 0 0" FontSize="16" FontWeight="SemiBold"/>
+                <Grid Height="100" Margin="20 10 20 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="Đơn hàng mới"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Doanh thu" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                </Grid>
+                <TextBlock Text="Tuần này" Margin="20 20 0 0" FontSize="16" FontWeight="SemiBold"/>
+                <Grid Height="100" Margin="20 10 20 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="Đơn hàng mới"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Doanh thu" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                </Grid>
+                <TextBlock Text="Tháng này" Margin="20 20 0 0" FontSize="16" FontWeight="SemiBold"/>
+                <Grid Height="100" Margin="20 10 20 60">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="Đơn hàng mới"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Doanh thu" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                </Grid>
+                <DockPanel>
+                    <TextBlock Text="Sắp hết" FontWeight="Bold" FontSize="18"/>
+                    <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                </DockPanel>
+                <Grid Margin="20 30 20 30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Sách sắp bán hết" Margin="0 0 0 10" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Column="1" Text="Mã giảm giá sắp hết hạn" Margin="15 0 0 10" FontSize="16" FontWeight="SemiBold"/>
+                    <DataGrid Grid.Row="1" Margin="0 0 15 0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="*"/>
+                            <DataGridTextColumn Header="Số lượng còn lại" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid Grid.Row="1" Grid.Column="1" Margin="15 0 0 0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="*"/>
+                            <DataGridTextColumn Header="Ngày hết hạn" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
