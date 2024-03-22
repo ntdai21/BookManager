@@ -6,8 +6,15 @@
         xmlns:local="clr-namespace:DoAn1.UI.Windows"
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="Quản lý sách - Đăng nhập" Height="300" Width="700">
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="inputTitle">
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -26,88 +33,105 @@
             <TextBlock Text="Lập trình Windows - K21" DockPanel.Dock="Bottom" FontSize="16" FontWeight="Bold"/>
             <TextBlock Text="QUẢN LÝ SÁCH" FontSize="36" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="UltraBold"/>
         </DockPanel>
-        <Grid Grid.Column="1" Visibility="Visible" x:Name="loginPanel">
-            <DockPanel Margin="30 20 30 20">
-                <TextBlock Text="Đăng nhập" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                <userControl:TextOnlyButtonUC Click="loginBtn_Click" UC_Text="Đăng nhập" DockPanel.Dock="Bottom" Width="90"/>
-                <StackPanel VerticalAlignment="Center">
-                    <StackPanel.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Width" Value="70"/>
-                            <Setter Property="FontWeight" Value="DemiBold"/>
-                        </Style>
-                        <Style TargetType="DockPanel">
-                            <Setter Property="Margin" Value="0 0 0 10"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <DockPanel>
-                        <TextBlock Text="Email:"/>
-                        <TextBox />
+        <TabControl Grid.Column="1" TabStripPlacement="Left">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Height="0"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Login">
+                <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
+                    <DockPanel Margin="30 20 30 20">
+                        <TextBlock Text="Đăng nhập" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                        <userControl:TextOnlyButtonUC Click="loginBtn_Click" UC_Text="Đăng nhập" DockPanel.Dock="Bottom" Width="90"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Width" Value="70"/>
+                                    <Setter Property="FontWeight" Value="DemiBold"/>
+                                </Style>
+                                <Style TargetType="DockPanel">
+                                    <Setter Property="Margin" Value="0 0 0 10"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <DockPanel>
+                                <TextBlock Text="Email:"/>
+                                <TextBox />
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="Mật khẩu:"/>
+                                <PasswordBox />
+                            </DockPanel>
+                            <CheckBox Content="Lưu tài khoản" HorizontalAlignment="Center"/>
+                        </StackPanel>
                     </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Mật khẩu:"/>
-                        <PasswordBox />
+                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="Settings" Click="LoginPanelToSettingsPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
+                    <DockPanel Margin="30 20 30 20">
+                        <TextBlock Text="Cài đặt CSDL" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                        <userControl:TextOnlyButtonUC UC_Text="Lưu" DockPanel.Dock="Bottom" Width="90"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <StackPanel.Resources>
+                                <Style TargetType="DockPanel">
+                                    <Setter Property="Margin" Value="0 0 0 10"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <DockPanel>
+                                <TextBlock Text="Server:" d:Style="{StaticResource inputTitle}"/>
+                                <TextBox d:Text=".\"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="Database:" d:Style="{StaticResource inputTitle}"/>
+                                <TextBox d:Text="DemoDB"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="Tài khoản:" d:Style="{StaticResource inputTitle}"/>
+                                <TextBox d:Text="testABC"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="Mật khẩu:" d:Style="{StaticResource inputTitle}"/>
+                                <PasswordBox />
+                            </DockPanel>
+                            <TextBlock TextAlignment="Center" x:Name="databaseConnectionResult"/>
+                        </StackPanel>
                     </DockPanel>
-                    <CheckBox Content="Lưu tài khoản" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </DockPanel>
-            <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="Settings" Click="LoginPanelToSettingsPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-        </Grid>
-        <Grid Grid.Column="1" Visibility="Collapsed" x:Name="databaseSettingsPanel">
-            <DockPanel Margin="30 20 30 20">
-                <TextBlock Text="Cài đặt CSDL" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                <userControl:TextOnlyButtonUC UC_Text="Lưu" DockPanel.Dock="Bottom" Width="90"/>
-                <StackPanel VerticalAlignment="Center">
-                    <StackPanel.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Width" Value="70"/>
-                            <Setter Property="FontWeight" Value="DemiBold"/>
-                        </Style>
-                        <Style TargetType="DockPanel">
-                            <Setter Property="Margin" Value="0 0 0 10"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <DockPanel>
-                        <TextBlock Text="Server:"/>
-                        <TextBox d:Text=".\"/>
+                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="SettingsPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <ProgressBar Height="5" VerticalAlignment="Bottom" Visibility="Hidden" IsIndeterminate="True"/>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
+                    <DockPanel Margin="30 20 30 20">
+                        <TextBlock Text="Đăng nhập thành công" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <userControl:TextOnlyButtonUC UC_Text="Xác thực Key" DockPanel.Dock="Bottom" Width="150" Margin="0 0 10 0"/>
+                            <userControl:TextOnlyOutlineButtonUC UC_Text="Bỏ qua" Click="skipBtn_Click" DockPanel.Dock="Bottom" Width="90"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                            <StackPanel.Resources>
+                                <Style TargetType="DockPanel">
+                                    <Setter Property="Margin" Value="0 0 0 10"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <TextBlock Text="Tài khoản còn 14 ngày sử dụng miễn phí. Vui lòng mua key bản quyền để sử dụng vĩnh viễn." TextWrapping="Wrap" Foreground="Red" Margin="0 0 0 20"/>
+                            <DockPanel>
+                                <TextBlock Text="Key:" Width="70" FontWeight="DemiBold"/>
+                                <TextBox />
+                            </DockPanel>
+                        </StackPanel>
                     </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Database:"/>
-                        <TextBox d:Text="DemoDB"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Tài khoản:"/>
-                        <TextBox d:Text="testABC"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Mật khẩu:"/>
-                        <PasswordBox />
-                    </DockPanel>
-                </StackPanel>
-            </DockPanel>
-            <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="SettingsPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-        </Grid>
-        <Grid Grid.Column="1" Visibility="Collapsed" x:Name="expirationDuePanel">
-            <DockPanel Margin="30 20 30 20">
-                <TextBlock Text="Đăng nhập thành công" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <userControl:TextOnlyButtonUC UC_Text="Xác thực Key" DockPanel.Dock="Bottom" Width="150" Margin="0 0 10 0"/>
-                    <userControl:TextOnlyOutlineButtonUC UC_Text="Bỏ qua" Click="skipBtn_Click" DockPanel.Dock="Bottom" Width="90"/>
-                </StackPanel>
-                <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                    <StackPanel.Resources>
-                        <Style TargetType="DockPanel">
-                            <Setter Property="Margin" Value="0 0 0 10"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <TextBlock Text="Tài khoản còn 14 ngày sử dụng miễn phí. Vui lòng mua key bản quyền để sử dụng vĩnh viễn." TextWrapping="Wrap" Foreground="Red" Margin="0 0 0 20"/>
-                    <DockPanel>
-                        <TextBlock Text="Key:" Width="70" FontWeight="DemiBold"/>
-                        <TextBox />
-                    </DockPanel>
-                </StackPanel>
-            </DockPanel>
-            <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="ExpirationPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-        </Grid>
+                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="ExpirationPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

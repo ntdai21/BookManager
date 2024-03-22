@@ -26,29 +26,29 @@ namespace DoAn1.UI.Windows
 
         private void LoginPanelToSettingsPanel(object sender, RoutedEventArgs e)
         {
-            databaseSettingsPanel.Visibility = Visibility.Visible;
-            loginPanel.Visibility = Visibility.Collapsed;
+            //databaseSettingsPanel.Visibility = Visibility.Visible;
+            //loginPanel.Visibility = Visibility.Collapsed;
         }
 
         private void SettingsPanelToLoginPanel(object sender, RoutedEventArgs e)
         {
-            loginPanel.Visibility = Visibility.Visible;
-            databaseSettingsPanel.Visibility = Visibility.Collapsed;
+            //loginPanel.Visibility = Visibility.Visible;
+            //databaseSettingsPanel.Visibility = Visibility.Collapsed;
         }
 
         private void ExpirationPanelToLoginPanel(object sender, RoutedEventArgs e)
         { 
             if (MessageBox.Show("Tài khoản của bạn sẽ bị đăng xuất, bạn có chắc muốn tiếp tục", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                loginPanel.Visibility = Visibility.Visible;
-                expirationDuePanel.Visibility = Visibility.Collapsed;
+                //loginPanel.Visibility = Visibility.Visible;
+                //expirationDuePanel.Visibility = Visibility.Collapsed;
             }
         }
 
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            expirationDuePanel.Visibility = Visibility.Visible;
-            loginPanel.Visibility= Visibility.Collapsed;
+            //expirationDuePanel.Visibility = Visibility.Visible;
+            //loginPanel.Visibility= Visibility.Collapsed;
         }
 
         private void skipBtn_Click(object sender, RoutedEventArgs e)
