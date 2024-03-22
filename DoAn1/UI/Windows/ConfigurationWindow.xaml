@@ -1,0 +1,89 @@
+﻿<Window x:Class="DoAn1.UI.Windows.ConfigurationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoAn1.UI.Windows"
+        xmlns:properties="clr-namespace:DoAn1.Properties"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Title="Quản lý sách - Cấu hình" Height="300" Width="500">
+    <Window.Resources>
+        <Style TargetType="StackPanel" x:Key="rootStackPanel">
+            <Setter Property="Margin" Value="20"/>
+        </Style>
+        <Style TargetType="StackPanel" x:Key="itemStackPanel">
+            <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0 0 10 0"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="ScrollViewer">
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Background" Value="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_DarkerBackground}"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="10 0 0 0"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <TabControl TabStripPlacement="Left">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Name="Panel" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_DarkerBackground}">
+                                    <Border BorderThickness="1" BorderBrush="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}"/>
+                                    <ContentPresenter Name="Text" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="20 10" TextBlock.FontSize="14" TextBlock.FontWeight="SemiBold" TextBlock.Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foregroud}">
+                                        
+                                    </ContentPresenter>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
+                                        <Setter TargetName="Text" Property="TextBlock.Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Khởi động">
+                <ScrollViewer>
+                    <StackPanel Style="{StaticResource rootStackPanel}">
+                        <CheckBox Content="Tự động đăng nhập lần kế tiếp"/>
+                        <CheckBox Content="Mở lại màn hình cuối cùng sau khi đăng nhập"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </TabItem>
+            <TabItem Header="Hiển thị">
+                <ScrollViewer>
+                    <StackPanel Style="{StaticResource rootStackPanel}">
+                        <StackPanel Style="{StaticResource itemStackPanel}">
+                            <TextBox d:Text="5"/>
+                            <TextBlock Text="Số item hiển thị mỗi trang"/>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl> 
+    </Grid>
+</Window>

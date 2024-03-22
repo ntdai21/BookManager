@@ -8,7 +8,7 @@
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Book Manager - Dashboard" Height="720" Width="1080">
+        Title="Quản lý sách - Dashboard" Height="720" Width="1080">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -20,7 +20,7 @@
                     <userControl:IconOnlyButtonUC UC_Kind="Menu" Click="switchMenuMode"/>
                     <TextBlock Margin="20 0 0 0" Text="Dashboard" FontWeight="Bold" FontSize="20"/>
                 </StackPanel>
-                <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Cấu hình" UC_Kind="WrenchSettings"/>
+                <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Cấu hình" UC_Kind="WrenchSettings" Click="configBtn_Click"/>
                 <StackPanel Margin="0 60 0 0">
                     <StackPanel.Resources>
                         <Style TargetType="userControl:IconWithTextButtonUC">
@@ -92,7 +92,7 @@
                     <TextBlock Text="Sắp hết" FontWeight="Bold" FontSize="18"/>
                     <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
                 </DockPanel>
-                <Grid Margin="20 30 20 30">
+                <Grid Margin="20 20 20 30">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="100"/>

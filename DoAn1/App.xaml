@@ -10,10 +10,6 @@
             <Setter Property="Background" Value="#F2F0EB"/>
 
         </Style>
-
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#593122"/>
-        </Style>
         <Style TargetType="{x:Type Button}" x:Key="emptyButton">
             <Setter Property="Background" Value="#01FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>

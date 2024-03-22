@@ -41,5 +41,12 @@ namespace DoAn1.UI.Windows
                 menuPanel.Width = 200;
             }
         }
+
+        private void configBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigurationWindow configurationWindow = new ConfigurationWindow();
+            configurationWindow.Owner = this;
+            configurationWindow.ShowDialog();
+        }
     }
 }

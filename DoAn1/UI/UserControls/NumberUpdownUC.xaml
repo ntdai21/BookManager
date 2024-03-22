@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="DoAn1.UI.UserControls.NumberUpdownUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoAn1.UI.UserControls"
+             mc:Ignorable="d" Height="30" Width="299" d:Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox d:Text="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.RowSpan="2"/>
+        <local:IconOnlyButtonUC UC_Kind="ArrowUp" Grid.Column="1"/>
+        <local:IconOnlyButtonUC UC_Kind="ArrowDown" Grid.Column="1" Grid.Row="1"/>
+        <TextBlock Text="ABC" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Margin="10 0 0 0" TextWrapping="Wrap"/>
+    </Grid>
+</UserControl>

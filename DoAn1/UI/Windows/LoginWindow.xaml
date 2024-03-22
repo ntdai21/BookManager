@@ -7,7 +7,7 @@
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Title="Book Manager - Login" Height="300" Width="700">
+        Title="Quản lý sách - Đăng nhập" Height="300" Width="700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
