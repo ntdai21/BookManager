@@ -30,7 +30,8 @@ CREATE TABLE [Order_Book] (
 	NumOfBook integer ,
   CONSTRAINT [PK_ORDER_BOOK] PRIMARY KEY CLUSTERED
   (
-  [Order_Id] ASC
+  [Order_Id],
+  [Book_Id]
   ) WITH (IGNORE_DUP_KEY = OFF)
 
 )
@@ -64,7 +65,6 @@ ALTER TABLE [Order_Book] CHECK CONSTRAINT [Order_Book_fk0]
 GO
 ALTER TABLE [Order_Book] WITH CHECK ADD CONSTRAINT [Order_Book_fk1] FOREIGN KEY ([Book_Id]) REFERENCES [Book]([Id])
 ON UPDATE CASCADE
-ON DELETE SET NULL;
 GO
 ALTER TABLE [Order_Book] CHECK CONSTRAINT [Order_Book_fk1]
 GO
