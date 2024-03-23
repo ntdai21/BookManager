@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DoAn1;
 
-public partial class Category
+public partial class Category:INotifyPropertyChanged
 {
     public int Id { get; set; }
 
