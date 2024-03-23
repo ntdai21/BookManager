@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoAn1;
+namespace DoAn1.Models;
 
-public partial class MyShopContext : DbContext
+public partial class TenDbContext : DbContext
 {
-    public MyShopContext()
+    public TenDbContext()
     {
     }
 
-    public MyShopContext(DbContextOptions<MyShopContext> options)
+    public TenDbContext(DbContextOptions<TenDbContext> options)
         : base(options)
     {
     }
@@ -27,13 +27,13 @@ public partial class MyShopContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.\\MYSQLSERVER; Trusted_Connection=Yes; Initial Catalog=DoAn1WindowsDb; TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=.\\MYSQLSERVER; Initial Catalog=DoAn1WindowsDb; Integrated Security=True; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Book>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Book__3214EC07A651F723");
+            entity.HasKey(e => e.Id).HasName("PK__Book__3214EC0742B81CF6");
 
             entity.ToTable("Book");
 
@@ -52,7 +52,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC0787668DC1");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC0768B9EE68");
 
             entity.ToTable("Category");
 
@@ -61,7 +61,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Discount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Discount__3214EC07EABCAFF6");
+            entity.HasKey(e => e.Id).HasName("PK__Discount__3214EC07995B6DB9");
 
             entity.ToTable("Discount");
 
@@ -70,7 +70,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07E4095C6C");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07DFD38367");
 
             entity.ToTable("Order");
 
