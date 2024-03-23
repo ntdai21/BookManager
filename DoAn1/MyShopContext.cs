@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace DoAn1;
 
@@ -8,7 +9,52 @@ public partial class MyShopContext : DbContext
 {
     public MyShopContext()
     {
+        LoadConnectionPropertiesFromSettings();
     }
+
+    public MyShopContext(string _server, string _database, string _userID, string _password)
+    {
+        _Server = _server;
+        _Database = _database;
+        _UserID = _userID;
+        _Password = _password;
+    }
+
+    public void UpdateConnectionString()
+    {
+        string connectionString;
+
+        if (_UserID != "") connectionString = $"""
+            Server= .\{_Server};
+            Database={_Database};
+            User ID = {_UserID}; Password = {_Password};
+            TrustServerCertificate=True
+            """;// Load connection string từ app.config ở đây
+
+        else connectionString = $"""
+            Server= .\{_Server};
+            Database={_Database};
+            Trusted_Connection=yes;
+            TrustServerCertificate=True
+            """;// Load connection string từ app.config ở đây
+
+        this.Database.SetConnectionString(connectionString);
+    }
+
+    public void LoadConnectionPropertiesFromSettings()
+    {
+        _Server = DoAn1.Properties.Settings.Default.SQLServer_Server;
+        _Database = DoAn1.Properties.Settings.Default.SQLServer_Database;
+        _UserID = DoAn1.Properties.Settings.Default.SQLServer_UserID;
+        _Password = DoAn1.Properties.Settings.Default.SQLServer_Password;
+
+        UpdateConnectionString();
+    }
+
+    public string _Server { get; set; }
+    public string _Database { get; set; }
+    public string _UserID { get; set; }
+    public string _Password { get; set; }
 
     public MyShopContext(DbContextOptions<MyShopContext> options)
         : base(options)
@@ -26,8 +72,26 @@ public partial class MyShopContext : DbContext
     public virtual DbSet<OrderBook> OrderBooks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.\\SqlExpress; Trusted_Connection=Yes; Initial Catalog=MyShop; TrustServerCertificate=True");
+    {
+        string connectionString;
+        
+        if (_UserID != "") connectionString = $"""
+            Server= .\{_Server};
+            Database={_Database};
+            User ID = {_UserID}; Password = {_Password};
+            TrustServerCertificate=True
+            """;// Load connection string từ app.config ở đây
+
+        else connectionString = $"""
+            Server= .\{_Server};
+            Database={_Database};
+            Trusted_Connection=yes;
+            TrustServerCertificate=True
+            """;// Load connection string từ app.config ở đây
+
+        optionsBuilder.UseSqlServer(connectionString);
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

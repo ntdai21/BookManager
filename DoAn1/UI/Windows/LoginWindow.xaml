@@ -33,7 +33,7 @@
             <TextBlock Text="Lập trình Windows - K21" DockPanel.Dock="Bottom" FontSize="16" FontWeight="Bold"/>
             <TextBlock Text="QUẢN LÝ SÁCH" FontSize="36" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="UltraBold"/>
         </DockPanel>
-        <TabControl Grid.Column="1" TabStripPlacement="Left">
+        <TabControl Grid.Column="1" TabStripPlacement="Left"  x:Name="myTabControl">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -52,60 +52,21 @@
                         <userControl:TextOnlyButtonUC Click="loginBtn_Click" UC_Text="Đăng nhập" DockPanel.Dock="Bottom" Width="90"/>
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel.Resources>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Width" Value="70"/>
-                                    <Setter Property="FontWeight" Value="DemiBold"/>
-                                </Style>
                                 <Style TargetType="DockPanel">
                                     <Setter Property="Margin" Value="0 0 0 10"/>
                                 </Style>
                             </StackPanel.Resources>
                             <DockPanel>
-                                <TextBlock Text="Email:"/>
+                                <TextBlock Text="Email:" Style="{StaticResource inputTitle}"/>
                                 <TextBox />
                             </DockPanel>
                             <DockPanel>
-                                <TextBlock Text="Mật khẩu:"/>
+                                <TextBlock Text="Mật khẩu:" Style="{StaticResource inputTitle}"/>
                                 <PasswordBox />
                             </DockPanel>
                             <CheckBox Content="Lưu tài khoản" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </DockPanel>
-                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="Settings" Click="LoginPanelToSettingsPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                </Grid>
-            </TabItem>
-            <TabItem>
-                <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
-                    <DockPanel Margin="30 20 30 20">
-                        <TextBlock Text="Cài đặt CSDL" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                        <userControl:TextOnlyButtonUC UC_Text="Lưu" DockPanel.Dock="Bottom" Width="90"/>
-                        <StackPanel VerticalAlignment="Center">
-                            <StackPanel.Resources>
-                                <Style TargetType="DockPanel">
-                                    <Setter Property="Margin" Value="0 0 0 10"/>
-                                </Style>
-                            </StackPanel.Resources>
-                            <DockPanel>
-                                <TextBlock Text="Server:" d:Style="{StaticResource inputTitle}"/>
-                                <TextBox d:Text=".\"/>
-                            </DockPanel>
-                            <DockPanel>
-                                <TextBlock Text="Database:" d:Style="{StaticResource inputTitle}"/>
-                                <TextBox d:Text="DemoDB"/>
-                            </DockPanel>
-                            <DockPanel>
-                                <TextBlock Text="Tài khoản:" d:Style="{StaticResource inputTitle}"/>
-                                <TextBox d:Text="testABC"/>
-                            </DockPanel>
-                            <DockPanel>
-                                <TextBlock Text="Mật khẩu:" d:Style="{StaticResource inputTitle}"/>
-                                <PasswordBox />
-                            </DockPanel>
-                            <TextBlock TextAlignment="Center" x:Name="databaseConnectionResult"/>
-                        </StackPanel>
-                    </DockPanel>
-                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="SettingsPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                    <ProgressBar Height="5" VerticalAlignment="Bottom" Visibility="Hidden" IsIndeterminate="True"/>
                 </Grid>
             </TabItem>
             <TabItem>
@@ -124,12 +85,46 @@
                             </StackPanel.Resources>
                             <TextBlock Text="Tài khoản còn 14 ngày sử dụng miễn phí. Vui lòng mua key bản quyền để sử dụng vĩnh viễn." TextWrapping="Wrap" Foreground="Red" Margin="0 0 0 20"/>
                             <DockPanel>
-                                <TextBlock Text="Key:" Width="70" FontWeight="DemiBold"/>
+                                <TextBlock Text="Key:" Style="{StaticResource inputTitle}"/>
                                 <TextBox />
                             </DockPanel>
                         </StackPanel>
                     </DockPanel>
-                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="ExpirationPanelToLoginPanel" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="returnToLoginBtn_Click" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
+                    <DockPanel Margin="30 20 30 20">
+                        <TextBlock Text="Cài đặt CSDL" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                        <userControl:TextOnlyButtonUC x:Name="connectionDatabaseBtn" UC_Text="Kết nối" DockPanel.Dock="Bottom" Width="90" Click="connectDatabaseBtn_Click"/>
+                        <StackPanel VerticalAlignment="Center" x:Name="databasePanel">
+                            <StackPanel.Resources>
+                                <Style TargetType="DockPanel">
+                                    <Setter Property="Margin" Value="0 0 0 10"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <DockPanel>
+                                <TextBlock Text="Server:" Style="{StaticResource inputTitle}"/>
+                                <TextBox d:Text=".\" Text="{Binding _Server, Mode=TwoWay}"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="Database:" Style="{StaticResource inputTitle}"/>
+                                <TextBox d:Text="DemoDB" Text="{Binding _Database, Mode=TwoWay}"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="Tài khoản:" Style="{StaticResource inputTitle}"/>
+                                <TextBox d:Text="testABC" Text="{Binding _UserID, Mode=TwoWay}"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock Text="Mật khẩu:" Style="{StaticResource inputTitle}"/>
+                                <TextBox d:Text="123" Text="{Binding _Password, Mode=TwoWay}"/>
+                            </DockPanel>
+                            <TextBlock TextAlignment="Center" x:Name="databaseConnectionResult" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" x:Name="fromDatabaseToLoginBtn" Click="returnToLoginBtn_Click" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <ProgressBar x:Name="connectionProgressBar" Height="5" VerticalAlignment="Bottom" Visibility="Hidden" IsIndeterminate="True"/>
                 </Grid>
             </TabItem>
         </TabControl>
