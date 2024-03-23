@@ -5,9 +5,10 @@ CREATE TABLE [Book] (
 	NumOfPage integer,
 	PublishingCompany nvarchar(255),
 	Author nvarchar(255),
-	Category_Id integer,
 	Cover nvarchar(255),
+	CostPrice float,
 	Description nvarchar(255),
+	Category_Id integer,
 )
 GO
 CREATE TABLE [Category] (
