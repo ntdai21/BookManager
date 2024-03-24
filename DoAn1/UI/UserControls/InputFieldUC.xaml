@@ -4,11 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DoAn1.UI.UserControls"
-             xmlns:validationRules="clr-namespace:DoAn1.UI.ValidationRules"
+             xmlns:converters="clr-namespace:DoAn1.UI.Converters"
              xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:properties="clr-namespace:DoAn1.Properties"
              mc:Ignorable="d" 
              d:Height="20" d:Width="200" d:Background="White">
+    <UserControl.Resources>
+        <converters:ValidationRuleConverter x:Key="validationRuleConverter"/>
+    </UserControl.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Left" FontWeight="DemiBold" Width="70">
             <Run d:Text="Title" Text="{Binding UC_Title, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
@@ -23,23 +26,16 @@
                                 <Setter Property="Visibility" Value="Hidden"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Path=(Validation.HasError), ElementName=textBox}" Value="True">
-                                <Setter Property="ToolTip" Value="{Binding ElementName=textBox, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                <Setter Property="ToolTip" Value="{Binding ElementName=TextBox, Path=(Validation.Errors)[0].ErrorContent}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </materialIcons:MaterialIcon.Resources>
             </materialIcons:MaterialIcon>
         </Grid>
-        <TextBox x:Name="textBox" d:Text="ABC">
-            <TextBox.Text>
-                <Binding Path="UC_TextInput" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationRules:EmailValidationRule/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text> 
+        <TextBox x:Name="textBox" d:Text="ABC" Text="{Binding UC_TextInput, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" Loaded="textBox_Loaded">
             <TextBox.Resources>
-                <Style TargetType="TextBox">
+                <Style TargetType="TextBox" x:Name="textBoxStyle">
                     <Style.Triggers>
                         <Trigger Property="Validation.HasError" Value="True">
                             <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>

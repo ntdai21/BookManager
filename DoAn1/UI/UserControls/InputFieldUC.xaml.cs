@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -18,6 +19,7 @@ namespace DoAn1.UI.UserControls
     /// <summary>
     /// Interaction logic for InputFieldUC.xaml
     /// </summary>
+
     public partial class InputFieldUC : UserControl
     {
         public string UC_Title {  get; set; }
@@ -35,6 +37,18 @@ namespace DoAn1.UI.UserControls
         public InputFieldUC()
         {
             InitializeComponent();
+        }
+
+        private void textBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            BindingExpression mainTxtBxBinding = BindingOperations.GetBindingExpression(textBox, TextBox.TextProperty);
+            BindingExpression textBinding = BindingOperations.GetBindingExpression(this, UC_TextInputProperty);
+
+            if (textBinding != null && mainTxtBxBinding != null && textBinding.ParentBinding != null && textBinding.ParentBinding.ValidationRules.Count > 0 && mainTxtBxBinding.ParentBinding.ValidationRules.Count < 1)
+            {
+                foreach (ValidationRule vRule in textBinding.ParentBinding.ValidationRules)
+                    mainTxtBxBinding.ParentBinding.ValidationRules.Add(vRule);
+            }
         }
     }
 }
