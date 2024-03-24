@@ -57,18 +57,26 @@
                                     <Setter Property="Margin" Value="0 0 0 10"/>
                                 </Style>
                             </StackPanel.Resources>
-                            
                             <userControl:InputFieldUC UC_Title="Email">
                                 <userControl:InputFieldUC.UC_TextInput>
                                     <Binding Path="AccountEmail">
                                         <Binding.ValidationRules>
+                                            <validationRules:NotEmptyOrWhiteSpacesOnlyValidationRule/>
                                             <validationRules:EmailValidationRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </userControl:InputFieldUC.UC_TextInput>
                             </userControl:InputFieldUC>
-                            
-                            <userControl:InputFieldUC UC_Title="Password" UC_TextInput="{Binding AccountPassword}"/>
+                            <userControl:InputFieldUC UC_Title="Password">
+                                <userControl:InputFieldUC.UC_TextInput>
+                                    <Binding Path="AccountPassword">
+                                        <Binding.ValidationRules>
+                                            <validationRules:NotEmptyOrWhiteSpacesOnlyValidationRule/>
+                                            <validationRules:NumberValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </userControl:InputFieldUC.UC_TextInput>
+                            </userControl:InputFieldUC>
                             <CheckBox Content="Lưu tài khoản" Margin="0 10 0 20" HorizontalAlignment="Center"/>
                             <TextBlock TextAlignment="Center" x:Name="loginResult" TextWrapping="Wrap"/>
                         </StackPanel>
