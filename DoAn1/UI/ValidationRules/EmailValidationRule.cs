@@ -17,7 +17,7 @@ namespace DoAn1.UI.ValidationRules
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                return new ValidationResult(false, "Email không thể trống.");
+                return new ValidationResult(false, "Email cannot be empty.");
             }
 
             // Regex pattern for email validation
@@ -30,7 +30,7 @@ namespace DoAn1.UI.ValidationRules
             }
             else
             {
-                return new ValidationResult(false, "Email không hợp lệ.");
+                return new ValidationResult(false, "Invalid Email.");
             }
         }
     }

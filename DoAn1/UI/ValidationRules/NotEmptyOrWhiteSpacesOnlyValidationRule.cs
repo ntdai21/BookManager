@@ -16,7 +16,7 @@ namespace DoAn1.UI.ValidationRules
 
             if (text.Trim().Length == 0)
             {
-                return new ValidationResult(false, "Không được để trống.");
+                return new ValidationResult(false, "Cannot be empty.");
             }
 
             return ValidationResult.ValidResult;

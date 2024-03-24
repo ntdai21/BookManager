@@ -22,26 +22,26 @@ namespace DoAn1.UI.ValidationRules
 
             if (Regex.IsMatch(input, numberPattern))
             {
-                float number = (float)value;
+                var number = double.Parse(input);
 
                 if (Min != null && Max != null)
                 {
-                    if (number < Min || number > Max) return new ValidationResult(false, $"Giá trị phải trong khoảng [{Min}-{Max}].");
+                    if (number < Min || number > Max) return new ValidationResult(false, $"Must be in range [{Min}-{Max}].");
                 }
 
                 else if (Min != null)
                 {
-                    if (number < Min) return new ValidationResult(false, $"Giá trị phải lớn hơn hoặc bằng {Min}");
+                    if (number < Min) return new ValidationResult(false, $"Must be equal or greater than {Min}.");
                 }
                 else if (Max != null)
                 {
-                    if (number > Max) return new ValidationResult(false, $"Giá trị phải bé hơn hoặc bằng {Max}");
+                    if (number > Max) return new ValidationResult(false, $"Must be equal or less than {Max}.");
                 }
 
                 return ValidationResult.ValidResult;
             }
 
-            return new ValidationResult(false, "Chỉ được nhập số");
+            return new ValidationResult(false, "Number only allowed.");
         }
     }
 }

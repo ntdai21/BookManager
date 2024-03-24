@@ -16,7 +16,7 @@ namespace DoAn1.UI.ValidationRules
 
             if (text.All(Char.IsLetter)) return ValidationResult.ValidResult;
 
-            else return new ValidationResult(false, "Chỉ được nhập chữ.");
+            else return new ValidationResult(false, "Letters only allowed.");
         }
     }
 }

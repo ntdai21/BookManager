@@ -16,7 +16,7 @@ namespace DoAn1.UI.ValidationRules
 
             if (text.All(Char.IsDigit)) return ValidationResult.ValidResult;
 
-            return new ValidationResult(false, "Chỉ được phép nhập ký tự số.");
+            return new ValidationResult(false, "Digits only allowed.");
         }
     }
 }

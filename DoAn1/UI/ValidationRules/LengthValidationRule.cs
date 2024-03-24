@@ -19,16 +19,16 @@ namespace DoAn1.UI.ValidationRules
 
             if (MinLength != null && MaxLength != null)
             {
-                if (text.Length < MinLength || text.Length > MaxLength) return new ValidationResult(false, $"Số ký tự phải trong khoảng [{MinLength}-{MaxLength}].");
+                if (text.Length < MinLength || text.Length > MaxLength) return new ValidationResult(false, $"Number of characters must in range [{MinLength}-{MaxLength}].");
             }
 
             else if (MinLength != null)
             {
-                if (text.Length < MinLength) return new ValidationResult(false, $"Phải nhập tối thiểu {MinLength} ký tự.");
+                if (text.Length < MinLength) return new ValidationResult(false, $"Minimum lenght of {MinLength} character(s)");
             }
             else if (MaxLength != null)
             {
-                if (text.Length > MaxLength) return new ValidationResult(false, $"Chỉ phép nhập tối đa {MaxLength} ký tự.");
+                if (text.Length > MaxLength) return new ValidationResult(false, $"Maximum length of {MaxLength} character(s).");
             }
 
             return ValidationResult.ValidResult;

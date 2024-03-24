@@ -18,6 +18,10 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using Firebase.Auth.Repository;
+using Firebase.Database;
+using Firebase.Database.Query;
+using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 
 namespace DoAn1.UI.Windows
 {
@@ -31,17 +35,15 @@ namespace DoAn1.UI.Windows
         DispatcherTimer timer;
         TimeSpan time;
 
-        public string Server { get; set; }
-        public string Database {  get; set; }
-        public string UserID { get; set; }
-        public string Password { get; set; }
         public string AccountEmail { get; set; } = string.Empty;
         public string AccountPassword { get; set; } = string.Empty;
+        public string ActivationKey {  get; set; } = string.Empty;
+        FirebaseAuthClient client;
+        UserCredential userCredential;
 
         MyShopContext database = new MyShopContext();
 
-        FirebaseAuthClient client;
-
+        
         public LoginWindow()
         {
             InitializeComponent();
@@ -68,8 +70,11 @@ namespace DoAn1.UI.Windows
 
         async private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
+            Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+            return;
+
             if (AccountEmail == string.Empty || AccountPassword == string.Empty) {
-                loginResult.Text = "Vui lòng nhập thông tin tài khoản!";
+                loginResult.Text = "Enter your Email and password!";
                 return;
             }
 
@@ -78,7 +83,7 @@ namespace DoAn1.UI.Windows
 
             try
             {
-                var userCredential = await Task.Run(() => {
+                userCredential = await Task.Run(() => {
                     // Test khi chạy quá nhanh
                     System.Threading.Thread.Sleep(1000);
 
@@ -96,19 +101,39 @@ namespace DoAn1.UI.Windows
 
                 if (userCredential != null)
                 {
-                    Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 1));
+                    //Validation Account
+                    var firebase = new FirebaseClient("https://bookmanager-fbfe2-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                    var obj = await firebase.Child("Accounts").Child(userCredential.User.Uid).Child("ExpirationDate").OnceAsJsonAsync();
+
+                    var expDateStr = obj.ToString().Replace("\"", "").Trim();
+
+                    if (string.IsNullOrEmpty(expDateStr)) {
+
+                        Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+
+                    } else //Not activated yet
+                    {
+                        DateTime dt = DateTime.ParseExact(expDateStr, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                        int daysRemaining = int.Max((dt.Date - DateTime.Now.Date).Days, 0);
+
+                        daysRemainingTxt.Text = daysRemaining.ToString();
+
+                        if (daysRemaining == 0) skipBtn.Visibility = Visibility.Collapsed;
+
+                        Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 1));
+                    }
+
                     loginResult.Text = string.Empty;
                 }
 
             } catch (Exception ex)
             {
-                loginResult.Text = "Đăng nhập thất bại!";
+                loginResult.Text = "Failed to log in!";
             }
 
             loginProgressBar.Visibility = Visibility.Hidden;
             loginBtn.IsEnabled = true;
-
-            Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 1));
         }
 
         private void skipBtn_Click(object sender, RoutedEventArgs e)
@@ -121,7 +146,7 @@ namespace DoAn1.UI.Windows
 
         private void returnToLoginBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc muốn đăng xuất tài khoản?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Your account will be logged out. Countinue?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 0));
             }
@@ -156,7 +181,7 @@ namespace DoAn1.UI.Windows
 
                 timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
                 {
-                    databaseConnectionResult.Text = "Kết nối CSDL thành công!\nChuyển hướng đến Dashboard trong " + time.Seconds.ToString();
+                    databaseConnectionResult.Text = "Database connected. Redirect to Dashboard in " + time.Seconds.ToString();
                     if (time == TimeSpan.Zero)
                     {
                         timer.Stop();
@@ -170,12 +195,32 @@ namespace DoAn1.UI.Windows
             }
             else
             {
-                databaseConnectionResult.Text = "Kết nối CSDL thất bại!";
+                databaseConnectionResult.Text = "Failed to connect to database!";
                 connectionDatabaseBtn.IsEnabled = true;
                 fromDatabaseToLoginBtn.IsEnabled = false;
             }
 
             connectionProgressBar.Visibility = Visibility.Hidden;
+        }
+
+        async private void activateKeyBtn_Click(object sender, RoutedEventArgs e)
+        {
+            activateKeyBtn.IsEnabled = false;
+
+            var firebase = new FirebaseClient("https://bookmanager-fbfe2-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            var obj = await firebase.Child("ActivationKeys").Child(ActivationKey).OnceAsJsonAsync();
+
+            if (obj == null)
+            {
+                activationResult.Text = "Invalid Key!";
+            }
+            else
+            {
+                activationResult.Text = "Thank you for purchasing!";
+                activateKeyBtn.UC_Text = "Next";
+            }
+
+            activateKeyBtn.IsEnabled = true;
         }
     }
 }

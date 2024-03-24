@@ -9,11 +9,18 @@
         xmlns:validationRules="clr-namespace:DoAn1.UI.ValidationRules"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Title="Quản lý sách - Đăng nhập" Height="300" Width="700">
+        Title="Book Manager - Login" Height="300" Width="700">
     <Window.Resources>
-        <Style TargetType="TextBlock" x:Key="inputTitle">
-            <Setter Property="Width" Value="70"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
+        <Style x:Key="StatusTxt" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 10 0 0"/>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="0">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <Grid>
@@ -30,9 +37,9 @@
                     <Setter Property="TextAlignment" Value="Center"/>
                 </Style>
             </DockPanel.Resources>
-            <TextBlock Text="Phần mềm" DockPanel.Dock="Top" FontSize="16" FontWeight="Bold"/>
-            <TextBlock Text="Lập trình Windows - K21" DockPanel.Dock="Bottom" FontSize="16" FontWeight="Bold"/>
-            <TextBlock Text="QUẢN LÝ SÁCH" FontSize="36" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="UltraBold"/>
+            <TextBlock Text="Software" DockPanel.Dock="Top" FontSize="16" FontWeight="Bold"/>
+            <TextBlock Text="Windows Programming - K21" DockPanel.Dock="Bottom" FontSize="16" FontWeight="Bold"/>
+            <TextBlock Text="BOOK MANAGER" FontSize="36" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="UltraBold"/>
         </DockPanel>
         <TabControl Grid.Column="1" TabStripPlacement="Left"  x:Name="myTabControl">
             <TabControl.Resources>
@@ -49,8 +56,8 @@
             <TabItem Header="Login">
                 <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
                     <DockPanel Margin="30 20 30 20">
-                        <TextBlock Text="Đăng nhập" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                        <userControl:TextOnlyButtonUC x:Name="loginBtn" Click="loginBtn_Click" UC_Text="Đăng nhập" DockPanel.Dock="Bottom" Width="90"/>
+                        <TextBlock Text="Login" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                        <userControl:TextOnlyButtonUC x:Name="loginBtn" Click="loginBtn_Click" UC_Text="Login" DockPanel.Dock="Bottom" Width="90"/>
                         <StackPanel x:Name="loginPanel" VerticalAlignment="Center">
                             <StackPanel.Resources>
                                 <Style TargetType="userControl:InputFieldUC">
@@ -61,7 +68,6 @@
                                 <userControl:InputFieldUC.UC_TextInput>
                                     <Binding Path="AccountEmail">
                                         <Binding.ValidationRules>
-                                            <validationRules:NotEmptyOrWhiteSpacesOnlyValidationRule/>
                                             <validationRules:EmailValidationRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
@@ -72,13 +78,12 @@
                                     <Binding Path="AccountPassword">
                                         <Binding.ValidationRules>
                                             <validationRules:NotEmptyOrWhiteSpacesOnlyValidationRule/>
-                                            <validationRules:NumberValidationRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </userControl:InputFieldUC.UC_TextInput>
                             </userControl:InputFieldUC>
-                            <CheckBox Content="Lưu tài khoản" Margin="0 10 0 20" HorizontalAlignment="Center"/>
-                            <TextBlock TextAlignment="Center" x:Name="loginResult" TextWrapping="Wrap"/>
+                            <CheckBox Content="Save account" Margin="0 10 0 0" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="loginResult" Style="{StaticResource StatusTxt}"/>
                         </StackPanel>
                     </DockPanel>
                     <ProgressBar x:Name="loginProgressBar" Height="5" VerticalAlignment="Bottom" Visibility="Hidden" IsIndeterminate="True"/>
@@ -87,22 +92,20 @@
             <TabItem>
                 <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
                     <DockPanel Margin="30 20 30 20">
-                        <TextBlock Text="Đăng nhập thành công" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                        <TextBlock Text="Activate your account" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <userControl:TextOnlyButtonUC UC_Text="Xác thực Key" DockPanel.Dock="Bottom" Width="150" Margin="0 0 10 0"/>
-                            <userControl:TextOnlyOutlineButtonUC UC_Text="Bỏ qua" Click="skipBtn_Click" DockPanel.Dock="Bottom" Width="90"/>
+                            <userControl:TextOnlyButtonUC x:Name="activateKeyBtn" UC_Text="Activate" Click="activateKeyBtn_Click" DockPanel.Dock="Bottom" Width="150" Margin="0 0 10 0"/>
+                            <userControl:TextOnlyOutlineButtonUC UC_Text="Skip" x:Name="skipBtn" Click="skipBtn_Click" DockPanel.Dock="Bottom" Width="90"/>
                         </StackPanel>
                         <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                            <StackPanel.Resources>
-                                <Style TargetType="DockPanel">
-                                    <Setter Property="Margin" Value="0 0 0 10"/>
-                                </Style>
-                            </StackPanel.Resources>
-                            <TextBlock Text="Tài khoản còn 14 ngày sử dụng miễn phí. Vui lòng mua key bản quyền để sử dụng vĩnh viễn." TextWrapping="Wrap" Foreground="Red" Margin="0 0 0 20"/>
-                            <DockPanel>
-                                <TextBlock Text="Key:" Style="{StaticResource inputTitle}"/>
-                                <TextBox />
-                            </DockPanel>
+                            <TextBlock TextWrapping="Wrap" Foreground="Red" Margin="0 0 0 20" TextAlignment="Center">
+                                <Run Text="Your account has"/>
+                                <Run FontWeight="Bold" d:Text="14" x:Name="daysRemainingTxt"/>
+                                <Run FontWeight="Bold" Text="day(s)"/>
+                                <Run Text="left of trail period. Please enter the activation key to active your account permanently."/>
+                            </TextBlock>
+                            <userControl:InputFieldUC UC_Title="Key" UC_TextInput="{Binding ActivationKey}" Margin="0 0 0 10"/>
+                            <TextBlock x:Name="activationResult" Style="{StaticResource StatusTxt}"/>
                         </StackPanel>
                     </DockPanel>
                     <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" Click="returnToLoginBtn_Click" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
@@ -111,31 +114,27 @@
             <TabItem>
                 <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
                     <DockPanel Margin="30 20 30 20">
-                        <TextBlock Text="Cài đặt CSDL" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                        <userControl:TextOnlyButtonUC x:Name="connectionDatabaseBtn" UC_Text="Kết nối" DockPanel.Dock="Bottom" Width="90" Click="connectDatabaseBtn_Click"/>
+                        <TextBlock Text="Database Configuration" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                        <userControl:TextOnlyButtonUC x:Name="connectionDatabaseBtn" UC_Text="Connect" DockPanel.Dock="Bottom" Width="90" Click="connectDatabaseBtn_Click"/>
                         <StackPanel VerticalAlignment="Center" x:Name="databasePanel">
                             <StackPanel.Resources>
-                                <Style TargetType="DockPanel">
+                                <Style TargetType="userControl:InputFieldUC">
                                     <Setter Property="Margin" Value="0 0 0 10"/>
                                 </Style>
                             </StackPanel.Resources>
-                            <DockPanel>
-                                <TextBlock Text="Server:" Style="{StaticResource inputTitle}"/>
-                                <TextBox d:Text=".\" Text="{Binding _Server, Mode=TwoWay}"/>
-                            </DockPanel>
-                            <DockPanel>
-                                <TextBlock Text="Database:" Style="{StaticResource inputTitle}"/>
-                                <TextBox d:Text="DemoDB" Text="{Binding _Database, Mode=TwoWay}"/>
-                            </DockPanel>
-                            <DockPanel>
-                                <TextBlock Text="Tài khoản:" Style="{StaticResource inputTitle}"/>
-                                <TextBox d:Text="testABC" Text="{Binding _UserID, Mode=TwoWay}"/>
-                            </DockPanel>
-                            <DockPanel>
-                                <TextBlock Text="Mật khẩu:" Style="{StaticResource inputTitle}"/>
-                                <TextBox d:Text="123" Text="{Binding _Password, Mode=TwoWay}"/>
-                            </DockPanel>
-                            <TextBlock TextAlignment="Center" x:Name="databaseConnectionResult" TextWrapping="Wrap"/>
+                            <userControl:InputFieldUC UC_Title="Server" UC_TextInput="{Binding _Server}"/>
+                            <userControl:InputFieldUC UC_Title="Database">
+                                <userControl:InputFieldUC.UC_TextInput>
+                                    <Binding Path="_Database">
+                                        <Binding.ValidationRules>
+                                            <validationRules:NotEmptyOrWhiteSpacesOnlyValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </userControl:InputFieldUC.UC_TextInput>
+                            </userControl:InputFieldUC>
+                            <userControl:InputFieldUC UC_Title="User ID" UC_TextInput="{Binding _UserID}"/>
+                            <userControl:InputFieldUC UC_Title="Password" UC_TextInput="{Binding _Password}" Margin="0"/>
+                            <TextBlock x:Name="databaseConnectionResult" Style="{StaticResource StatusTxt}"/>
                         </StackPanel>
                     </DockPanel>
                     <userControl:IconOnlyButtonUC UC_Height="18" UC_Kind="ArrowBack" x:Name="fromDatabaseToLoginBtn" Click="returnToLoginBtn_Click" Margin="10" Grid.Column="1" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
