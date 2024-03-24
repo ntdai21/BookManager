@@ -23,7 +23,6 @@ namespace DoAn1.UI.UserControls
         public string UC_Title { get; set; } = "Title";
         public float UC_Number { get; set; } = 0;
         public string UC_Foreground { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_Background;
-        //public string UC_Background { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_DarkerSubBackground;
         public string UC_BorderBrush { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_SubBackground;
 
         public static readonly DependencyProperty UC_BackgroundProperty =

@@ -11,10 +11,11 @@
   <ItemGroup>
     <Folder Include="DAO\" />
     <Folder Include="Resources\Icons\" />
-    <Folder Include="UI\ValidationRules\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
+    <PackageReference Include="FirebaseAuthentication.WPF" Version="4.1.0" />
     <PackageReference Include="Fody" Version="6.8.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
