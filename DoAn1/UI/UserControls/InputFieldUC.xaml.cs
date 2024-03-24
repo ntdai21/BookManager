@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace DoAn1.UI.UserControls
     /// Interaction logic for InputFieldUC.xaml
     /// </summary>
 
-    public partial class InputFieldUC : UserControl
+    public partial class InputFieldUC : UserControl, INotifyPropertyChanged
     {
         public string UC_Title {  get; set; }
 

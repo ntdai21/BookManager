@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace DoAn1.UI.UserControls
     /// <summary>
     /// Interaction logic for TextOnlyOutlineButtonUC.xaml
     /// </summary>
-    public partial class TextOnlyOutlineButtonUC : UserControl
+    public partial class TextOnlyOutlineButtonUC : UserControl, INotifyPropertyChanged
     {
         public string UC_Foreground { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_ButtonColor;
         public string UC_Text { get; set; }

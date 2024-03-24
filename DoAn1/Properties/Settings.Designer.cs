@@ -160,10 +160,10 @@ namespace DoAn1.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RememberAccount {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RememberAccount {
             get {
-                return ((bool)(this["RememberAccount"]));
+                return ((int)(this["RememberAccount"]));
             }
             set {
                 this["RememberAccount"] = value;

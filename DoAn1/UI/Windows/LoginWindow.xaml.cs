@@ -22,6 +22,7 @@ using Firebase.Database;
 using Firebase.Database.Query;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
+using System.ComponentModel;
 
 namespace DoAn1.UI.Windows
 {
@@ -30,7 +31,7 @@ namespace DoAn1.UI.Windows
     /// </summary>
     /// 
 
-    public partial class LoginWindow : Window
+    public partial class LoginWindow : Window, INotifyPropertyChanged
     {
         DispatcherTimer timer;
         TimeSpan time;
@@ -38,12 +39,13 @@ namespace DoAn1.UI.Windows
         public string AccountEmail { get; set; } = string.Empty;
         public string AccountPassword { get; set; } = string.Empty;
         public string ActivationKey {  get; set; } = string.Empty;
+
         FirebaseAuthClient client;
         UserCredential userCredential;
+        FirebaseClient firebase = new FirebaseClient("https://bookmanager-fbfe2-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
         MyShopContext database = new MyShopContext();
 
-        
         public LoginWindow()
         {
             InitializeComponent();
@@ -70,8 +72,8 @@ namespace DoAn1.UI.Windows
 
         async private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
-            return;
+            //Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+            //return;
 
             if (AccountEmail == string.Empty || AccountPassword == string.Empty) {
                 loginResult.Text = "Enter your Email and password!";
@@ -102,7 +104,6 @@ namespace DoAn1.UI.Windows
                 if (userCredential != null)
                 {
                     //Validation Account
-                    var firebase = new FirebaseClient("https://bookmanager-fbfe2-default-rtdb.asia-southeast1.firebasedatabase.app/");
                     var obj = await firebase.Child("Accounts").Child(userCredential.User.Uid).Child("ExpirationDate").OnceAsJsonAsync();
 
                     var expDateStr = obj.ToString().Replace("\"", "").Trim();
@@ -120,6 +121,8 @@ namespace DoAn1.UI.Windows
                         daysRemainingTxt.Text = daysRemaining.ToString();
 
                         if (daysRemaining == 0) skipBtn.Visibility = Visibility.Collapsed;
+
+                        activationResult.Text = "";
 
                         Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 1));
                     }
@@ -139,8 +142,7 @@ namespace DoAn1.UI.Windows
         private void skipBtn_Click(object sender, RoutedEventArgs e)
         {
             database.LoadConnectionPropertiesFromSettings();
-            databasePanel.DataContext = database;
-
+            
             Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
         }
 
@@ -205,22 +207,65 @@ namespace DoAn1.UI.Windows
 
         async private void activateKeyBtn_Click(object sender, RoutedEventArgs e)
         {
+            activationProgressBar.Visibility = Visibility.Visible;
             activateKeyBtn.IsEnabled = false;
 
-            var firebase = new FirebaseClient("https://bookmanager-fbfe2-default-rtdb.asia-southeast1.firebasedatabase.app/");
             var obj = await firebase.Child("ActivationKeys").Child(ActivationKey).OnceAsJsonAsync();
 
-            if (obj == null)
+            if (obj != "true")
             {
                 activationResult.Text = "Invalid Key!";
             }
             else
             {
+                await firebase.Child("Accounts").Child(userCredential.User.Uid).Child("ExpirationDate").PutAsync("\"\"");
+
                 activationResult.Text = "Thank you for purchasing!";
-                activateKeyBtn.UC_Text = "Next";
+                skipBtn.UC_Text = "Next";
+                skipBtn.Visibility = Visibility.Visible;
+                activateKeyBtn.Visibility = Visibility.Collapsed;
             }
 
             activateKeyBtn.IsEnabled = true;
+            activationProgressBar.Visibility = Visibility.Hidden;
+        }
+
+        private void databasePanel_Loaded(object sender, RoutedEventArgs e)
+        {
+            databasePanel.DataContext = database;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void loginPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DoAn1.Properties.Settings.Default.RememberAccount != 0)
+            {
+                AccountEmail = DoAn1.Properties.Settings.Default.Email;
+                AccountPassword = DoAn1.Properties.Settings.Default.Password;
+                rememberMeCheckBox.IsChecked = true;
+            }
+            else
+            {
+                AccountEmail = "";
+                AccountPassword = "";
+                rememberMeCheckBox.IsChecked = false;
+            }
+        }
+
+        private void loginPanel_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (rememberMeCheckBox.IsChecked == true)
+            {
+                DoAn1.Properties.Settings.Default.Email = AccountEmail;
+                DoAn1.Properties.Settings.Default.Password = AccountPassword;
+            }
+
+            DoAn1.Properties.Settings.Default.RememberAccount = (rememberMeCheckBox.IsChecked == true) ? 1 : 0;
+
+            DoAn1.Properties.Settings.Default.Save();
         }
     }
 }
