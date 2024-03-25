@@ -1,4 +1,5 @@
 ﻿using DoAn1.BUS;
+using DoAn1.DAO;
 using DoAn1.UI.Windows;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 
-namespace DoAn1
+namespace DoAn1.BUS
 {
     public class BookBUS
     {
@@ -32,7 +33,7 @@ namespace DoAn1
 
         private BookBUS() { }
 
-        public BindingList<Book> LoadBook(BindingList<Book>? books, int page, int pageSize,
+        public (BindingList<Book>,int) LoadBook(BindingList<Book>? books, int page, int pageSize,
             Category? category,
             double minPrice, double maxPrice,
             string searchTerm,
@@ -43,7 +44,7 @@ namespace DoAn1
                 books = new BindingList<Book>();
             }
 
-            List<Book> bookList = BookDAO.Instance.GetBooksPaginatedSorted(page, pageSize, category, minPrice, maxPrice, searchTerm, orderByExpressions.ToArray());
+            (List<Book> bookList, int totalPage) = BookDAO.Instance.GetBooksPaginatedSorted(page, pageSize, category, minPrice, maxPrice, searchTerm, orderByExpressions.ToArray());
             books.Clear();
 
             foreach (Book book in bookList)
@@ -51,7 +52,7 @@ namespace DoAn1
                 books.Add(book);
             }
 
-            return books;
+            return (books,totalPage);
 
         }
 

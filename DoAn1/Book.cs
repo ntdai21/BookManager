@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using DoAn1;
+using DoAn1.DAO;
 
 namespace DoAn1;
 
-public partial class Book : INotifyPropertyChanged
+public partial class Book
 {
     public int Id { get; set; }
 
@@ -32,6 +34,7 @@ public partial class Book : INotifyPropertyChanged
             return CategoryDAO.Instance.FindById((int)CategoryId).Name;
         }
     }
+
 
     public virtual Category? Category { get; set; }
 

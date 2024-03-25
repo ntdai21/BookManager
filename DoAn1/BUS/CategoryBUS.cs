@@ -1,4 +1,5 @@
-﻿using DoAn1.UI.Windows;
+﻿using DoAn1;
+using DoAn1.UI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using DoAn1.DAO;
 
 namespace DoAn1.BUS
 {
@@ -30,7 +32,7 @@ namespace DoAn1.BUS
 
         public BindingList<Category> LoadCategory(BindingList<Category>? inputList)
         {
-            if(inputList==null)
+            if (inputList == null)
             {
                 inputList = new BindingList<Category>();
             }
@@ -43,6 +45,23 @@ namespace DoAn1.BUS
             }
 
             return inputList;
+        }
+
+        public (BindingList<Category>,int) LoadCategory(BindingList<Category>? inputList,int page, int pageSize)
+        {
+            if(inputList==null)
+            {
+                inputList = new BindingList<Category>();
+            }
+
+            (List<Category> list,int totalPage) = CategoryDAO.Instance.GetCategoriesPaginated(page,pageSize);
+
+            foreach (Category category in list)
+            {
+                inputList.Add(category);
+            }
+
+            return (inputList, totalPage);
         }
 
         public BindingList<Category> InsertToList(BindingList<Category>? inputList, string name, int index) 

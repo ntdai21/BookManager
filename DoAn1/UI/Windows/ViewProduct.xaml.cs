@@ -16,8 +16,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.ComponentModel;
 using DoAn1.BUS;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Reflection;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.Diagnostics;
+using DoAn1.DAO;
 
 namespace DoAn1.UI.Windows
 {
@@ -34,32 +36,53 @@ namespace DoAn1.UI.Windows
         List<(Expression<Func<Book, object>>, bool)> _filters = new List<(Expression<Func<Book, object>>, bool)>();
         string _currentSearchTerm = "";
 
+        int _page = 1;
+        int _totalPage=0;
+
         public ViewProduct()
         {
             InitializeComponent();
 
             //Get all book
-            _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            _page = 1;
+            (_books,_totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
             bookListView.ItemsSource = _books;
 
             //Get all category
             _categories = CategoryBUS.Instance.LoadCategory(_categories);
             _categories = CategoryBUS.Instance.InsertToList(_categories, "All", 0);
             categoryComboBox.ItemsSource = _categories;
+
+            currentPageButton.Content = $"{_page} of {_totalPage}";
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
 
+        }
 
         private void maxSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _maxPrice = (double)e.NewValue;
-            _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            _page = 1;
+            (_books,_totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            
+            if(currentPageButton!=null)
+            {
+                currentPageButton.Content = $"{_page} of {_totalPage}";
+            }
         }
 
         private void minSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _minPrice = (double)e.NewValue;
-            _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            _page = 1;
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            
+            if (currentPageButton != null)
+            {
+                currentPageButton.Content = $"{_page} of {_totalPage}";
+            }
         }
 
         private void NameSort_Checked(object sender, RoutedEventArgs e)
@@ -71,7 +94,13 @@ namespace DoAn1.UI.Windows
                 string sortBy = selected.Content.ToString();
 
                 _filters = BookBUS.Instance.ModifySortCondition(_filters, book => book.Name, sortBy);
-                _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                _page = 1;
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                
+                if (currentPageButton != null)
+                {
+                    currentPageButton.Content = $"{_page} of {_totalPage}";
+                }
             }
         }
 
@@ -85,7 +114,13 @@ namespace DoAn1.UI.Windows
                 string sortBy = selected.Content.ToString();
 
                 _filters = BookBUS.Instance.ModifySortCondition(_filters, book => book.Price, sortBy);
-                _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                _page = 1;
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                
+                if (currentPageButton != null)
+                {
+                    currentPageButton.Content = $"{_page} of {_totalPage}";
+                }
             }
 
         }
@@ -95,10 +130,45 @@ namespace DoAn1.UI.Windows
 
             if (e.Key == System.Windows.Input.Key.Enter && searchTextbox.Text != null)
             {
+                _minPrice = double.MinValue;
+                _maxPrice = double.MaxValue;
+                _filters.Clear();
+                _page = 1;
+                _selectedCategory = null;
+                categoryComboBox.SelectedIndex = 0;
+
+
                 _currentSearchTerm = searchTextbox.Text;
-                _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                
+                if (currentPageButton != null)
+                {
+                    currentPageButton.Content = $"{_page} of {_totalPage}";
+                }
             }
 
+        }
+
+        private void IconOnlyButtonUC_Click(object sender, RoutedEventArgs e)
+        {
+            if (searchTextbox.Text != null)
+            {
+                _minPrice = double.MinValue;
+                _maxPrice = double.MaxValue;
+                _filters.Clear();
+                _page = 1;
+                _selectedCategory = null;
+                categoryComboBox.SelectedIndex = 0;
+
+
+                _currentSearchTerm = searchTextbox.Text;
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+
+                if (currentPageButton != null)
+                {
+                    currentPageButton.Content = $"{_page} of {_totalPage}";
+                }
+            }
         }
 
         private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -114,7 +184,13 @@ namespace DoAn1.UI.Windows
                 _selectedCategory = selectedItem;
             }
 
-            _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            _page = 1;
+            
+            if (currentPageButton != null)
+            {
+                currentPageButton.Content = $"{_page} of {_totalPage}";
+            }
 
 
 
@@ -159,7 +235,8 @@ namespace DoAn1.UI.Windows
                 screen.Closed += Screen_Closed;
                 this.Hide();
                 screen.ShowDialog();
-                _books = BookBUS.Instance.LoadBook(_books, 1, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                currentPageButton.Content = $"{_page} of {_totalPage}";
 
             }
         }
@@ -184,6 +261,106 @@ namespace DoAn1.UI.Windows
                 MessageBox.Show("Add failed");
             }
         }
+
+        private void previousPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_page>1)
+            {
+                _page--;
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                
+                if (currentPageButton != null)
+                {
+                    currentPageButton.Content = $"{_page} of {_totalPage}";
+                }
+            }
+        }
+
+        private void nextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_page<_totalPage)
+            {
+                _page++;
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                
+                if (currentPageButton != null)
+                {
+                    currentPageButton.Content = $"{_page} of {_totalPage}";
+                }
+            }
+        }
+
+        private void firstPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            _page = 1;
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            currentPageButton.Content = $"{_page} of {_totalPage}";
+        }
+
+        private void lastPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            _page = _totalPage;
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            
+            if (currentPageButton != null)
+            {
+                currentPageButton.Content = $"{_page} of {_totalPage}";
+            }
+        }
+
+        private void importButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog=new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "Excel files (*.xls;*.xlsx)|*.xls;*.xlsx|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                MessageBoxResult choice=System.Windows.MessageBox.Show($"Do you want to import data from {openFileDialog.FileName}?","Import data",MessageBoxButton.OKCancel);
+
+                if(choice==MessageBoxResult.OK)
+                {
+                    string filename=openFileDialog.FileName;
+                    var document = SpreadsheetDocument.Open(filename, false);
+
+                    var wbPart = document.WorkbookPart!;
+                    var sheets = wbPart.Workbook.Descendants<Sheet>()!;
+
+                    var sheet = sheets.FirstOrDefault(s => s.Name == "Category");
+                    var wsPart = (WorksheetPart)(wbPart!.GetPartById(sheet.Id!));
+                    var cells = wsPart.Worksheet.Descendants<Cell>();
+
+                    int row = 3;
+                    Cell nameCell = cells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+
+                    while (nameCell != null)
+                    {
+                        string stringId = nameCell!.InnerText;
+                        var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
+                        string name = stringTable.SharedStringTable.ElementAt(int.Parse(stringId)).
+                        InnerText;
+                        
+                        Category newCategory=new Category();
+                        newCategory.Name = name;
+
+                        CategoryDAO.Instance.AddCategory(newCategory);
+                        _categories.Add(newCategory);
+
+                        row++;
+                        nameCell = cells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+                    }
+
+                    MessageBox.Show("Import success");
+
+                }
+            }
+        }
+
+        private void IconOnlyButtonUC_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
 
         private void showSortOption_Click(object sender, RoutedEventArgs e)
         {

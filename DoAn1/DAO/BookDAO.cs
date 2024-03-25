@@ -55,8 +55,8 @@ namespace DoAn1
             }
         }
 
-        public List<Book> GetBooksPaginatedSorted(int page, int pageSize,
-            Category? category =null,
+        public (List<Book>,int) GetBooksPaginatedSorted(int page, int pageSize,
+            Category? category = null,
             double minPrice = double.MinValue, double maxPrice = double.MaxValue,
             string searchTerm = "",
             params (Expression<Func<Book, object>> expression, bool ascending)[] orderByExpressions)
@@ -67,7 +67,7 @@ namespace DoAn1
 
             if (category != null)
             {
-                query = query.Where(b => b.CategoryId == category.Id); 
+                query = query.Where(b => b.CategoryId == category.Id);
             }
 
             foreach (var orderByExpression in orderByExpressions)
@@ -85,9 +85,11 @@ namespace DoAn1
             query = query.Where(b => b.Price >= minPrice && b.Price <= maxPrice);
             query = query.Where(b => b.Name.Contains(searchTerm));
 
+            int totalItems = query.Count();
+            int totalPages=totalItems/pageSize + ((totalItems%pageSize==0)? 0 : 1);
             List<Book> books = query.Skip(itemsToSkip).Take(pageSize).ToList();
 
-            return books;
+            return (books,totalPages);
         }
 
         public Book? FindBookById(int id)
@@ -97,9 +99,9 @@ namespace DoAn1
 
         public void DeleteBookById(int id)
         {
-            Book book= FindBookById(id);
+            Book book = FindBookById(id);
 
-            if(book != null)
+            if (book != null)
             {
                 _db.Books.Remove(book);
                 _db.SaveChanges();
