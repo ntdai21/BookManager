@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DoAn1;
 
-public partial class Book
+public partial class Book : INotifyPropertyChanged
 {
     public int Id { get; set; }
 
@@ -24,8 +25,17 @@ public partial class Book
     public string? Description { get; set; }
 
     public int? CategoryId { get; set; }
+    public string CategoryName
+    {
+        get
+        {
+            return CategoryDAO.Instance.FindById((int)CategoryId).Name;
+        }
+    }
 
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<OrderBook> OrderBooks { get; set; } = new List<OrderBook>();
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 }

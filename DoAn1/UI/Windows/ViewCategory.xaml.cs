@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,15 +23,15 @@ namespace DoAn1.UI.Windows
     /// </summary>
     public partial class ViewCategory : Window
     {
-        ObservableCollection<Category> _categories;
+        BindingList<Category> _categories;
         public ViewCategory()
         {
             InitializeComponent();
             
-            _categories =new ObservableCollection<Category>();
-            categoryDataGrid.ItemsSource = _categories;
+            _categories =new BindingList<Category>();
 
-            CategoryBUS.Instance.addDataToTable(_categories);
+            _categories=CategoryBUS.Instance.LoadCategory(_categories);
+            categoryDataGrid.ItemsSource = _categories;
 
         }
 
