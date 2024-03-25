@@ -85,5 +85,89 @@ namespace DoAn1.Properties {
                 return ((string)(this["ColorPalatte_DarkerBackground"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SQLEXPRESS")]
+        public string SQLServer_Server {
+            get {
+                return ((string)(this["SQLServer_Server"]));
+            }
+            set {
+                this["SQLServer_Server"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BookManager")]
+        public string SQLServer_Database {
+            get {
+                return ((string)(this["SQLServer_Database"]));
+            }
+            set {
+                this["SQLServer_Database"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SQLServer_UserID {
+            get {
+                return ((string)(this["SQLServer_UserID"]));
+            }
+            set {
+                this["SQLServer_UserID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SQLServer_Password {
+            get {
+                return ((string)(this["SQLServer_Password"]));
+            }
+            set {
+                this["SQLServer_Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Email {
+            get {
+                return ((string)(this["Email"]));
+            }
+            set {
+                this["Email"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Password {
+            get {
+                return ((string)(this["Password"]));
+            }
+            set {
+                this["Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RememberAccount {
+            get {
+                return ((int)(this["RememberAccount"]));
+            }
+            set {
+                this["RememberAccount"] = value;
+            }
+        }
     }
 }

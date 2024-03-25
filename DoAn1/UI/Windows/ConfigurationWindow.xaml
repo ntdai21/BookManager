@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DoAn1.UI.Windows"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
-        Title="Quản lý sách - Cấu hình" Height="300" Width="500">
+        Title="Book Manager - Configuration" Height="300" Width="500">
     <Window.Resources>
         <Style TargetType="StackPanel" x:Key="rootStackPanel">
             <Setter Property="Margin" Value="20"/>
@@ -64,23 +64,22 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Khởi động">
+            <TabItem Header="On Startup">
                 <ScrollViewer>
                     <StackPanel Style="{StaticResource rootStackPanel}">
-                        <CheckBox Content="Tự động đăng nhập lần kế tiếp"/>
-                        <CheckBox Content="Mở lại màn hình cuối cùng sau khi đăng nhập"/>
+                        <CheckBox Content="Automatically log in next time."/>
+                        <CheckBox Content="Open the last session on startup."/>
                     </StackPanel>
                 </ScrollViewer>
 
             </TabItem>
-            <TabItem Header="Hiển thị">
+            <TabItem Header="Display">
                 <ScrollViewer>
                     <StackPanel Style="{StaticResource rootStackPanel}">
                         <StackPanel Style="{StaticResource itemStackPanel}">
                             <TextBox d:Text="5"/>
-                            <TextBlock Text="Số item hiển thị mỗi trang"/>
+                            <TextBlock Text="Number of items showing on each page."/>
                         </StackPanel>
-                        
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
