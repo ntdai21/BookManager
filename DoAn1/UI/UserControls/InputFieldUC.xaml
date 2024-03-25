@@ -13,7 +13,7 @@
         <converters:ValidationRuleConverter x:Key="validationRuleConverter"/>
     </UserControl.Resources>
     <DockPanel>
-        <TextBlock DockPanel.Dock="Left" FontWeight="DemiBold" Width="70">
+        <TextBlock DockPanel.Dock="Left" FontWeight="DemiBold" Width="{Binding UC_TitleWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
             <Run d:Text="Title" Text="{Binding UC_Title, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
             <Run Text=":"/>
         </TextBlock>
