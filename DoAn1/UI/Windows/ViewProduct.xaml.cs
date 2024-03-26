@@ -20,6 +20,10 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Diagnostics;
 using DoAn1.DAO;
+using System.Reflection;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Collections;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DoAn1.UI.Windows
 {
@@ -37,7 +41,7 @@ namespace DoAn1.UI.Windows
         string _currentSearchTerm = "";
 
         int _page = 1;
-        int _totalPage=0;
+        int _totalPage = 0;
 
         public ViewProduct()
         {
@@ -45,7 +49,7 @@ namespace DoAn1.UI.Windows
 
             //Get all book
             _page = 1;
-            (_books,_totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
             bookListView.ItemsSource = _books;
 
             //Get all category
@@ -65,9 +69,9 @@ namespace DoAn1.UI.Windows
         {
             _maxPrice = (double)e.NewValue;
             _page = 1;
-            (_books,_totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-            
-            if(currentPageButton!=null)
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+
+            if (currentPageButton != null)
             {
                 currentPageButton.Content = $"{_page} of {_totalPage}";
             }
@@ -78,7 +82,7 @@ namespace DoAn1.UI.Windows
             _minPrice = (double)e.NewValue;
             _page = 1;
             (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-            
+
             if (currentPageButton != null)
             {
                 currentPageButton.Content = $"{_page} of {_totalPage}";
@@ -96,14 +100,13 @@ namespace DoAn1.UI.Windows
                 _filters = BookBUS.Instance.ModifySortCondition(_filters, book => book.Name, sortBy);
                 _page = 1;
                 (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-                
+
                 if (currentPageButton != null)
                 {
                     currentPageButton.Content = $"{_page} of {_totalPage}";
                 }
             }
         }
-
 
         private void PriceSort_Checked(object sender, RoutedEventArgs e)
         {
@@ -116,7 +119,7 @@ namespace DoAn1.UI.Windows
                 _filters = BookBUS.Instance.ModifySortCondition(_filters, book => book.Price, sortBy);
                 _page = 1;
                 (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-                
+
                 if (currentPageButton != null)
                 {
                     currentPageButton.Content = $"{_page} of {_totalPage}";
@@ -140,7 +143,7 @@ namespace DoAn1.UI.Windows
 
                 _currentSearchTerm = searchTextbox.Text;
                 (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-                
+
                 if (currentPageButton != null)
                 {
                     currentPageButton.Content = $"{_page} of {_totalPage}";
@@ -175,23 +178,25 @@ namespace DoAn1.UI.Windows
         {
             var selectedItem = (Category)(sender as ComboBox).SelectedItem;
 
-            if (selectedItem.Name == "All")
+            if(selectedItem != null)
             {
-                _selectedCategory = null;
-            }
-            else
-            {
-                _selectedCategory = selectedItem;
-            }
+                if (selectedItem.Name == "All")
+                {
+                    _selectedCategory = null;
+                }
+                else
+                {
+                    _selectedCategory = selectedItem;
+                }
 
-            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-            _page = 1;
-            
-            if (currentPageButton != null)
-            {
-                currentPageButton.Content = $"{_page} of {_totalPage}";
-            }
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                _page = 1;
 
+                if (currentPageButton != null)
+                {
+                    currentPageButton.Content = $"{_page} of {_totalPage}";
+                }
+            }
 
 
         }
@@ -250,11 +255,11 @@ namespace DoAn1.UI.Windows
         {
             var screen = new AddProduct();
 
-            if(screen.ShowDialog()==true)
+            if (screen.ShowDialog() == true)
             {
                 Book newBook = screen._book;
                 MessageBox.Show("Add successfully");
-                _books.Insert(0,newBook);
+                _books.Insert(0, newBook);
             }
             else
             {
@@ -264,11 +269,11 @@ namespace DoAn1.UI.Windows
 
         private void previousPageButton_Click(object sender, RoutedEventArgs e)
         {
-            if(_page>1)
+            if (_page > 1)
             {
                 _page--;
                 (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-                
+
                 if (currentPageButton != null)
                 {
                     currentPageButton.Content = $"{_page} of {_totalPage}";
@@ -278,11 +283,11 @@ namespace DoAn1.UI.Windows
 
         private void nextPageButton_Click(object sender, RoutedEventArgs e)
         {
-            if(_page<_totalPage)
+            if (_page < _totalPage)
             {
                 _page++;
                 (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-                
+
                 if (currentPageButton != null)
                 {
                     currentPageButton.Content = $"{_page} of {_totalPage}";
@@ -301,7 +306,7 @@ namespace DoAn1.UI.Windows
         {
             _page = _totalPage;
             (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-            
+
             if (currentPageButton != null)
             {
                 currentPageButton.Content = $"{_page} of {_totalPage}";
@@ -310,27 +315,30 @@ namespace DoAn1.UI.Windows
 
         private void importButton_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog openFileDialog=new Microsoft.Win32.OpenFileDialog();
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Filter = "Excel files (*.xls;*.xlsx)|*.xls;*.xlsx|All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == true)
             {
-                MessageBoxResult choice=System.Windows.MessageBox.Show($"Do you want to import data from {openFileDialog.FileName}?","Import data",MessageBoxButton.OKCancel);
+                MessageBoxResult choice = System.Windows.MessageBox.Show($"Do you want to import data from {openFileDialog.FileName}?", "Import data", MessageBoxButton.OKCancel);
 
-                if(choice==MessageBoxResult.OK)
+                if (choice == MessageBoxResult.OK)
                 {
-                    string filename=openFileDialog.FileName;
+                    Hashtable refTable=new Hashtable();
+
+                    string filename = openFileDialog.FileName;
                     var document = SpreadsheetDocument.Open(filename, false);
 
                     var wbPart = document.WorkbookPart!;
                     var sheets = wbPart.Workbook.Descendants<Sheet>()!;
 
-                    var sheet = sheets.FirstOrDefault(s => s.Name == "Category");
-                    var wsPart = (WorksheetPart)(wbPart!.GetPartById(sheet.Id!));
-                    var cells = wsPart.Worksheet.Descendants<Cell>();
+                    var categorySheet = sheets.FirstOrDefault(s => s.Name == "Category");
+                    var categoryWsPart = (WorksheetPart)(wbPart!.GetPartById(categorySheet.Id!));
+                    var categoryCells = categoryWsPart.Worksheet.Descendants<Cell>();
 
                     int row = 3;
-                    Cell nameCell = cells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+                    Cell nameCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+                    Cell idCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
 
                     while (nameCell != null)
                     {
@@ -338,18 +346,99 @@ namespace DoAn1.UI.Windows
                         var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
                         string name = stringTable.SharedStringTable.ElementAt(int.Parse(stringId)).
                         InnerText;
-                        
-                        Category newCategory=new Category();
+
+                        int oldId = int.Parse(idCell!.InnerText);
+
+                        Category newCategory = new Category();
                         newCategory.Name = name;
 
-                        CategoryDAO.Instance.AddCategory(newCategory);
-                        _categories.Add(newCategory);
+                        int newId = CategoryDAO.Instance.AddCategory(newCategory);
+
+                        refTable.Add(oldId, newId);
 
                         row++;
-                        nameCell = cells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+                        nameCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+                        idCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
+                    }
+
+                    var bookSheet = sheets.FirstOrDefault(s => s.Name == "Book");
+                    var bookWsPart = (WorksheetPart)(wbPart!.GetPartById(bookSheet.Id!));
+                    var bookCells = bookWsPart.Worksheet.Descendants<Cell>();
+
+                    var bookColumnInfo = new List<(string columnName, string columnIndex, string type)>()
+                    {
+                        ("Name","B","string"),
+                        ("Price","C","double"),
+                        ("NumOfPage","D","int"),
+                        ("PublishingCompany","E","string"),
+                        ("Author","F","string"),
+                        ("Cover","G","string"),
+                        ("CostPrice","H","double"),
+                        ("Description","I","string"),
+                        ("CategoryId","J","int"),
+                        ("Quantity","K","int")
+                    };
+
+                    row = 2;//configure able?
+                    Cell testCell = bookCells.FirstOrDefault(b => b?.CellReference == $"B{row}")!;
+
+                    while (testCell != null)
+                    {
+                        Book newBook = new Book();
+                        foreach (var item in bookColumnInfo)
+                        {
+
+                            Cell cell = bookCells.FirstOrDefault(b => b?.CellReference == $"{item.columnIndex}{row}");
+
+                            if (cell == null)
+                            {
+                                MessageBox.Show("Invalid data in excel file");
+                                return;
+                            }
+
+                            string stringId = cell!.InnerText;
+                            string rawData = stringId;
+                            bool isSharedString = cell.DataType != null && cell.DataType.Value == CellValues.SharedString;
+
+                            if (isSharedString == true)
+                            {
+                                var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
+                                rawData = stringTable.SharedStringTable.ElementAt(int.Parse(stringId)).InnerText;
+                            }
+
+                            PropertyInfo propertyInfo = typeof(Book).GetProperty(item.columnName);
+
+                            if (propertyInfo != null)
+                            {
+                                switch (item.type)
+                                {
+                                    case "double":
+                                        propertyInfo.SetValue(newBook, double.Parse(rawData));
+                                        break;
+                                    case "string":
+                                        propertyInfo.SetValue(newBook, (string)rawData);
+                                        break;
+                                    case "int":
+                                        propertyInfo.SetValue(newBook, int.Parse(rawData));
+                                        break;
+                                }
+                            }
+                        }
+
+                        newBook.CategoryId = (int?)refTable[newBook.CategoryId];
+                        BookDAO.Instance.AddBook(newBook);
+                        row++;
+                        testCell = bookCells.FirstOrDefault(b => b?.CellReference == $"B{row}")!;
                     }
 
                     MessageBox.Show("Import success");
+                    _categories.Clear();
+                    _categories = CategoryBUS.Instance.LoadCategory(_categories);
+                    _categories = CategoryBUS.Instance.InsertToList(_categories, "All", 0);
+
+                    _books.Clear();
+                    (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+
 
                 }
             }

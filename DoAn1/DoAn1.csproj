@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Converter\" />
     <Folder Include="Resources\Icons\" />
   </ItemGroup>
 

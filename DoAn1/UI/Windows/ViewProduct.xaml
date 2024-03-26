@@ -8,13 +8,13 @@
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        xmlns:converter="clr-namespace:DoAn1.Converter"
+        xmlns:converter="clr-namespace:DoAn1.UI.Converters"
         Title="Quản lý sách - Dashboard" Height="720" Width="1080"
         Loaded="Window_Loaded">
     <Window.Resources>
         <converter:RelativeToAbsoluteConverter x:Key="absoluteConverter"/>
         <converter:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter"/>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <converter:FloatToVNDConverter x:Key="floatToVNDConverter"/>
 
         <Style TargetType="TextBox" x:Key="PlaceholderTextBoxStyle">
             <Setter Property="Template">
@@ -168,11 +168,6 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="TextAlignment" Value="Center"/>
         </Style>
-
-
-
-
-
     </Window.Resources>
 
     <Grid>
@@ -323,7 +318,7 @@
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="16" FontWeight="SemiBold" 
                                         TextWrapping="WrapWithOverflow" Text="{Binding Name}" Width="200" Margin="5"  />
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12" FontWeight="Light" 
-                                        TextWrapping="WrapWithOverflow" Text="{Binding Price}" Width="200"   />
+                                        TextWrapping="WrapWithOverflow" Text="{Binding Price, Converter={StaticResource floatToVNDConverter}}" Width="200"   />
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12" FontWeight="Light" 
                                         TextWrapping="WrapWithOverflow" Text="{Binding Author}" Width="200"/>
 

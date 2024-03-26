@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoAn1.UI.Windows"
         mc:Ignorable="d"
-        xmlns:converter="clr-namespace:DoAn1.Converter"
+        xmlns:converter="clr-namespace:DoAn1.UI.Converters"
         WindowStartupLocation="CenterScreen"
         Title="ViewProductDetail" Height="720" Width="1080">
 
