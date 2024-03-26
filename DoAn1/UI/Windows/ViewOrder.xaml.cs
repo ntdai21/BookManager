@@ -25,17 +25,21 @@ namespace DoAn1.UI.Windows
         int rowsPerPage = 5;
         int totalItems = 0;
         string keyword = "";
+        string sortBy = "Latest";
+        bool isLoaded = false;
         ObservableCollection<Order> _orders = new ObservableCollection<Order>();
         public ViewOrder()
         {
             InitializeComponent();
             orderDataGrid.ItemsSource = _orders;
+            sortCombobox.SelectedItem = 0;
             loadAll();
         }
-
+        
         public async void loadAll()
         {
-            (totalPages, totalItems) = OrderBUS.Instance.AddDataToTable(_orders, currentPage, rowsPerPage, keyword);
+            if(!isLoaded) { return; }
+            (totalPages, totalItems) = OrderBUS.Instance.AddDataToTable(_orders, currentPage, rowsPerPage, keyword, sortBy);
             showingItemsText.Text = _orders.Count.ToString();
             totalItemsText.Text = totalItems.ToString();
             currentPageText.Text = currentPage.ToString();
@@ -49,7 +53,9 @@ namespace DoAn1.UI.Windows
 
         private void deleteOrderButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Order selected = orderDataGrid.SelectedItem as Order;
+            OrderBUS.Instance.HandleDeleteOrder(selected, _orders);
+            loadAll();
         }
 
         private void editOrderButton_Click(object sender, RoutedEventArgs e)
@@ -108,6 +114,19 @@ namespace DoAn1.UI.Windows
         private void detailOrderButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem selectedItem = (ComboBoxItem)sortCombobox.SelectedItem;
+            sortBy = selectedItem.Content.ToString();
+            loadAll();
+        }
+
+        private void ViewOrder_Loaded(object sender, RoutedEventArgs e)
+        {
+            isLoaded = true;
+            loadAll();
         }
     }
 }

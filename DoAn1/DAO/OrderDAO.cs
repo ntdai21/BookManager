@@ -50,15 +50,25 @@ namespace DoAn1
             return order.Id;
         }
 
-   
+
         public bool DeleteOrderById(int orderId)
         {
             Order? order = _db.Orders.Find(orderId);
 
             if (order != null)
             {
+                // Retrieve all order_book records associated with the order
+                var orderBooks = _db.OrderBooks.Where(ob => ob.OrderId == orderId).ToList();
+
+                // Remove each order_book record
+                _db.OrderBooks.RemoveRange(orderBooks);
+
+                // Remove the order itself
                 _db.Orders.Remove(order);
+
+                // Save changes
                 _db.SaveChanges();
+
                 return true;
             }
             else
@@ -67,14 +77,27 @@ namespace DoAn1
             }
         }
 
-        public List<Order> GetOrdersWithPagination(int page, int pageSize, string keyword = "")
+
+        public List<Order> GetOrdersWithPagination(int page, int pageSize, string keyword = "", string sortBy="")
         {
-            return _db.Orders
-                      .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword))
-                      .Skip((page - 1) * pageSize)
-                      .Take(pageSize)
-                      .ToList();
+            if (sortBy == "Latest")
+            {
+                return _db.Orders
+                   .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword))
+                   .OrderByDescending(order => order.CreatedAt) // Sắp xếp theo thời gian tạo mới nhất
+                   .Skip((page - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToList();
+            }
+            else return _db.Orders
+                   .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword))
+                   .OrderBy(order => order.CreatedAt) // Sắp xếp theo thời gian tạo mới nhất
+                   .Skip((page - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToList();
         }
+
+    
 
         public int CountTotalOrders(string keyword = "")
         {
