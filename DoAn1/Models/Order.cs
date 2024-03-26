@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DoAn1;
+namespace DoAn1.Models;
 
 public partial class Order
 {
     public int Id { get; set; }
 
     public string? CustomerName { get; set; }
-    public string? ShippingAddress { get; set; }
 
     public double? TotalPrice { get; set; }
 
