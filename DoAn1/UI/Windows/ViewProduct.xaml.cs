@@ -178,7 +178,7 @@ namespace DoAn1.UI.Windows
         {
             var selectedItem = (Category)(sender as ComboBox).SelectedItem;
 
-            if(selectedItem != null)
+            if (selectedItem != null)
             {
                 if (selectedItem.Name == "All")
                 {
@@ -324,121 +324,20 @@ namespace DoAn1.UI.Windows
 
                 if (choice == MessageBoxResult.OK)
                 {
-                    Hashtable refTable=new Hashtable();
+                    bool importResult = BookBUS.Instance.importFromExcel(openFileDialog.FileName,3,2);
 
-                    string filename = openFileDialog.FileName;
-                    var document = SpreadsheetDocument.Open(filename, false);
+                    if (importResult) 
+                    { 
+                        MessageBox.Show("Import success");
 
-                    var wbPart = document.WorkbookPart!;
-                    var sheets = wbPart.Workbook.Descendants<Sheet>()!;
+                        _categories.Clear();
+                        _categories = CategoryBUS.Instance.LoadCategory(_categories);
+                        _categories = CategoryBUS.Instance.InsertToList(_categories, "All", 0);
 
-                    var categorySheet = sheets.FirstOrDefault(s => s.Name == "Category");
-                    var categoryWsPart = (WorksheetPart)(wbPart!.GetPartById(categorySheet.Id!));
-                    var categoryCells = categoryWsPart.Worksheet.Descendants<Cell>();
-
-                    int row = 3;
-                    Cell nameCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
-                    Cell idCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
-
-                    while (nameCell != null)
-                    {
-                        string stringId = nameCell!.InnerText;
-                        var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
-                        string name = stringTable.SharedStringTable.ElementAt(int.Parse(stringId)).
-                        InnerText;
-
-                        int oldId = int.Parse(idCell!.InnerText);
-
-                        Category newCategory = new Category();
-                        newCategory.Name = name;
-
-                        int newId = CategoryDAO.Instance.AddCategory(newCategory);
-
-                        refTable.Add(oldId, newId);
-
-                        row++;
-                        nameCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
-                        idCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
+                        _books.Clear();
+                        (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                        currentPageButton.Content = $"{_page} of {_totalPage}";
                     }
-
-                    var bookSheet = sheets.FirstOrDefault(s => s.Name == "Book");
-                    var bookWsPart = (WorksheetPart)(wbPart!.GetPartById(bookSheet.Id!));
-                    var bookCells = bookWsPart.Worksheet.Descendants<Cell>();
-
-                    var bookColumnInfo = new List<(string columnName, string columnIndex, string type)>()
-                    {
-                        ("Name","B","string"),
-                        ("Price","C","double"),
-                        ("NumOfPage","D","int"),
-                        ("PublishingCompany","E","string"),
-                        ("Author","F","string"),
-                        ("Cover","G","string"),
-                        ("CostPrice","H","double"),
-                        ("Description","I","string"),
-                        ("CategoryId","J","int"),
-                        ("Quantity","K","int")
-                    };
-
-                    row = 2;//configure able?
-                    Cell testCell = bookCells.FirstOrDefault(b => b?.CellReference == $"B{row}")!;
-
-                    while (testCell != null)
-                    {
-                        Book newBook = new Book();
-                        foreach (var item in bookColumnInfo)
-                        {
-
-                            Cell cell = bookCells.FirstOrDefault(b => b?.CellReference == $"{item.columnIndex}{row}");
-
-                            if (cell == null)
-                            {
-                                MessageBox.Show("Invalid data in excel file");
-                                return;
-                            }
-
-                            string stringId = cell!.InnerText;
-                            string rawData = stringId;
-                            bool isSharedString = cell.DataType != null && cell.DataType.Value == CellValues.SharedString;
-
-                            if (isSharedString == true)
-                            {
-                                var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
-                                rawData = stringTable.SharedStringTable.ElementAt(int.Parse(stringId)).InnerText;
-                            }
-
-                            PropertyInfo propertyInfo = typeof(Book).GetProperty(item.columnName);
-
-                            if (propertyInfo != null)
-                            {
-                                switch (item.type)
-                                {
-                                    case "double":
-                                        propertyInfo.SetValue(newBook, double.Parse(rawData));
-                                        break;
-                                    case "string":
-                                        propertyInfo.SetValue(newBook, (string)rawData);
-                                        break;
-                                    case "int":
-                                        propertyInfo.SetValue(newBook, int.Parse(rawData));
-                                        break;
-                                }
-                            }
-                        }
-
-                        newBook.CategoryId = (int?)refTable[newBook.CategoryId];
-                        BookDAO.Instance.AddBook(newBook);
-                        row++;
-                        testCell = bookCells.FirstOrDefault(b => b?.CellReference == $"B{row}")!;
-                    }
-
-                    MessageBox.Show("Import success");
-                    _categories.Clear();
-                    _categories = CategoryBUS.Instance.LoadCategory(_categories);
-                    _categories = CategoryBUS.Instance.InsertToList(_categories, "All", 0);
-
-                    _books.Clear();
-                    (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
-
 
                 }
             }

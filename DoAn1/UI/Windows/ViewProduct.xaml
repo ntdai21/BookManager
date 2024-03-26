@@ -316,7 +316,7 @@
                                     Source="{Binding Cover, Converter={StaticResource absoluteConverter }}"/>
                                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="White">
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="16" FontWeight="SemiBold" 
-                                        TextWrapping="WrapWithOverflow" Text="{Binding Name}" Width="200" Margin="5"  />
+                                        TextWrapping="WrapWithOverflow" Text="{Binding Name}" Width="200" Margin="5" Height="40"  />
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12" FontWeight="Light" 
                                         TextWrapping="WrapWithOverflow" Text="{Binding Price, Converter={StaticResource floatToVNDConverter}}" Width="200"   />
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12" FontWeight="Light" 
