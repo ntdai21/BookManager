@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoAn1
+namespace DoAn1.DAO
 {
     public class CategoryDAO
     {
         readonly private MyShopContext _db;
-        
+
         //Singleton implementation
         private static CategoryDAO instance;
         public static CategoryDAO Instance
@@ -26,21 +26,33 @@ namespace DoAn1
             }
         }
 
-        private CategoryDAO() 
+        private CategoryDAO()
         {
             _db = new MyShopContext();
+        }
+
+        public (List<Category>, int) GetCategoriesPaginated(int page, int pageSize)
+        {
+            IQueryable<Category> query = _db.Categories;
+
+            int totalItems = query.Count();
+            int totalPages = totalItems / pageSize + ((totalItems % pageSize == 0) ? 0 : 1);
+            int itemsToSkip = (page - 1) * pageSize;
+
+            List<Category> categories = query.Skip(itemsToSkip).Take(pageSize).ToList();
+
+            return (categories, totalPages);
+
         }
 
         public List<Category> GetCategories()
         {
             return _db.Categories.ToList();
         }
-
         public Category? FindById(int categoryId)
         {
             Category? category = _db.Categories.Find(categoryId);
             return category;
-
         }
 
         public int AddCategory(Category category)
@@ -55,9 +67,9 @@ namespace DoAn1
         {
             Category? existingCategory = _db.Categories.Find(category.Id);
 
-            if(existingCategory != null) 
+            if (existingCategory != null)
             {
-                existingCategory.Name=category.Name;
+                existingCategory.Name = category.Name;
                 _db.SaveChanges();
             }
 
@@ -67,12 +79,12 @@ namespace DoAn1
         {
             Category? category = _db.Categories.Find(categoryId);
 
-            if(category != null)
+            if (category != null)
             {
                 _db.Categories.Remove(category);
                 _db.SaveChanges();
                 return true;
-            } 
+            }
             else
             {
                 return false;

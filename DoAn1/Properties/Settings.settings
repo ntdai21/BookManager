@@ -23,5 +23,26 @@
     <Setting Name="ColorPalatte_DarkerBackground" Type="System.String" Scope="Application">
       <Value Profile="(Default)">#E1DDD2</Value>
     </Setting>
+    <Setting Name="SQLServer_Server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SQLEXPRESS</Value>
+    </Setting>
+    <Setting Name="SQLServer_Database" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BookManager</Value>
+    </Setting>
+    <Setting Name="SQLServer_UserID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SQLServer_Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Email" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RememberAccount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

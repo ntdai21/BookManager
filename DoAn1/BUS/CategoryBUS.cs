@@ -1,11 +1,14 @@
-﻿using DoAn1.UI.Windows;
+﻿using DoAn1;
+using DoAn1.UI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using DoAn1.DAO;
 
 namespace DoAn1.BUS
 {
@@ -27,17 +30,56 @@ namespace DoAn1.BUS
 
         private CategoryBUS() { }
 
-        public void addDataToTable(ObservableCollection<Category>table)
+        public BindingList<Category> LoadCategory(BindingList<Category>? inputList)
         {
+            if (inputList == null)
+            {
+                inputList = new BindingList<Category>();
+            }
+
             List<Category> list = CategoryDAO.Instance.GetCategories();
 
             foreach (Category category in list)
             {
-                table.Add(category);
+                inputList.Add(category);
             }
+
+            return inputList;
         }
 
-        public void HandleAddCategory(ObservableCollection<Category> categories)
+        public (BindingList<Category>,int) LoadCategory(BindingList<Category>? inputList,int page, int pageSize)
+        {
+            if(inputList==null)
+            {
+                inputList = new BindingList<Category>();
+            }
+
+            (List<Category> list,int totalPage) = CategoryDAO.Instance.GetCategoriesPaginated(page,pageSize);
+
+            foreach (Category category in list)
+            {
+                inputList.Add(category);
+            }
+
+            return (inputList, totalPage);
+        }
+
+        public BindingList<Category> InsertToList(BindingList<Category>? inputList, string name, int index) 
+        {
+            if(inputList==null)
+            {
+                inputList = new BindingList<Category>();
+            }
+
+            Category newCategory= new Category();
+            newCategory.Name = name;
+
+            inputList.Insert(index, newCategory);
+
+            return inputList;
+        }
+
+        public void HandleAddCategory(BindingList<Category> categories)
         {
             var addScreen = new AddCategory();
             addScreen.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -55,7 +97,7 @@ namespace DoAn1.BUS
             }
         }
 
-        public void HandleUpdateCategory(ObservableCollection<Category> categories, Category? selected)
+        public void HandleUpdateCategory(BindingList<Category> categories, Category? selected)
         {
             if (selected != null)
             {
@@ -73,7 +115,7 @@ namespace DoAn1.BUS
             }
         }
 
-        public void HandleDeleteCategory(Category? selected, ObservableCollection<Category> categories)
+        public void HandleDeleteCategory(Category? selected, BindingList<Category> categories)
         {
 
             if(selected != null)
