@@ -1,62 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace DoAn1;
+namespace DoAn1.Models;
 
-public partial class MyShopContext : DbContext
+public partial class TenDbContext : DbContext
 {
-    public MyShopContext()
+    public TenDbContext()
     {
-        LoadConnectionPropertiesFromSettings();
     }
 
-    public MyShopContext(string _server, string _database, string _userID, string _password)
-    {
-        _Server = _server;
-        _Database = _database;
-        _UserID = _userID;
-        _Password = _password;
-    }
-
-    public void UpdateConnectionString()
-    {
-        string connectionString;
-
-        if (_UserID != "") connectionString = $"""
-            Server= .\{_Server};
-            Database={_Database};
-            User ID = {_UserID}; Password = {_Password};
-            TrustServerCertificate=True
-            """;// Load connection string từ app.config ở đây
-
-        else connectionString = $"""
-            Server= .\{_Server};
-            Database={_Database};
-            Trusted_Connection=yes;
-            TrustServerCertificate=True
-            """;// Load connection string từ app.config ở đây
-
-        this.Database.SetConnectionString(connectionString);
-    }
-
-    public void LoadConnectionPropertiesFromSettings()
-    {
-        _Server = DoAn1.Properties.Settings.Default.SQLServer_Server;
-        _Database = DoAn1.Properties.Settings.Default.SQLServer_Database;
-        _UserID = DoAn1.Properties.Settings.Default.SQLServer_UserID;
-        _Password = DoAn1.Properties.Settings.Default.SQLServer_Password;
-
-        UpdateConnectionString();
-    }
-
-    public string _Server { get; set; }
-    public string _Database { get; set; }
-    public string _UserID { get; set; }
-    public string _Password { get; set; }
-
-    public MyShopContext(DbContextOptions<MyShopContext> options)
+    public TenDbContext(DbContextOptions<TenDbContext> options)
         : base(options)
     {
     }
@@ -72,31 +26,14 @@ public partial class MyShopContext : DbContext
     public virtual DbSet<OrderBook> OrderBooks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        string connectionString;
-        
-        if (_UserID != "") connectionString = $"""
-            Server= .\{_Server};
-            Database={_Database};
-            User ID = {_UserID}; Password = {_Password};
-            TrustServerCertificate=True
-            """;// Load connection string từ app.config ở đây
-
-        else connectionString = $"""
-            Server= .\{_Server};
-            Database={_Database};
-            Trusted_Connection=yes;
-            TrustServerCertificate=True
-            """;// Load connection string từ app.config ở đây
-
-        optionsBuilder.UseSqlServer(connectionString);
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=.\\MYSQLSERVER; Initial Catalog=DoAn1WindowsDb; Integrated Security=True; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Book>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Book__3214EC07A651F723");
+            entity.HasKey(e => e.Id).HasName("PK__Book__3214EC0742B81CF6");
 
             entity.ToTable("Book");
 
@@ -115,7 +52,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC0787668DC1");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC0768B9EE68");
 
             entity.ToTable("Category");
 
@@ -124,7 +61,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Discount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Discount__3214EC07EABCAFF6");
+            entity.HasKey(e => e.Id).HasName("PK__Discount__3214EC07995B6DB9");
 
             entity.ToTable("Discount");
 
@@ -133,7 +70,7 @@ public partial class MyShopContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07E4095C6C");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07DFD38367");
 
             entity.ToTable("Order");
 
