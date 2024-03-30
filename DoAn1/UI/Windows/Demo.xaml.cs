@@ -15,20 +15,13 @@ using System.Windows.Shapes;
 namespace DoAn1.UI.Windows
 {
     /// <summary>
-    /// Interaction logic for DashboardWindow.xaml
+    /// Interaction logic for Demo.xaml
     /// </summary>
-    public partial class DashboardWindow : Window
+    public partial class Demo : Window
     {
-
-        public DashboardWindow()
+        public Demo()
         {
             InitializeComponent();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            DoAn1.Properties.Settings.Default.LastWindow = "Dashboard";
-            DoAn1.Properties.Settings.Default.Save();
         }
     }
 }

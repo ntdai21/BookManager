@@ -15,19 +15,18 @@ using System.Windows.Shapes;
 namespace DoAn1.UI.Windows
 {
     /// <summary>
-    /// Interaction logic for DashboardWindow.xaml
+    /// Interaction logic for StatisticsWindow.xaml
     /// </summary>
-    public partial class DashboardWindow : Window
+    public partial class StatisticsWindow : Window
     {
-
-        public DashboardWindow()
+        public StatisticsWindow()
         {
             InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DoAn1.Properties.Settings.Default.LastWindow = "Dashboard";
+            DoAn1.Properties.Settings.Default.LastWindow = "Statistical Reporting";
             DoAn1.Properties.Settings.Default.Save();
         }
     }

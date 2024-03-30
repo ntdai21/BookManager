@@ -10,25 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DoAn1.UI.Windows
+namespace DoAn1.UI.UserControls
 {
     /// <summary>
-    /// Interaction logic for DashboardWindow.xaml
+    /// Interaction logic for ComboBoxUC.xaml
     /// </summary>
-    public partial class DashboardWindow : Window
+    public partial class ComboBoxUC : UserControl
     {
-
-        public DashboardWindow()
+        public ComboBoxUC()
         {
             InitializeComponent();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            DoAn1.Properties.Settings.Default.LastWindow = "Dashboard";
-            DoAn1.Properties.Settings.Default.Save();
         }
     }
 }

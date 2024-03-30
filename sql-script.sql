@@ -1,3 +1,8 @@
+
+CREATE DATABASE DoAn1WindowsDb
+GO
+USE DoAn1WindowsDb
+GO
 CREATE TABLE [Book] (
 	Id integer NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	Name nvarchar(255),
@@ -21,6 +26,7 @@ GO
 CREATE TABLE [Order] (
 	Id integer NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	CustomerName nvarchar(255), 
+	ShippingAddress nvarchar(255),
 	TotalPrice float,
 	CreatedAt datetime,
 	Discount_Id integer,
@@ -124,3 +130,48 @@ VALUES
     (N'Chitose Trong Chai Ramune - Tập 5', 100000, 216, N'NXB Hội Nhà Văn', N'Trần Đăng Khoa', 1, N'/Resources/BookCovers/chitose-trong-chai-ramune-tap-5.jpg', N'Description...', 1000),
     (N'Bác Hana', 100000, 216, N'NXB Hội Nhà Văn', N'Trần Đăng Khoa', 1, N'/Resources/BookCovers/bac-hana.jpg', N'Description...', 1000),
     (N'Xoắn Ốc Vô Hình', 100000, 216, N'NXB Hội Nhà Văn', N'Trần Đăng Khoa', 1, N'/Resources/BookCovers/xoan-oc-vo-hinh.jpg', N'Description...', 1000)
+
+INSERT INTO [Order] (CustomerName, ShippingAddress, TotalPrice, CreatedAt, Discount_Id)
+VALUES
+    (N'Nguyễn Văn A', N'Số 10, Đường Nguyễn Văn B, Phường Tân Định, Quận 1', 250000, '2024-03-20 08:30:00', 1),
+    (N'Nguyễn Thị B', N'Số 20, Đường Lê Lai, Phường Bến Thành, Quận 1', 450000, '2024-03-21 09:45:00', 2),
+    (N'Trần Văn C', N'Số 30, Đường Phan Văn Hân, Phường 17, Quận Bình Thạnh', 150000, '2024-03-22 10:20:00', 3),
+    (N'Lê Thị D', N'Số 40, Đường Lê Quang Định, Phường 14, Quận Bình Thạnh', 300000, '2024-03-23 11:00:00', 1),
+    (N'Phạm Văn E', N'Số 50, Đường Cách Mạng Tháng Tám, Phường 6, Quận 3', 200000, '2024-03-24 13:30:00', 2),
+    (N'Huỳnh Thị F', N'Số 60, Đường Trần Hưng Đạo, Phường Phạm Ngũ Lão, Quận 1', 350000, '2024-03-25 15:15:00', 3),
+    (N'Trần Văn G', N'Số 70, Đường Hoàng Sa, Phường Tân Định, Quận 1', 400000, '2024-03-26 17:45:00', 1),
+    (N'Nguyễn Thanh I', N'Số 80, Đường Phạm Viết Chánh, Phường 19, Quận Bình Thạnh', 180000, '2024-03-28 20:00:00', 3),
+    (N'Huỳnh Thị F', N'Số 90, Đường Đề Thám, Phường Phạm Ngũ Lão, Quận 1', 350000, '2024-03-25 15:15:00', 3),
+    (N'Trần Văn G', N'Số 100, Đường Lê Thánh Tôn, Phường Bến Nghé, Quận 1', 400000, '2024-03-26 17:45:00', 1),
+    (N'Nguyễn Thanh I', N'Số 110, Đường Võ Văn Kiệt, Phường Cầu Ông Lãnh, Quận 1', 180000, '2024-03-28 20:00:00', 3),
+    (N'Huỳnh Thị F', N'Số 120, Đường Nguyễn Cư Trinh, Phường Nguyễn Cư Trinh, Quận 1', 350000, '2024-03-25 15:15:00', 3),
+    (N'Trần Văn G', N'Số 130, Đường Hồ Tùng Mậu, Phường Bến Nghé, Quận 1', 400000, '2024-03-26 17:45:00', 1),
+    (N'Nguyễn Thanh I', N'Số 140, Đường Bùi Thị Xuân, Phường Phạm Ngũ Lão, Quận 1', 180000, '2024-03-28 20:00:00', 3),
+    (N'Lê Văn H', N'Số 150, Đường Nguyễn Trãi, Phường Bến Thành, Quận 1', 270000, '2024-03-27 18:30:00', 2);
+
+INSERT INTO [Order_Book] (Order_Id, Book_Id, NumOfBook)
+VALUES
+    (1, 1, 1),
+    (1, 2, 2),
+    (2, 3, 1),
+    (2, 4, 1),
+    (2, 5, 1),
+    (3, 6, 2),
+    (3, 7, 1),
+    (3, 8, 3),
+    (4, 9, 1),
+    (4, 10, 2),
+    (5, 11, 1),
+    (5, 12, 1),
+    (5, 13, 1),
+    (6, 14, 2),
+    (6, 15, 1),
+    (6, 16, 3),
+    (7, 17, 1),
+    (7, 18, 2),
+    (8, 19, 1),
+    (8, 20, 1),
+    (8, 21, 1),
+    (9, 22, 2),
+    (9, 23, 1),
+    (9, 24, 3);

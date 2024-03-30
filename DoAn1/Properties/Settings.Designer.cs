@@ -100,7 +100,7 @@ namespace DoAn1.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("BookManager")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DoAn1WindowsDb")]
         public string SQLServer_Database {
             get {
                 return ((string)(this["SQLServer_Database"]));
@@ -167,6 +167,30 @@ namespace DoAn1.Properties {
             }
             set {
                 this["RememberAccount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int OpenLastWindow {
+            get {
+                return ((int)(this["OpenLastWindow"]));
+            }
+            set {
+                this["OpenLastWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastWindow {
+            get {
+                return ((string)(this["LastWindow"]));
+            }
+            set {
+                this["LastWindow"] = value;
             }
         }
     }
