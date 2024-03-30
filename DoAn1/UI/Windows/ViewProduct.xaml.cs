@@ -62,7 +62,8 @@ namespace DoAn1.UI.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            DoAn1.Properties.Settings.Default.LastWindow = "Book Management";
+            DoAn1.Properties.Settings.Default.Save();
         }
 
         private void maxSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -199,27 +200,6 @@ namespace DoAn1.UI.Windows
             }
 
 
-        }
-
-        private void switchMenuMode(object sender, RoutedEventArgs e)
-        {
-            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
-
-            if (menuPanel.Width > size)
-            {
-                menuPanel.Width = size;
-            }
-            else
-            {
-                menuPanel.Width = 200;
-            }
-        }
-
-        private void configBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ConfigurationWindow configurationWindow = new ConfigurationWindow();
-            configurationWindow.Owner = this;
-            configurationWindow.ShowDialog();
         }
 
         private void viewDetailButton_Click(object sender, RoutedEventArgs e)

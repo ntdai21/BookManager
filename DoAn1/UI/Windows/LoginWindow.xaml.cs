@@ -86,7 +86,7 @@ namespace DoAn1.UI.Windows
             try
             {
                 userCredential = await Task.Run(() => {
-                    // Test khi chạy quá nhanh
+                 // Test khi chạy quá nhanh
                     System.Threading.Thread.Sleep(1000);
 
                     try
@@ -110,7 +110,7 @@ namespace DoAn1.UI.Windows
 
                     if (string.IsNullOrEmpty(expDateStr)) {
 
-                        Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+                        if (!openLastWindow()) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
 
                     } else //Not activated yet
                     {
@@ -139,11 +139,53 @@ namespace DoAn1.UI.Windows
             loginBtn.IsEnabled = true;
         }
 
+        private bool openLastWindow()
+        {
+
+            if (DoAn1.Properties.Settings.Default.OpenLastWindow == 0) return false;
+
+            var lastWindow = DoAn1.Properties.Settings.Default.LastWindow;
+
+            if (string.IsNullOrEmpty(lastWindow))
+            {
+                Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+            }
+            else if (lastWindow == "Dashboard")
+            {
+                var window = new DashboardWindow();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Book Management")
+            {
+                var window = new ViewProduct();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Invoice Management")
+            {
+                var window = new ViewOrder();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Coupon Management")
+            {
+                var window = new DashboardWindow();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Statistical Reporting")
+            {
+                var window = new StatisticsWindow();
+                window.Show();
+                this.Close();
+            }
+            return true;
+        }
+
         private void skipBtn_Click(object sender, RoutedEventArgs e)
         {
-            database.LoadConnectionPropertiesFromSettings();
-            
-            Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+            if (!openLastWindow()) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
         }
 
         private void returnToLoginBtn_Click(object sender, RoutedEventArgs e)
@@ -232,6 +274,7 @@ namespace DoAn1.UI.Windows
 
         private void databasePanel_Loaded(object sender, RoutedEventArgs e)
         {
+            database.LoadConnectionPropertiesFromSettings();
             databasePanel.DataContext = database;
         }
 

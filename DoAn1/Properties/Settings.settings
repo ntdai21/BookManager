@@ -27,7 +27,7 @@
       <Value Profile="(Default)">SQLEXPRESS</Value>
     </Setting>
     <Setting Name="SQLServer_Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)">BookManager</Value>
+      <Value Profile="(Default)">DoAn1WindowsDb</Value>
     </Setting>
     <Setting Name="SQLServer_UserID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -43,6 +43,12 @@
     </Setting>
     <Setting Name="RememberAccount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="OpenLastWindow" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="LastWindow" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
