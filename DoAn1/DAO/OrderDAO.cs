@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DoAn1
 {
@@ -78,31 +79,67 @@ namespace DoAn1
         }
 
 
-        public List<Order> GetOrdersWithPagination(int page, int pageSize, string keyword = "", string sortBy="")
+        public List<Order> GetOrdersWithPagination(int page, int pageSize, string keyword = "", string sortBy = "", string dateCreated = "")
         {
+            var query = _db.Orders
+                           .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword));
+
+            if (!string.IsNullOrEmpty(dateCreated) && DateTime.TryParseExact(dateCreated, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime searchDate))
+            {
+                query = query.Where(order => order.CreatedAt.HasValue && order.CreatedAt.Value.Date == searchDate.Date);
+            }
+
             if (sortBy == "Latest")
             {
-                return _db.Orders
-                   .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword))
-                   .OrderByDescending(order => order.CreatedAt) // Sắp xếp theo thời gian tạo mới nhất
-                   .Skip((page - 1) * pageSize)
-                   .Take(pageSize)
-                   .ToList();
+                query = query.OrderByDescending(order => order.CreatedAt);
             }
-            else return _db.Orders
-                   .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword))
-                   .OrderBy(order => order.CreatedAt) // Sắp xếp theo thời gian tạo mới nhất
-                   .Skip((page - 1) * pageSize)
-                   .Take(pageSize)
-                   .ToList();
+            else
+            {
+                query = query.OrderBy(order => order.CreatedAt);
+            }
+
+            return query.Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
         }
 
-    
-
-        public int CountTotalOrders(string keyword = "")
+        public int CountTotalOrders(string keyword = "", string dateCreated = "")
         {
-            return _db.Orders.Count(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword));
+            string dateFormat = "MM/dd/yyyy";
+            DateTime dateTime;
+            bool success = DateTime.TryParseExact(dateCreated, dateFormat, null, System.Globalization.DateTimeStyles.None, out dateTime);
+            if (success == true)
+            {
+                DateTime searchDate = dateTime.Date;
+                return _db.Orders.Count(order => (string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword)) && order.CreatedAt.Value.Date == searchDate);
+            }
+            else return _db.Orders.Count(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword));
+        }
+        public decimal CalculateDailyRevenueAndProfit(DateTime date)
+        {
+            var orders = _db.Orders.Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Date == date.Date).ToList();
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = (decimal) orders.Sum(o => o.OrderBooks.Sum(ob => ob.Book.CostPrice * ob.NumOfBook));
+            decimal totalProfit = totalRevenue - totalCost;
+            return totalProfit;
         }
 
+        public decimal CalculateMonthlyRevenueAndProfit(int year, int month)
+        {
+            var orders = _db.Orders.Where(o => o.CreatedAt.Value.Year == year && o.CreatedAt.Value.Month == month).ToList();
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = (decimal)orders.Sum(o => o.OrderBooks.Sum(ob => ob.Book.CostPrice * ob.NumOfBook));
+            decimal totalProfit = totalRevenue - totalCost;
+            return totalProfit;
+        }
+
+        public decimal CalculateYearlyRevenueAndProfit(int year)
+        {
+            var orders = _db.Orders.Where(o => o.CreatedAt.Value.Year == year).ToList();
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = (decimal)orders.Sum(o => o.OrderBooks.Sum(ob => ob.Book.CostPrice * ob.NumOfBook));
+            decimal totalProfit = totalRevenue - totalCost;
+            return totalProfit;
+        }
     }
 }

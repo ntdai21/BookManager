@@ -320,7 +320,7 @@
             <!--Page Title -->
             <TextBlock Text="Order management" Grid.Row="0" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" HorizontalAlignment="Left" />
             <!--Add Button -->
-           
+
             <userControl:TextOnlyButtonUC UC_Text="Add New Order" Grid.Row="0" HorizontalAlignment="Right" Click="addButton_Click" Height="35" Width="150"/>
             <!--Search Textbox-->
             <Grid Width="380" Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,0,30" icon:Grid.RowSpan="2">
@@ -334,13 +334,21 @@
 
 
             </Grid>
+
+            <Grid Width="106" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,150,30" icon:Grid.RowSpan="2" >
+                <userControl:TextOnlyButtonUC x:Name="dateButton" UC_Text="Date Created" Grid.Row="0" HorizontalAlignment="Center" Click="dateCreated_Click" Height="35" Width="150"/>
+            </Grid>
             <Grid Width="380" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,0,30" icon:Grid.RowSpan="2">
+                <icon:Grid.ColumnDefinitions>
+                    <icon:ColumnDefinition Width="17*"/>
+                    <icon:ColumnDefinition Width="363*"/>
+                </icon:Grid.ColumnDefinitions>
                 <ComboBox Name ="sortCombobox" FontSize="14" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0"
-       Style="{DynamicResource theComboBox}" Padding="15,5,15,5" HorizontalContentAlignment="Left"
+       Style="{DynamicResource theComboBox}" Padding="15,5,15,5" HorizontalContentAlignment="Left" FontWeight="SemiBold"
          VerticalAlignment="Top"
             MinWidth="100"
             MaxWidth="375"
-            ItemContainerStyle="{DynamicResource theComboBoxItem}" Margin="271,10,10,0">
+            ItemContainerStyle="{DynamicResource theComboBoxItem}" Margin="254,10,9,0" icon:Grid.Column="1">
                     <ComboBoxItem>Latest</ComboBoxItem>
                     <ComboBoxItem>Oldest</ComboBoxItem>
                 </ComboBox>

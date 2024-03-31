@@ -33,7 +33,7 @@
                 </materialIcons:MaterialIcon.Resources>
             </materialIcons:MaterialIcon>
         </Grid>
-        <TextBox x:Name="textBox" d:Text="ABC" Text="{Binding UC_TextInput, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" Loaded="textBox_Loaded">
+        <TextBox x:Name="textBox" d:Text="ABC" Text="{Binding UC_TextInput, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" Loaded="textBox_Loaded" IsReadOnly="{Binding UC_IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
             <TextBox.Resources>
                 <Style TargetType="TextBox" x:Name="textBoxStyle">
                     <Style.Triggers>

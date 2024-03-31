@@ -12,7 +12,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Statistics Window" Height="720" Width="1080">
+        Title="Statistics Window" Height="720" Width="1080" Loaded="StatisticsWindow_Loaded">
     <Window.Resources>
         <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
             <Setter Property="Margin" Value="0 4 0 0" />
@@ -319,11 +319,10 @@
 
             <!--Page Title -->
             <TextBlock Text="Revenue and profit statistics" Grid.Row="0" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" HorizontalAlignment="Left" />
-           
           
             <Separator Height="1" Grid.Row="2" Background="#593122" Margin="0 10 0 10"/>
+            <lvc:CartesianChart x:Name="RevenueProfitChart" Margin="-10,10,10,191" icon:Grid.Row="5" Series="{Binding SeriesCollection}"/>
 
-         
         </Grid>
 
 

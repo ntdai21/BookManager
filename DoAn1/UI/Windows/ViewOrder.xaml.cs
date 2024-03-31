@@ -26,6 +26,7 @@ namespace DoAn1.UI.Windows
         int totalItems = 0;
         string keyword = "";
         string sortBy = "Latest";
+        public string dateCreated { get; set; }
         bool isLoaded = false;
         ObservableCollection<Order> _orders = new ObservableCollection<Order>();
         public ViewOrder()
@@ -39,12 +40,14 @@ namespace DoAn1.UI.Windows
         public async void loadAll()
         {
             if(!isLoaded) { return; }
-            (totalPages, totalItems) = OrderBUS.Instance.AddDataToTable(_orders, currentPage, rowsPerPage, keyword, sortBy);
+            (totalPages, totalItems) = OrderBUS.Instance.AddDataToTable(_orders, currentPage, rowsPerPage, keyword, sortBy, dateCreated);
             showingItemsText.Text = _orders.Count.ToString();
             totalItemsText.Text = totalItems.ToString();
             currentPageText.Text = currentPage.ToString();
             totalPagesText.Text = totalPages.ToString();
         }
+
+
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
@@ -63,25 +66,6 @@ namespace DoAn1.UI.Windows
 
         }
 
-        private void switchMenuMode(object sender, RoutedEventArgs e)
-        {
-            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
-            if (menuPanel.Width > size)
-            {
-                menuPanel.Width = size;
-            }
-            else
-            {
-                menuPanel.Width = 200;
-            }
-        }
-
-        private void configBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ConfigurationWindow configurationWindow = new ConfigurationWindow();
-            configurationWindow.Owner = this;
-            configurationWindow.ShowDialog();
-        }
         private void PreviousPageBtn_Click(object sender, RoutedEventArgs e)
         {
             if (currentPage == 1) return;
@@ -109,6 +93,12 @@ namespace DoAn1.UI.Windows
         {
             keyword = txtSearch.Text;
             loadAll();
+            if (totalItems == 0) { 
+                MessageBox.Show("No matching results were found!");
+                keyword = "";
+                loadAll();
+            }
+            else MessageBox.Show("Searching successfully");
         }
 
         private void detailOrderButton_Click(object sender, RoutedEventArgs e)
@@ -127,6 +117,50 @@ namespace DoAn1.UI.Windows
         {
             isLoaded = true;
             loadAll();
+        }
+
+        private void TextOnlyButtonUC_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void dateCreated_Click(object sender, RoutedEventArgs e)
+        {
+            CalenderWindow calenderWindow = new CalenderWindow(dateCreated);
+            if (calenderWindow.ShowDialog() == true)
+            {
+                if (dateCreated != "")
+                {
+                    dateButton.UC_Text = dateCreated;
+                }
+                else
+                {
+                    dateButton.UC_Text = "Date Created";
+                }
+                loadAll();
+            }
+        }
+        public void UpdateDateCreated(string newDate)
+        {
+            dateCreated = newDate;
+        }
+        private void switchMenuMode(object sender, RoutedEventArgs e)
+        {
+            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
+            if (menuPanel.Width > size)
+            {
+                menuPanel.Width = size;
+            }
+            else
+            {
+                menuPanel.Width = 200;
+            }
+        }
+        private void configBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigurationWindow configurationWindow = new ConfigurationWindow();
+            configurationWindow.Owner = this;
+            configurationWindow.ShowDialog();
         }
     }
 }
