@@ -23,14 +23,15 @@ namespace DoAn1.UI.Windows
     /// </summary>
     public partial class AddBookToOrder : Window
     {
-        Order _newOrders = null;
+        public Order NewOrders { get; set; } = null;
+        public BindingList<OrderBook> OrderBooksBindingList { get; set; } = null;
         BindingList<Book> _books = null;
-        MyShopContext _db = null;
         public int BookQuantity { get; set; } = 0;
-        public AddBookToOrder(Order infoOrder)
+        public AddBookToOrder(Order infoOrder, BindingList<OrderBook> orderBooksBindingList)
         {
             InitializeComponent();
-            _newOrders = infoOrder;
+            NewOrders = infoOrder;
+            OrderBooksBindingList = orderBooksBindingList;
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -66,13 +67,9 @@ namespace DoAn1.UI.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _db = new MyShopContext();
-            if (_db.Database.CanConnect())
-            {
-                _books = new BindingList<Book>(_db.Books.ToList());
-                bookDataGrid.ItemsSource = _books;
-            }
-            
+            _books = new BindingList<Book>(BookDAO.Instance.GetBooks());
+            bookDataGrid.ItemsSource = _books;
+
         }
 
         private void AddBookToOrderButton_Click(object sender, RoutedEventArgs e)
@@ -81,7 +78,17 @@ namespace DoAn1.UI.Windows
             var screen = new BookQuantityFormWindow(book, BookQuantity);
             if (screen.ShowDialog() == true)
             {
-                _newOrders.OrderBooks.Add(new OrderBook() { OrderId = _newOrders.Id, BookId = book.Id, NumOfBook = screen.BookQuantity });
+                OrderBook orderBook = NewOrders.OrderBooks.SingleOrDefault(ob => ob.BookId == book.Id);
+                if (orderBook != null)
+                {
+                    orderBook.NumOfBook += screen.BookQuantity;
+                }
+                else
+                {
+                    orderBook = new OrderBook() { OrderId = NewOrders.Id, BookId = book.Id, NumOfBook = screen.BookQuantity, Book = book };
+                    NewOrders.OrderBooks.Add(orderBook);
+                    OrderBooksBindingList.Add(orderBook);
+                }
             }
         }
     }

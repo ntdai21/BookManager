@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:DoAn1.UI.Windows"
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        xmlns:converter="clr-namespace:DoAn1.UI.Converters"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        xmlns:converter="clr-namespace:DoAn1.Converter"
         Title="BookQuantityWindow" Height="600" Width="800" ResizeMode="NoResize">
     <Window.Resources>
         <converter:RelativeToAbsoluteConverter x:Key="absoluteConverter"/>
