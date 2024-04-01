@@ -8,7 +8,7 @@
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        xmlns:converter="clr-namespace:DoAn1.Converter"
+        xmlns:converter="clr-namespace:DoAn1.UI.Converters"
         Title="BookQuantityWindow" Height="600" Width="800" ResizeMode="NoResize">
     <Window.Resources>
         <converter:RelativeToAbsoluteConverter x:Key="absoluteConverter"/>
