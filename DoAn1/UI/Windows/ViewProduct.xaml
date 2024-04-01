@@ -208,17 +208,8 @@
                 <TextBlock Text="Book management" FontSize="28" FontWeight="SemiBold"
                            DockPanel.Dock="Left"  VerticalAlignment="Center"/>
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
-                    <Button x:Name="addButton" Background="#593122" Foreground="#ffffff" Height="30" Width="150" Margin="0" FontSize="13"  Click="addButton_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Add New Book"/>
-                        </StackPanel>
-                    </Button>
-
-                    <Button x:Name="importButton" Background="#593122" Foreground="#ffffff" Height="30" Width="150" Margin="0 5 0 0" FontSize="13"  Click="importButton_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Import from csv"/>
-                        </StackPanel>
-                    </Button>
+                    <userControl:TextOnlyButtonUC  UC_Text="Add new book" x:Name="addButton" Click="addButton_Click" Width="150" Height="30" Margin="0 5 0 0"/>
+                    <userControl:TextOnlyButtonUC  UC_Text="Import from csv" x:Name="importButton" Click="addButton_Click" Width="150" Height="30" Margin="0 5 0 0"/>
                 </StackPanel>
             </DockPanel>
 

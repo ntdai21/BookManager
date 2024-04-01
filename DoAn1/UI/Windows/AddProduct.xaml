@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoAn1.UI.Windows"
+        xmlns:usercontrol="clr-namespace:DoAn1.UI.UserControls"
         mc:Ignorable="d"
         xmlns:converter="clr-namespace:DoAn1.UI.Converters"
         WindowStartupLocation="CenterScreen"
@@ -122,7 +123,7 @@
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.ColumnSpan="2" Text="LOGO TO BỰ" FontSize="35" HorizontalAlignment="Center"/>
+        <TextBlock Grid.ColumnSpan="2" Text="MyShop" FontSize="35" HorizontalAlignment="Center"/>
 
         <!-- Image on the left -->
         <Border Grid.Column="0" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Gray" BorderThickness="0">
@@ -136,10 +137,9 @@
         <!-- Product info on the right -->
         <Grid x:Name="productGrid" Grid.Column="1" Grid.Row="1" Margin="10" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="9*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -153,21 +153,51 @@
 
             </Grid.RowDefinitions>
 
-            <Label Content="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="1"  Height="30" Text="{Binding Name}"/>
-            <Label Content="Price" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="1" Grid.Column="1"  Height="30" Text="{Binding Price}"/>
-            <Label Content="Number of page" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="2" Grid.Column="1"  Height="30" Text="{Binding NumOfPage}"/>
-            <Label Content="Company" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" />
-            <TextBox Grid.Row="3" Grid.Column="1"  Height="30" Text="{Binding PublishingCompany}"/>
-            <Label Content="Author" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="4" Grid.Column="1"  Height="30" Text="{Binding Author}"/>
-            <Label Content="Cost price" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="5" Grid.Column="1"  Height="30" Text="{Binding CostPrice}"/>
-            <Label Content="Category" Grid.Row="6" VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="5" Grid.Column="1" Name="categoryComboBox"  Style="{StaticResource CustomComboBoxStyle}"
-                      DockPanel.Dock="Left" Width="125" SelectedIndex="0" Margin="0,44,369,0" Grid.RowSpan="2" SelectionChanged="categoryComboBox_SelectionChanged">
+            <usercontrol:InputFieldUC Grid.Row="0" Grid.Column="0"  Height="30" UC_Title="Name">
+                <usercontrol:InputFieldUC.UC_TextInput>
+                    <Binding Path="Name"/>
+                </usercontrol:InputFieldUC.UC_TextInput>
+            </usercontrol:InputFieldUC>
+
+            <usercontrol:InputFieldUC Grid.Row="1" Grid.Column="0"  Height="30" UC_Title="Price">
+                <usercontrol:InputFieldUC.UC_TextInput>
+                    <Binding Path="Price"/>
+                </usercontrol:InputFieldUC.UC_TextInput>
+            </usercontrol:InputFieldUC>
+
+            <usercontrol:InputFieldUC Grid.Row="2" Grid.Column="0"  Height="30" UC_Title="Page">
+                <usercontrol:InputFieldUC.UC_TextInput>
+                    <Binding Path="NumOfPage"/>
+                </usercontrol:InputFieldUC.UC_TextInput>
+            </usercontrol:InputFieldUC>
+
+            <usercontrol:InputFieldUC Grid.Row="3" Grid.Column="0"  Height="30" UC_Title="Company">
+                <usercontrol:InputFieldUC.UC_TextInput>
+                    <Binding Path="PublishingCompany"/>
+                </usercontrol:InputFieldUC.UC_TextInput>
+            </usercontrol:InputFieldUC>
+
+            <usercontrol:InputFieldUC Grid.Row="4" Grid.Column="0"  Height="30" UC_Title="Author">
+                <usercontrol:InputFieldUC.UC_TextInput>
+                    <Binding Path="Author"/>
+                </usercontrol:InputFieldUC.UC_TextInput>
+            </usercontrol:InputFieldUC>
+
+            <usercontrol:InputFieldUC Grid.Row="5" Grid.Column="0"  Height="30" UC_Title="Cost Price">
+                <usercontrol:InputFieldUC.UC_TextInput>
+                    <Binding Path="CostPrice"/>
+                </usercontrol:InputFieldUC.UC_TextInput>
+            </usercontrol:InputFieldUC>
+
+            <usercontrol:InputFieldUC Grid.Row="6" Grid.Column="0"  Height="30" UC_Title="Quantity">
+                <usercontrol:InputFieldUC.UC_TextInput>
+                    <Binding Path="CostPrice"/>
+                </usercontrol:InputFieldUC.UC_TextInput>
+            </usercontrol:InputFieldUC>
+
+            <Label Content="Category" Grid.Row="7" VerticalAlignment="Center"/>
+            <ComboBox Grid.Row="7" Name="categoryComboBox"  Style="{StaticResource CustomComboBoxStyle}"
+                      DockPanel.Dock="Left" Width="125" SelectedIndex="0" Margin="70,3,409,0" SelectionChanged="categoryComboBox_SelectionChanged">
                 <ComboBox.ItemTemplate >
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -175,10 +205,10 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <Label Content="Description" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="8" Grid.ColumnSpan="2" Text="{Binding Description}"/>
+            <Label Content="Description" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="9" Grid.ColumnSpan="2" Text="{Binding Description}"/>
 
-            <Button x:Name="addButton" Content="Add" Grid.Row="9" Grid.Column="1" Margin="10" Width="75" Click="addButton_Click"/>
+            <Button x:Name="addButton" Content="Add" Grid.Row="10" Grid.Column="1" Margin="10" Width="75" Click="addButton_Click"/>
 
 
         </Grid>

@@ -35,5 +35,10 @@ namespace DoAn1.UI.Windows
             categoryName = categoryTextbox.Text;
             DialogResult = true;
         }
+
+        private void categoryTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

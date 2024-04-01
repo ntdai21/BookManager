@@ -24,10 +24,10 @@
       <Value Profile="(Default)">#E1DDD2</Value>
     </Setting>
     <Setting Name="SQLServer_Server" Type="System.String" Scope="User">
-      <Value Profile="(Default)">SQLEXPRESS</Value>
+      <Value Profile="(Default)">MYSQLSERVER</Value>
     </Setting>
     <Setting Name="SQLServer_Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)">DoAn1WindowsDb</Value>
+      <Value Profile="(Default)">TestDB</Value>
     </Setting>
     <Setting Name="SQLServer_UserID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
