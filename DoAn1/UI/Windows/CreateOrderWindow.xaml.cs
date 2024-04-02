@@ -22,7 +22,7 @@ namespace DoAn1.UI.Windows
     /// <summary>
     /// Interaction logic for CreateOrderWindow.xaml
     /// </summary>
-    public partial class CreateOrderWindow : Window
+    public partial class CreateOrderWindow : Window, INotifyPropertyChanged
     {
         
         Order _orders = null;
@@ -30,6 +30,9 @@ namespace DoAn1.UI.Windows
         public double GrossPrice { get; set; } = 0;
         public double Discount { get; set; } = 0;
         public double TotalPrice { get; set; } = 0;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
 
         public string GrossPriceString
         {
@@ -47,13 +50,7 @@ namespace DoAn1.UI.Windows
             }
         }
 
-        public string TotalPriceString
-        {
-            get
-            {
-                return (string)TotalPrice.ToString();
-            }
-        }
+        public string TotalPriceString { get; set; } = "0";
 
         public CreateOrderWindow()
         {
@@ -76,7 +73,7 @@ namespace DoAn1.UI.Windows
                 Discount = (double)(GrossPrice * (_orders.Discount.DiscountPercent / 100));
             }
             TotalPrice = GrossPrice - Discount;
-
+            TotalPriceString = TotalPrice.ToString();
         }
 
         private void Btn_Click(object sender, RoutedEventArgs e)
@@ -119,18 +116,17 @@ namespace DoAn1.UI.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _orders = new Order();
+            this.DataContext = this;
             booksDataGrid.ItemsSource = _orderBooks;
             MyShopContext db = new MyShopContext();
             DiscountComboBox.ItemsSource = new BindingList<Discount>(db.Discounts.ToList());
 
-            GrossPriceTextFieldUC.DataContext = GrossPriceString;
-            DiscountTextFieldUC.DataContext = DiscountString;
-            TotalPriceTextFieldUC.DataContext = TotalPriceString;
-        }
 
+        }
         private void TextOnlyButtonUC_Click(object sender, RoutedEventArgs e)
         {
             var screen = new AddBookToOrder(_orders, _orderBooks);
+            screen.OrderBooksChanged += Order_OrderBooksChanged;
             if (screen.ShowDialog() == false)
             {
                 //_orderBooks = new BindingList<OrderBook>((List<OrderBook>)screen.NewOrders.OrderBooks);
@@ -145,6 +141,11 @@ namespace DoAn1.UI.Windows
             MessageBox.Show("Added a order successfully");*/
 
             calculateTotalPrice();
+        }
+
+        private void Order_OrderBooksChanged()
+        {
+            scrollViewer.ScrollToEnd();
         }
 
         private void editButton_Click(object sender, RoutedEventArgs e)

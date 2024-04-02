@@ -1,4 +1,4 @@
-﻿<Window x:Class="DoAn1.UI.Windows.CreateOrderWindow"
+﻿<Window x:Class="DoAn1.UI.Windows.OrderDetailWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="CreateOrderWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="OrderDetailWindow" Height="720" Width="1080" Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
             <Setter Property="Margin" Value="0 4 0 0" />
@@ -236,7 +236,7 @@
                             <Setter Property="Margin" Value="0 0 0 10"/>
                         </Style>
                     </StackPanel.Resources>
-                    <userControl:IconWithTextButtonUC UC_Text="Quản lý sách" UC_Kind="Bookshelf" Click="Btn_Click"/>
+                    <userControl:IconWithTextButtonUC UC_Text="Quản lý sách" UC_Kind="Bookshelf"/>
                     <userControl:IconWithTextButtonUC UC_Text="Quản lý hoá đơn" UC_Kind="TextBox"/>
                     <userControl:IconWithTextButtonUC UC_Text="Quản lý mã giảm giá" UC_Kind="TicketPercent"/>
                     <userControl:IconWithTextButtonUC UC_Text="Thống kê báo cáo" UC_Kind="BarChart"/>
@@ -244,13 +244,24 @@
             </DockPanel>
         </Border>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
-            <StackPanel Margin="20">
-                <DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" x:Name="scrollViewer">
+            <Grid Margin="20" x:Name="orderDetailGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="32" ></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+
+
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
                     <TextBlock Text="Buyer's Information" FontWeight="Bold" FontSize="18"/>
                     <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
                 </DockPanel>
-                <Grid Margin="20">
+                <Grid Margin="20"  Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -262,21 +273,20 @@
                         <RowDefinition Height="10"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <userControl:InputFieldUC UC_Title="Buyer's Name" Grid.Column="0" Grid.Row="0" UC_TextInput="{Binding CustomerName}" UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC UC_Title="Buyer's Name" Grid.Column="0" Grid.Row="0" UC_TextInput="{Binding CustomerName}" UC_TitleWidth="140" UC_TextInputSize="30"/>
 
-                    <userControl:InputFieldUC UC_Title="Shipping Address" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" UC_TextInput="{Binding ShippingAddress}"  UC_TitleWidth="100"/>
-                    
+                    <userControl:TextFieldUC UC_Title="Shipping Address" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" UC_TextInput="{Binding ShippingAddress}"  UC_TitleWidth="140"/>
+
                     <GridSplitter Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"/>
                     <GridSplitter Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"/>
 
                 </Grid>
-                <DockPanel>
+                <DockPanel  Grid.Row="2">
                     <TextBlock DockPanel.Dock="Left" Text="Ordered Books" FontWeight="Bold" FontSize="18"/>
-                    <userControl:TextOnlyButtonUC DockPanel.Dock="Right" UC_Text="Thêm sách" Width="80" Click="TextOnlyButtonUC_Click" Margin="0, 0, 20, 0"/>
-                    <TextBlock DockPanel.Dock="Right"/>
+                    <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
                 </DockPanel>
                 <DataGrid Grid.Row="3" RowStyle="{StaticResource DataGridRowStyle1}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle1}"
-                      CellStyle="{StaticResource DataGridCellStyle1}" Style="{StaticResource DataGridStyle1}" x:Name="booksDataGrid" MinHeight="100" MaxHeight="320" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                  CellStyle="{StaticResource DataGridCellStyle1}" Style="{StaticResource DataGridStyle1}" x:Name="booksDataGrid" MinHeight="100" MaxHeight="360" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Book.Id}"/>
                         <DataGridTextColumn Header="Tên Sách" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Name}"/>
@@ -284,52 +294,31 @@
                         <DataGridTextColumn Header="Thể loại" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.CategoryName}"/>
                         <DataGridTextColumn Header="Giá bán" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Book.Price}"/>
                         <DataGridTextColumn Header="Số lượng" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding NumOfBook}"/>
-                        <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Button Margin="5 0 5 0" x:Name="editButton" Click="editButton_Click" Style="{StaticResource gridEditButton}" Content="Edit">
-                                        </Button>
-                                        <Button Margin="5 0 5 0" x:Name="deleteButton" Click="deleteButton_Click" Style="{StaticResource gridRemoveButton}" Content="Delete">
-                                        </Button>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid Margin="0, 5, 0, 5">
+                <Grid  Grid.Row="4" Margin="0, 5, 0, 5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*"></ColumnDefinition>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
 
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Discount coupon" FontWeight="Bold" FontSize="18"/>
-                    <ComboBox Grid.Column="1" x:Name="DiscountComboBox" SelectionChanged="DiscountComboBox_SelectionChanged" >
-                        
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <Run Text="{Binding Code}"/>
-                                    <Run Text=" "/>
-                                    <Run Text="{Binding DiscountPercent}"/>
-                                    <Run Text="%" />
-                                </TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                    
                 </Grid>
 
-                <DockPanel>
+                <DockPanel  Grid.Row="5">
                     <TextBlock Text="Total Price" FontWeight="Bold" FontSize="18"/>
                     <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
                 </DockPanel>
+                <StackPanel Grid.Row="6" x:Name="PriceStackPanel">
+                    <userControl:TextFieldUC x:Name="GrossPriceTextFieldUC"  UC_Title="Gross price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding GrossPrice,  UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC x:Name="DiscountTextFieldUC"  UC_Title="Discount" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding Discount, UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
+                    <Separator Width="240" HorizontalAlignment="Left" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                    <userControl:TextFieldUC x:Name="TotalPriceTextFieldUC"  UC_Title="Total Price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding TotalPrice,  UpdateSourceTrigger=PropertyChanged}" UC_InputTextFontWeight="DemiBold"  Margin="10"  UC_TitleWidth="100"/>
+                    
+                </StackPanel>
 
-                <userControl:TextFieldUC x:Name="GrossPriceTextFieldUC"  UC_Title="Gross price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="0" Margin="10"  UC_TitleWidth="100"/>
-                <userControl:TextFieldUC x:Name="DiscountTextFieldUC"  UC_Title="Discount" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding Discount}" Margin="10"  UC_TitleWidth="100"/>
-                <userControl:TextFieldUC x:Name="TotalPriceTextFieldUC"  UC_Title="Total Price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding TotalPrice}" Margin="10"  UC_TitleWidth="100"/>
-
-            </StackPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Window>

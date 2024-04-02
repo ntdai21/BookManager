@@ -175,7 +175,7 @@ namespace DoAn1.BUS
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi lưu ảnh: " + ex.Message);
+                MessageBox.Show("Error while saving the image: " + ex.Message);
                 return null;
             }
         }
