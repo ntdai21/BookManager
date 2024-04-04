@@ -94,7 +94,13 @@ namespace DoAn1.UI.Windows
 
         private void detailOrderButton_Click(object sender, RoutedEventArgs e)
         {
+            var button = (Button)e.OriginalSource;
+            Order selectedOrder = (Order)button.DataContext;
+            var screen = new OrderDetailWindow(selectedOrder);
+            if (screen.ShowDialog() == true)
+            {
 
+            }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

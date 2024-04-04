@@ -31,6 +31,8 @@ namespace DoAn1.UI.UserControls
 
         public int UC_TextInputSize { get; set; } = 16;
 
+        public string UC_InputTextFontWeight { get; set; }
+
 
 
         public string UC_TextInput

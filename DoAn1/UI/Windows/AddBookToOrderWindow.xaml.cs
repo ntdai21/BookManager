@@ -27,6 +27,10 @@ namespace DoAn1.UI.Windows
         public BindingList<OrderBook> OrderBooksBindingList { get; set; } = null;
         BindingList<Book> _books = null;
         public int BookQuantity { get; set; } = 0;
+
+        public delegate void OrderBooksInOrderChangedHandler();
+        public event OrderBooksInOrderChangedHandler OrderBooksChanged; // Loaded, Clicked, Moved, Down
+
         public AddBookToOrder(Order infoOrder, BindingList<OrderBook> orderBooksBindingList)
         {
             InitializeComponent();
@@ -75,6 +79,11 @@ namespace DoAn1.UI.Windows
         private void AddBookToOrderButton_Click(object sender, RoutedEventArgs e)
         {
             Book book = (Book) bookDataGrid.SelectedItem;
+            if (book == null)
+            {
+                MessageBox.Show("You have to opt to the book that you want to order", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             var screen = new BookQuantityFormWindow(book, BookQuantity);
             if (screen.ShowDialog() == true)
             {
@@ -89,6 +98,7 @@ namespace DoAn1.UI.Windows
                     NewOrders.OrderBooks.Add(orderBook);
                     OrderBooksBindingList.Add(orderBook);
                 }
+                OrderBooksChanged.Invoke(); 
             }
         }
     }
