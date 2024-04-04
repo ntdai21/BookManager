@@ -12,7 +12,7 @@
         <DockPanel x:Name="menuPanel" Margin="20 40 20 40" Width="{Binding UC_Width}">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center">
                 <userControl:IconOnlyButtonUC UC_Kind="Menu" Click="switchMenuMode"/>
-                <TextBlock Margin="20 0 0 0" Text="Dashboard" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Margin="20 0 0 0" Text="Menu" FontWeight="Bold" FontSize="20"/>
             </StackPanel>
             <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Configuration" UC_Kind="WrenchSettings" Click="configBtn_Click"/>
             <StackPanel Margin="0 60 0 0">

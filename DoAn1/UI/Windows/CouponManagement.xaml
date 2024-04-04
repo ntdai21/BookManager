@@ -1,0 +1,22 @@
+﻿<Window x:Class="DoAn1.UI.Windows.CouponManagement"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoAn1.UI.Windows"
+        xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
+        xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        xmlns:properties="clr-namespace:DoAn1.Properties"
+        mc:Ignorable="d"
+        Title="Book Manager - Coupon Management" Height="720" Width="1080">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <userControl:NavigationUC/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
+        </ScrollViewer>
+    </Grid>
+</Window>

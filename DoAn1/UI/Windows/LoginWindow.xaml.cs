@@ -142,7 +142,7 @@ namespace DoAn1.UI.Windows
         private bool openLastWindow()
         {
 
-            if (DoAn1.Properties.Settings.Default.OpenLastWindow == 0) return false;
+            if (DoAn1.Properties.Settings.Default.OpenLastWindow) return false;
 
             var lastWindow = DoAn1.Properties.Settings.Default.LastWindow;
 
@@ -284,7 +284,7 @@ namespace DoAn1.UI.Windows
 
         private void loginPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            if (DoAn1.Properties.Settings.Default.RememberAccount != 0)
+            if (DoAn1.Properties.Settings.Default.RememberAccount)
             {
                 AccountEmail = DoAn1.Properties.Settings.Default.Email;
                 AccountPassword = DoAn1.Properties.Settings.Default.Password;
@@ -306,7 +306,7 @@ namespace DoAn1.UI.Windows
                 DoAn1.Properties.Settings.Default.Password = AccountPassword;
             }
 
-            DoAn1.Properties.Settings.Default.RememberAccount = (rememberMeCheckBox.IsChecked == true) ? 1 : 0;
+            DoAn1.Properties.Settings.Default.RememberAccount = (rememberMeCheckBox.IsChecked == true);
 
             DoAn1.Properties.Settings.Default.Save();
         }
