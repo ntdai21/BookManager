@@ -82,7 +82,7 @@
                                     </Binding>
                                 </userControl:InputFieldUC.UC_TextInput>
                             </userControl:InputFieldUC>
-                            <CheckBox x:Name="rememberMeCheckBox" Content="Remember me" Margin="0 10 0 0" HorizontalAlignment="Center"/>
+                            <CheckBox x:Name="rememberMeCheckBox" Content="Auto Login" Margin="0 10 0 0" HorizontalAlignment="Center"/>
                             <TextBlock x:Name="loginResult" Style="{StaticResource StatusTxt}"/>
                         </StackPanel>
                     </DockPanel>
@@ -93,7 +93,7 @@
                 <Grid Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}">
                     <DockPanel Margin="30 20 30 20">
                         <TextBlock Text="Activate your account" DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Loaded="activationPanel_Loaded">
                             <userControl:TextOnlyButtonUC x:Name="activateKeyBtn" UC_Text="Activate" Click="activateKeyBtn_Click" DockPanel.Dock="Bottom" Width="150" Margin="0 0 10 0"/>
                             <userControl:TextOnlyOutlineButtonUC UC_Text="Skip" x:Name="skipBtn" Click="skipBtn_Click" DockPanel.Dock="Bottom" Width="90"/>
                         </StackPanel>
