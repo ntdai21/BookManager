@@ -48,7 +48,7 @@ namespace DoAn1.UI.Windows
             {
                 if (result.Result == FirebaseBUS.LoginResult.LoginResultType.Activated)
                 {
-                    if (!openLastWindow()) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+                    if (!(await openLastWindow())) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
                 }
                 
                 else
@@ -72,18 +72,16 @@ namespace DoAn1.UI.Windows
             Login();
         }
 
-        private bool openLastWindow()
+        private async Task<bool> openLastWindow()
         {
 
-            if (DoAn1.Properties.Settings.Default.OpenLastWindow) return false;
+            if (!DoAn1.Properties.Settings.Default.OpenLastWindow) return false;
+
+            if (!(await ConnectDatabase())) return false;
 
             var lastWindow = DoAn1.Properties.Settings.Default.LastWindow;
 
-            if (string.IsNullOrEmpty(lastWindow))
-            {
-                Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
-            }
-            else if (lastWindow == "Dashboard")
+            if (string.IsNullOrEmpty(lastWindow) || lastWindow == "Dashboard")
             {
                 var window = new DashboardWindow();
                 window.Show();
@@ -116,9 +114,9 @@ namespace DoAn1.UI.Windows
             return true;
         }
 
-        private void skipBtn_Click(object sender, RoutedEventArgs e)
+        private async void skipBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!openLastWindow()) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+            if (!(await openLastWindow())) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
         }
 
         private void returnToLoginBtn_Click(object sender, RoutedEventArgs e)
@@ -129,9 +127,11 @@ namespace DoAn1.UI.Windows
             }
         }
 
-        async private void ConnectDatabase()
+        async private Task<bool> ConnectDatabase()
         {
             database.UpdateConnectionString();
+
+            if (string.IsNullOrWhiteSpace(database._Server) || string.IsNullOrWhiteSpace(database._Database)) return false;
 
             connectionProgressBar.Visibility = Visibility.Visible;
             connectionDatabaseBtn.IsEnabled = false;
@@ -139,7 +139,16 @@ namespace DoAn1.UI.Windows
 
             var canConnect = await database.Database.CanConnectAsync();
 
-            if (canConnect)
+            connectionProgressBar.Visibility = Visibility.Hidden;
+
+            return canConnect;
+        }
+
+        async private void connectDatabaseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var result = await ConnectDatabase();
+
+            if (result)
             {
                 DoAn1.Properties.Settings.Default.SQLServer_Server = database._Server;
                 DoAn1.Properties.Settings.Default.SQLServer_Database = database._Database;
@@ -169,13 +178,6 @@ namespace DoAn1.UI.Windows
                 connectionDatabaseBtn.IsEnabled = true;
                 fromDatabaseToLoginBtn.IsEnabled = false;
             }
-
-            connectionProgressBar.Visibility = Visibility.Hidden;
-        }
-
-        async private void connectDatabaseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ConnectDatabase();
         }
 
         async private void activateKeyBtn_Click(object sender, RoutedEventArgs e)
@@ -205,18 +207,21 @@ namespace DoAn1.UI.Windows
         {
             database.LoadConnectionPropertiesFromSettings();
             databasePanel.DataContext = database;
-
-            if (DoAn1.Properties.Settings.Default.AutoLogin) ConnectDatabase();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (DoAn1.Properties.Settings.Default.AutoLogin) Login();
+            if (DoAn1.Properties.Settings.Default.AutoLogin)
+            {
+                AccountEmail = DoAn1.Properties.Settings.Default.Email;
+                AccountPassword = DoAn1.Properties.Settings.Default.Password;
+                rememberMeCheckBox.IsChecked = true;
+                Login();
+            }
         }
 
         private void loginPanel_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (DoAn1.Properties.Settings.Default.AutoLogin)
+        {if (DoAn1.Properties.Settings.Default.AutoLogin)
             {
                 AccountEmail = DoAn1.Properties.Settings.Default.Email;
                 AccountPassword = DoAn1.Properties.Settings.Default.Password;
@@ -228,6 +233,7 @@ namespace DoAn1.UI.Windows
                 AccountPassword = "";
                 rememberMeCheckBox.IsChecked = false;
             }
+            
         }
 
         private void loginPanel_Unloaded(object sender, RoutedEventArgs e)
