@@ -17,18 +17,17 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using DoAn1.Models;
 using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DoAn1.UI.Windows
 {
     /// <summary>
-    /// Interaction logic for CreateOrderWindow.xaml
+    /// Interaction logic for EditOrderWindow.xaml
     /// </summary>
-    public partial class CreateOrderWindow : Window, INotifyPropertyChanged
+    public partial class EditOrderWindow : Window, INotifyPropertyChanged
     {
-        
+
         public Order NewOrder { get; set; } = null;
-        BindingList<OrderBook> _orderBooks = new BindingList<OrderBook>();
+        BindingList<OrderBook> _orderBooks = null;
         public double GrossPrice { get; set; } = 0;
         public double Discount { get; set; } = 0;
         public double TotalPrice { get; set; } = 0;
@@ -38,14 +37,16 @@ namespace DoAn1.UI.Windows
 
 
 
-        public CreateOrderWindow()
+        public EditOrderWindow(Order order)
         {
             InitializeComponent();
-            NewOrder = new Order();
-            this.DataContext = this;
+            NewOrder = (Order) order.Clone();
+            _orderBooks = new BindingList<OrderBook>((IList<OrderBook>)NewOrder.OrderBooks);
             booksDataGrid.ItemsSource = _orderBooks;
             MyShopContext db = new MyShopContext();
-            DiscountComboBox.ItemsSource = new BindingList<Discount>(db.Discounts.ToList());
+            DiscountComboBox.ItemsSource = new BindingList<Discount>();
+            this.DataContext = this;
+
         }
 
         private void calculateTotalPrice()
@@ -68,18 +69,6 @@ namespace DoAn1.UI.Windows
                 }
             }
             TotalPrice = GrossPrice - Discount;
-        }
-
-
-        private void ClearScreen()
-        {
-            NewOrder = new Order();
-            _orderBooks.Clear();
-            CustomerNameInputFieldUC.UC_TextInput = "";
-            ShippingAddressInputFieldUC.UC_TextInput = "";
-            GrossPrice = 0;
-            Discount = 0;
-            TotalPrice = 0;
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -115,8 +104,8 @@ namespace DoAn1.UI.Windows
             }
             OrderDAO.Instance.AddOrder(NewOrder);
 
-            ClearScreen();
             MessageBox.Show("Added a order successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
@@ -162,5 +151,33 @@ namespace DoAn1.UI.Windows
             NewOrder.Discount = discount;
             calculateTotalPrice();
         }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewOrder.CustomerName = CustomerNameInputFieldUC.UC_TextInput;
+            NewOrder.ShippingAddress = ShippingAddressInputFieldUC.UC_TextInput;
+
+            if (NewOrder.CustomerName != "")
+            {
+                MessageBox.Show("You have to insert your customer's name", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (NewOrder.ShippingAddress != "")
+            {
+                MessageBox.Show("You have to insert shipping address", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (NewOrder.OrderBooks.Count() == 0)
+            {
+                MessageBox.Show("You have to insert products to your order", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            OrderDAO.Instance.AddOrder(NewOrder);
+            MessageBox.Show("Added a order successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }
+

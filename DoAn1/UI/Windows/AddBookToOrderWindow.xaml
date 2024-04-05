@@ -7,9 +7,29 @@
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="AddBookToOrder" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="Border" Grid.ColumnSpan="2" Background="Transparent" BorderThickness="0"/>
+                <Path x:Name="Arrow" Grid.Column="1" Fill="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
         <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
             <Setter Property="Margin" Value="0 4 0 0" />
             <Setter Property="Background" Value="#FFFFFF"/>
@@ -114,6 +134,31 @@
             </Setter>
         </Style>
 
+        <Style x:Key="pagingButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#6C7682" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Margin" Value="1 0" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="10 5">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 1"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#593122" />
+                    <Setter Property="Foreground" Value="#ffffff" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
         <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#222528"/>
@@ -217,9 +262,76 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="CustomComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton" Template="{DynamicResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false"
+                                      ClickMode="Press" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                            </ToggleButton>
+                            <ContentPresenter x:Name="ContentSite" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Content="{TemplateBinding SelectionBoxItem}"
+                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                      Margin="3,3,23,3" IsHitTestVisible="False"/>
+                            <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{DynamicResource ComboBoxTextBox}" HorizontalAlignment="Left"
+                                 VerticalAlignment="Center" Margin="3,3,23,3" Focusable="True" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False"
+                               PopupAnimation="Slide">
+                                <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="White" BorderThickness="1" BorderBrush="Gray"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DimGray"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="True">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                            </Trigger>
+                            <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
+                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4"/>
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border x:Name="Border" Padding="2" SnapsToDevicePixels="True">
+                                        <ContentPresenter/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground" Value="Gray"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
-
-
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -238,6 +350,8 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="6*"></ColumnDefinition>
@@ -246,19 +360,30 @@
                 </Grid.ColumnDefinitions>
 
                 <!--Search Textbox-->
-                <Grid Width="380" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,20,0,10"  >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="8*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBlock x:Name="SearchTextBlock"  Margin="20 0" VerticalAlignment="Center"  Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search here..." Visibility="Visible"/>
-                    <TextBox x:Name="txtSearch" KeyDown="txtSearch_KeyDown" KeyUp="txtSearch_KeyUp" />
-                    <userControl:IconOnlyButtonUC UC_Kind="Magnify" Grid.Column="1"/>
+                <Grid Grid.Row="0" Grid.Column="0" Width="380" Margin="0,0,257,30">
+                    <TextBlock x:Name="SearchTextBlock"  Margin="20 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search here..." Visibility="Visible"/>
+                    <TextBox x:Name="searchTextbox" Style="{StaticResource textboxSearch}" KeyDown="searchTextbox_KeyDown"  Foreground="Black" GotFocus="searchTextbox_GotFocus" LostFocus="searchTextbox_LostFocus" Width="auto"/>
+                    <Button Background="#00000000" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Click="SearchButton_Click" RenderTransformOrigin="-0.273,0.67" Margin="338,0,0,0" BorderThickness="0">
+                        <Button.Content>
+                            <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" Foreground="#b0b9c6" />
+                        </Button.Content>
+                    </Button>
+
 
                 </Grid>
+
+                <ComboBox Grid.Column="1" Margin="0, 10, 5, 0" x:Name="categoryComboBox" SelectionChanged="categoryComboBox_SelectionChanged" FontSize="14" SelectedIndex="0"
+                    Style="{DynamicResource theComboBox}" Padding="15,5,15,5" HorizontalContentAlignment="Left"
+                    VerticalAlignment="Top"
+                    MinWidth="100"
+                    MaxWidth="375"
+                    ItemContainerStyle="{DynamicResource theComboBoxItem}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" FontWeight="DemiBold"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <!--Page Title -->
                 <TextBlock Text="Thêm sách vào hóa đơn" Grid.Row="1" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" />
 
@@ -286,7 +411,26 @@
                         <DataGridTextColumn Header="Category" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding CategoryName}"/>
                     </DataGrid.Columns>
                 </DataGrid>
+                <!--Pagination -->
+                <!--Pagination Section -->
+                <Border Grid.Row="5" HorizontalAlignment="Right" BorderBrush="#DEE4EC" BorderThickness="1" 
+                    CornerRadius="5" Padding="5" Background="White" Margin="0 10 10 10">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="firstPageButton" Style="{StaticResource pagingButton}" Content="&lt;&lt;" Click="firstPageButton_Click"/>
+                        <Rectangle Width="1" Fill="#DEE4EC" Margin="3 7"/>
+                        <Button x:Name="previousPageButton" Style="{StaticResource pagingButton}" Content="&lt;" Click="previousPageButton_Click"/>
+                        <Rectangle Width="1" Fill="#DEE4EC" Margin="3 7"/>
+
+                        <Button x:Name="currentPageButton" Style="{StaticResource pagingButton}" d:Content="1/4" Content="{Binding currentPage}" Background="#593122" Foreground="White"/>
+
+                        <Rectangle Width="1" Fill="#DEE4EC" Margin="3 7"/>
+                        <Button x:Name="nextPageButton" Click="nextPageButton_Click" Style="{StaticResource pagingButton}" Content="&gt;"/>
+                        <Rectangle Width="1" Fill="#DEE4EC" Margin="3 7"/>
+                        <Button x:Name="lastPageButton" Click="lastPageButton_Click" Style="{StaticResource pagingButton}" Content="&gt;&gt;"/>
+                    </StackPanel>
+                </Border>
             </Grid>
+
         </ScrollViewer>
 
     </Grid>

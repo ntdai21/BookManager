@@ -31,15 +31,26 @@ namespace DoAn1.UI.Windows
             quantityInputField.DataContext = BookQuantity;
         }
 
-        private void viewDetailButton_Click(object sender, RoutedEventArgs e)
+        private void AddToOrder()
         {
-
+            BookQuantity = Int32.Parse(quantityInputField.UC_TextInput);
+            DialogResult = true;
         }
 
         private void AddToOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            BookQuantity = Int32.Parse(quantityInputField.UC_TextInput);
-            DialogResult = true;
+            if (quantityInputField.UC_TextInput != null)
+            {
+                AddToOrder();
+            }
+        }
+
+        private void quantityInputField_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter && quantityInputField.UC_TextInput != null)
+            {
+                AddToOrder();
+            }
         }
     }
 }

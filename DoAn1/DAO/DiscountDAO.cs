@@ -34,6 +34,11 @@ namespace DoAn1.DAO
             return _db.Discounts.FirstOrDefault(d => d.Id == id);
         }
 
+        public List<Discount> GetDiscounts() 
+        {
+            return _db.Discounts.ToList();
+        }
+
         public List<Discount> GetDiscountsWithPagination(int page, int pageSize, string keyword = "", string sortBy = "")
         {
             if (sortBy == "Latest")

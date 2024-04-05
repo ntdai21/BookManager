@@ -26,12 +26,15 @@ namespace DoAn1.UI.Windows
     {
         Order _order = null;
         BindingList<OrderBook> _orderBooks = null;
+        public Discount Coupon { get; set; }
 
         public double GrossPrice { get; set; } = 0;
         public double Discount { get; set; } = 0;
         public double TotalPrice { get; set; } = 0;
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+
 
         private void calculateTotalPrice()
         {
@@ -59,7 +62,8 @@ namespace DoAn1.UI.Windows
         {
             InitializeComponent();
             _order = order;
-            _order.OrderBooks = OrderBookBUS.Instance.GetOrdersWithoutPagination();
+            _order.OrderBooks = OrderBookBUS.Instance.GetOrderBooksByOrderIdWithoutPagination(order.Id);
+            Coupon = DiscountDAO.Instance.FindDiscountById((int)_order.DiscountId);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -67,28 +71,10 @@ namespace DoAn1.UI.Windows
             orderDetailGrid.DataContext = _order;
             calculateTotalPrice();
             PriceStackPanel.DataContext = this;
+            DiscountGrid.DataContext = Coupon;
             _orderBooks = new BindingList<OrderBook>((List<OrderBook>)_order.OrderBooks);
             booksDataGrid.ItemsSource = _orderBooks;
         }
 
-        private void switchMenuMode(object sender, RoutedEventArgs e)
-        {
-            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
-            if (menuPanel.Width > size)
-            {
-                menuPanel.Width = size;
-            }
-            else
-            {
-                menuPanel.Width = 200;
-            }
-        }
-
-        private void configBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ConfigurationWindow configurationWindow = new ConfigurationWindow();
-            configurationWindow.Owner = this;
-            configurationWindow.ShowDialog();
-        }
     }
 }
