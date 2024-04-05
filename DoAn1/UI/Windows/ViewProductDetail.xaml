@@ -59,12 +59,12 @@
                 <TabItem Header="Information" Background="Transparent">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <WrapPanel Orientation="Vertical">
-                            <TextBlock FontSize="16" Text="{Binding NumOfPage, StringFormat='Số lượng trang: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding PublishingCompany, StringFormat='Nhà xuất bản: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding Author, StringFormat='Tác giả: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding CostPrice, StringFormat='Giá vốn: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding PublishingCompany, StringFormat='Nhà xuất bản: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding CategoryName, StringFormat='Thể loại: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding NumOfPage, StringFormat='Number of page: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding PublishingCompany, StringFormat='Publishing : {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding Author, StringFormat='Author: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding CostPrice, StringFormat='Cost price: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding Quantity, StringFormat='Quantity: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding CategoryName, StringFormat='Category: {0}'}"/>
 
                         </WrapPanel>
                     </ScrollViewer>
