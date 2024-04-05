@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -103,6 +104,34 @@ namespace DoAn1.UI.Windows
             ConfigurationWindow configurationWindow = new ConfigurationWindow();
             configurationWindow.Owner = this;
             configurationWindow.ShowDialog();
+        }
+        private void DatePicker_Opened(object sender, RoutedEventArgs e)
+        {
+            DatePicker datepicker = (DatePicker)sender;
+            Popup popup = (Popup)datepicker.Template.FindName("PART_Popup", datepicker);
+            Calendar cal = (Calendar)popup.Child;
+            cal.DisplayModeChanged += Calender_DisplayModeChanged;
+            cal.DisplayMode = CalendarMode.Decade;
+        }
+
+        private void Calender_DisplayModeChanged(object sender, CalendarModeChangedEventArgs e)
+        {
+            Calendar calendar = (Calendar)sender;
+            if (calendar.DisplayMode == CalendarMode.Month)
+            {
+                calendar.SelectedDate = calendar.DisplayDate;
+                datePickerRevenueProfitMonth.IsDropDownOpen = false;
+            }
+        }
+
+        private void ComboBoxTypeDate_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void datePickerRevenueProfit_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
