@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DoAn1.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,5 +34,39 @@ namespace DoAn1.DAO
             return _db.Discounts.FirstOrDefault(d => d.Id == id);
         }
 
+        public List<Discount> GetDiscountsWithPagination(int page, int pageSize, string keyword = "", string sortBy = "")
+        {
+            if (sortBy == "Latest")
+            {
+                return _db.Discounts
+                   .Where(discount => string.IsNullOrEmpty(keyword) || discount.Code.Contains(keyword))
+                   .OrderByDescending(discount => discount.Id)
+                   .Skip((page - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToList();
+            }
+            else return _db.Discounts
+                   .Where(discount => string.IsNullOrEmpty(keyword) || discount.Code.Contains(keyword))
+                   .OrderBy(discount => discount.Id)
+                   .Skip((page - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToList();
+        }
+
+        public int CountTotalDiscounts(string keyword = "")
+        {
+            return _db.Discounts.Count(discount => string.IsNullOrEmpty(keyword) || discount.Code.Contains(keyword));
+        }
+
+        public void DeleteDiscountById(int id)
+        {
+            Discount discount = FindDiscountById(id);
+
+            if (discount != null)
+            {
+                _db.Discounts.Remove(discount);
+                _db.SaveChanges();
+            }
+        }
     }
 }

@@ -72,7 +72,7 @@ namespace DoAn1.UI.UserControls
 
         private void swithToCouponManagementWindow(object sender, RoutedEventArgs e)
         {
-            var window = new DashboardWindow();
+            var window = new CouponManagement();
             window.Show();
             parentWindow.Close();
         }

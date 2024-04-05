@@ -193,5 +193,17 @@ namespace DoAn1.Properties {
                 this["LastWindow"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int ItemsPerPage {
+            get {
+                return ((int)(this["ItemsPerPage"]));
+            }
+            set {
+                this["ItemsPerPage"] = value;
+            }
+        }
     }
 }

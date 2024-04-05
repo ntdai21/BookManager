@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="DoAn1.UI.UserControls.EditDiscountUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoAn1.UI.UserControls"
+             xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
+             mc:Ignorable="d" d:Background="White">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="109" Width="348">
+        <StackPanel.Resources>
+            <Style TargetType="userControl:InputFieldUC">
+                <Setter Property="Margin" Value="0 0 0 10"/>
+            </Style>
+        </StackPanel.Resources>
+        <userControl:InputFieldUC UC_Title="ID"></userControl:InputFieldUC>
+        <userControl:InputFieldUC UC_Title="Code"></userControl:InputFieldUC>
+        <userControl:InputFieldUC UC_Title="Discount Percent"></userControl:InputFieldUC>
+        <userControl:InputFieldUC UC_Title="Code"></userControl:InputFieldUC>
+    </StackPanel>
+</UserControl>

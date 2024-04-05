@@ -26,14 +26,16 @@ namespace DoAn1.UI.UserControls
             InitializeComponent();
         }
         public string UC_Title { get; set; }
-        public int UC_TitleWidth { get; set; } = 70;
+        public int UC_TitleWidth
+        {
+            get { return (int)GetValue(UC_TitleWidthProperty); }
+            set { SetValue(UC_TitleWidthProperty, value); }
+        }
         public int UC_TitleSize { get; set; } = 14;
 
         public int UC_TextInputSize { get; set; } = 16;
 
         public string UC_InputTextFontWeight { get; set; }
-
-
 
         public string UC_TextInput
         {
@@ -46,6 +48,7 @@ namespace DoAn1.UI.UserControls
             DependencyProperty.Register("UC_TextInput", typeof(string), typeof(TextFieldUC), new PropertyMetadata("Test"));
 
 
-
+        public static readonly DependencyProperty UC_TitleWidthProperty =
+            DependencyProperty.Register("UC_TitleWidth", typeof(int), typeof(TextFieldUC), new PropertyMetadata(70));
     }
 }
