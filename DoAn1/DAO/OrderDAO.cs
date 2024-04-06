@@ -227,21 +227,21 @@ namespace DoAn1
             decimal totalProfit = totalRevenue - totalCost;
             return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
         }
-        public Tuple<string, string> CalculateOverallRevenueAndProfit()
+        public Tuple<int, int> CalculateOverallRevenueAndProfit()
         {
             var orders = _db.Orders
                 .Include(o => o.OrderBooks)
                     .ThenInclude(ob => ob.Book)
                 .ToList();
 
-            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
-            decimal totalCost = orders
+            int totalRevenue = (int)orders.Sum(o => o.TotalPrice ?? 0);
+            int totalCost = orders
                 .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
                 .Where(x => x.Book != null)
-                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+                .Sum(x => (int)(x.Book.CostPrice * x.Quantity));
 
-            decimal totalProfit = totalRevenue - totalCost;
-            return new Tuple<string, string>(totalRevenue.ToString(), totalProfit.ToString());
+            int totalProfit = totalRevenue - totalCost;
+            return new Tuple<int, int>(totalRevenue, totalProfit);
         }
 
         public List<Tuple<Book, int>> GetTopSellingBooksInMonth(int month, int year, int limit = 7)
