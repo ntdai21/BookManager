@@ -22,7 +22,7 @@ namespace DoAn1.UI.Windows
     {
         int currentPage = 1;
         int totalPages = 0;
-        int rowsPerPage = 5;
+        int rowsPerPage = DoAn1.Properties.Settings.Default.ItemsPerPage;
         int totalItems = 0;
         string keyword = "";
         string sortBy = "Latest";

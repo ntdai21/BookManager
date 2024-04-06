@@ -106,7 +106,7 @@ namespace DoAn1.UI.Windows
             }
             else if (lastWindow == "Coupon Management")
             {
-                var window = new DashboardWindow();
+                var window = new CouponManagement();
                 window.Show();
                 this.Close();
             }

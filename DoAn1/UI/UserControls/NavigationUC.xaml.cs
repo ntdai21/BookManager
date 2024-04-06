@@ -46,7 +46,41 @@ namespace DoAn1.UI.UserControls
         {
             ConfigurationWindow configurationWindow = new ConfigurationWindow();
             configurationWindow.Owner = parentWindow;
-            configurationWindow.ShowDialog();
+            if (configurationWindow.ShowDialog() == true)
+            {
+                var lastWindow = DoAn1.Properties.Settings.Default.LastWindow;
+
+                if (string.IsNullOrEmpty(lastWindow) || lastWindow == "Dashboard")
+                {
+                    var window = new DashboardWindow();
+                    window.Show();
+                    parentWindow.Close();
+                }
+                else if (lastWindow == "Book Management")
+                {
+                    var window = new ViewProduct();
+                    window.Show();
+                    parentWindow.Close();
+                }
+                else if (lastWindow == "Invoice Management")
+                {
+                    var window = new ViewOrder();
+                    window.Show();
+                    parentWindow.Close();
+                }
+                else if (lastWindow == "Coupon Management")
+                {
+                    var window = new CouponManagement();
+                    window.Show();
+                    parentWindow.Close();
+                }
+                else if (lastWindow == "Statistical Reporting")
+                {
+                    var window = new StatisticsWindow();
+                    window.Show();
+                    parentWindow.Close();
+                }
+            }
         }
 
         private void swithToDashboardWindow(object sender, RoutedEventArgs e)

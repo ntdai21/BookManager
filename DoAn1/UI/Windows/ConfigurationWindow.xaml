@@ -72,8 +72,8 @@
             <TabItem Header="On Startup">
                 <ScrollViewer>
                     <StackPanel Style="{StaticResource rootStackPanel}">
-                        <CheckBox Content="Automatically log in next time."/>
-                        <CheckBox Content="Open the last session on startup."/>
+                        <CheckBox Content="Automatically log in next time." IsChecked="{Binding AutoLogin}"/>
+                        <CheckBox Content="Open the last session on startup." IsChecked="{Binding OpenLastWindow}"/>
                     </StackPanel>
                 </ScrollViewer>
 
@@ -82,7 +82,7 @@
                 <ScrollViewer>
                     <StackPanel Style="{StaticResource rootStackPanel}">
                         <StackPanel Style="{StaticResource itemStackPanel}">
-                            <TextBox d:Text="5"/>
+                            <TextBox d:Text="5" Text="{Binding NumOfItemsPerPage}"/>
                             <TextBlock Text="Number of items showing on each page."/>
                         </StackPanel>
                     </StackPanel>
@@ -90,8 +90,8 @@
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <userControl:TextOnlyButtonUC UC_Text="Save" Margin="0 0 10 0" Width="90"/>
-            <userControl:TextOnlyOutlineButtonUC UC_Text="Cancel" Width="70"/>
+            <userControl:TextOnlyButtonUC UC_Text="Save" Margin="0 0 10 0" Width="90" Click="saveBtn_Click"/>
+            <userControl:TextOnlyOutlineButtonUC UC_Text="Cancel" Width="70" Click="cancelBtn_Click"/>
         </StackPanel>
     </Grid>
 </Window>

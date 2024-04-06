@@ -26,7 +26,7 @@ namespace DoAn1.UI.Windows
         BindingList<Category> _categories;
         int _page = 1;
         int _totalPage = 1;
-        int _pageSize = 5;
+        int _pageSize = DoAn1.Properties.Settings.Default.ItemsPerPage;
         public ViewCategory()
         {
             InitializeComponent();
