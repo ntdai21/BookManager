@@ -48,13 +48,13 @@ namespace DoAn1.UI.Windows
             NumOfOrders = OrderDAO.Instance.GetOrders().Count;
             NumOfDiscounts = DiscountDAO.Instance.GetDiscounts().Count;
 
-            NewOrdersDay = 99;
-            NewOrdersWeek = 99;
-            NewOrdersMonth = 99;
+            DateTime _today = DateTime.Now;
 
-            RevenueDay = 99;
-            RevenueWeek = 99;
-            RevenueMonth = 99;
+            (NewOrdersDay, NewOrdersWeek, NewOrdersMonth) = OrderDAO.Instance.GetOrderCounts(_today);
+
+            RevenueDay = (float)OrderDAO.Instance.CalculateDailyRevenueAndProfit(_today).Item1;
+            RevenueWeek = (float)OrderDAO.Instance.CalculateWeeklyRevenueAndProfit(_today).Item1;
+            RevenueMonth = (float)OrderDAO.Instance.CalculateMonthlyRevenueAndProfit(_today.Year,_today.Month).Item1;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
