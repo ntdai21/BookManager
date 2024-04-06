@@ -7,7 +7,7 @@
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         Title="Quản lý sách - Dashboard" Height="720" Width="1080">
     <Window.Resources>
         <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">

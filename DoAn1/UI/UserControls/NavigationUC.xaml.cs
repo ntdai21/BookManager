@@ -81,6 +81,12 @@ namespace DoAn1.UI.UserControls
                     window.Show();
                     parentWindow.Close();
                 }
+                else if (lastWindow == "Category Management")
+                {
+                    var window = new ViewCategory();
+                    window.Show();
+                    parentWindow.Close();
+                }
             }
         }
 

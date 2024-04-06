@@ -41,6 +41,9 @@ namespace DoAn1.UI.Windows
 
         private async void StatisticsWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            DoAn1.Properties.Settings.Default.LastWindow = "Statistical Reporting";
+            DoAn1.Properties.Settings.Default.Save();
+
             loaded = true;
             string revenue, profit;
             (revenue, profit) = OrderDAO.Instance.CalculateOverallRevenueAndProfit();

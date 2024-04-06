@@ -46,16 +46,7 @@ namespace DoAn1.DAO
 
         public List<Discount> GetDiscountsWithPagination(int page, int pageSize, string keyword = "", string sortBy = "")
         {
-            if (sortBy == "Latest")
-            {
-                return _db.Discounts
-                   .Where(discount => string.IsNullOrEmpty(keyword) || discount.Code.Contains(keyword))
-                   .OrderByDescending(discount => discount.Id)
-                   .Skip((page - 1) * pageSize)
-                   .Take(pageSize)
-                   .ToList();
-            }
-            else return _db.Discounts
+            return _db.Discounts
                    .Where(discount => string.IsNullOrEmpty(keyword) || discount.Code.Contains(keyword))
                    .OrderBy(discount => discount.Id)
                    .Skip((page - 1) * pageSize)

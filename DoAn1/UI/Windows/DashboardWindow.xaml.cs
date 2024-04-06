@@ -1,8 +1,11 @@
-﻿using DoAn1.DAO;
+﻿using DoAn1.BUS;
+using DoAn1.DAO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -55,6 +58,18 @@ namespace DoAn1.UI.Windows
             RevenueDay = 99;
             RevenueWeek = 99;
             RevenueMonth = 99;
+
+            //
+            List<(Expression<Func<Book, object>>, bool)> _filters = new List<(Expression<Func<Book, object>>, bool)>();
+            _filters = BookBUS.Instance.ModifySortCondition(_filters, book => book.Quantity, "ASC");
+
+            BindingList<Book> books = new();
+            int totalPage = 0;
+            int itemPerPage = 5;
+
+            (books, totalPage) = BookBUS.Instance.LoadBook(books, 1, itemPerPage, null, double.MinValue, double.MaxValue, "", _filters);
+
+            lowStockBookDataGrid.ItemsSource = books;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

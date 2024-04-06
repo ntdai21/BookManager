@@ -105,6 +105,12 @@ namespace DoAn1.UI.Windows
                 window.Show();
                 this.Close();
             }
+            else if (lastWindow == "Category Management")
+            {
+                var window = new ViewCategory();
+                window.Show();
+                this.Close();
+            }
             else if (lastWindow == "Statistical Reporting")
             {
                 var window = new StatisticsWindow();

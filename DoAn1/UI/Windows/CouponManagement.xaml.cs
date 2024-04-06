@@ -43,29 +43,34 @@ namespace DoAn1.UI.Windows
         {
             DoAn1.Properties.Settings.Default.LastWindow = "Coupon Management";
             DoAn1.Properties.Settings.Default.Save();
-            sortCombobox.SelectedItem = 0;
             discountDataGrid.ItemsSource = _discounts;
             LoadAll();
         }
 
         private void NextPageBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (currentPage == totalPages) return;
+            currentPage++;
+            LoadAll();
         }
 
         private void PreviousPageBtn_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            if (currentPage == 1) return;
+            currentPage--;
+            LoadAll();
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-
+            keyword = txtSearch.Text;
+            LoadAll();
+            if (totalItems == 0)
+            {
+                MessageBox.Show("No matching results were found!");
+                keyword = "";
+                LoadAll();
+            }
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -83,7 +88,11 @@ namespace DoAn1.UI.Windows
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (txtSearch.Text != "")
+            {
+                SearchTextBlock.Text = "";
+            }
+            else SearchTextBlock.Text = "Search here...";
         }
 
         public void LoadAll()

@@ -314,18 +314,6 @@
 
 
                 </Grid>
-                <Grid Width="380" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,0,30" icon:Grid.RowSpan="2">
-                    <ComboBox Name ="sortCombobox" FontSize="14" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0"
-Style="{DynamicResource theComboBox}" Padding="15,5,15,5" HorizontalContentAlignment="Left"
-  VerticalAlignment="Top"
-     MinWidth="100"
-     MaxWidth="375"
-     ItemContainerStyle="{DynamicResource theComboBoxItem}" Margin="271,10,10,0">
-                        <ComboBoxItem>Latest</ComboBoxItem>
-                        <ComboBoxItem>Oldest</ComboBoxItem>
-                    </ComboBox>
-                </Grid>
-
                 <Separator Height="1" Grid.Row="2" Background="#593122" Margin="0 10 0 10"/>
 
                 <!--Counter -->

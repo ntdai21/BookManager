@@ -107,5 +107,11 @@ namespace DoAn1.UI.Windows
             (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _itemsPerPage);
             currentPageButton.Content = $"{_page} of {_totalPage}";
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DoAn1.Properties.Settings.Default.LastWindow = "Category Management";
+            DoAn1.Properties.Settings.Default.Save();
+        }
     }
 }
