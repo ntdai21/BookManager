@@ -24,17 +24,17 @@ namespace DoAn1.UI.Windows
     /// </summary>
     public partial class DashboardWindow : Window, INotifyPropertyChanged
     {
-        public float NumOfBooks {  get; set; }
-        public float NumOfOrders { get; set; }
-        public float NumOfDiscounts { get; set; }
+        public double NumOfBooks {  get; set; }
+        public double NumOfOrders { get; set; }
+        public double NumOfDiscounts { get; set; }
 
-        public float NewOrdersDay { get; set; }
-        public float NewOrdersWeek { get; set; }
-        public float NewOrdersMonth { get; set; }
+        public double NewOrdersDay { get; set; }
+        public double NewOrdersWeek { get; set; }
+        public double NewOrdersMonth { get; set; }
 
-        public float RevenueDay { get; set; }
-        public float RevenueWeek { get; set; }
-        public float RevenueMonth { get; set; }
+        public double RevenueDay { get; set; }
+        public double RevenueWeek { get; set; }
+        public double RevenueMonth { get; set; }
 
         public DashboardWindow()
         {
