@@ -33,6 +33,7 @@ namespace DoAn1.UI.Windows
         int filterBook = 0;
         List<string> Labels = new List<string>();
         List<string> RankLabels = new List<string>();
+        bool started = false;
 
         public StatisticsWindow()
         {
@@ -42,11 +43,17 @@ namespace DoAn1.UI.Windows
         private async void StatisticsWindow_Loaded(object sender, RoutedEventArgs e)
         {
             loaded = true;
-            string revenue, profit;
+            int revenue, profit;
             (revenue, profit) = OrderDAO.Instance.CalculateOverallRevenueAndProfit();
-            totalRevenue.textBox.Text = revenue;
-            totalProfit.textBox.Text = profit;
-            ShowTopBookSoldInMonth(3, 2024);
+            totalRevenue.textBox.Text = revenue.ToString("#,##0") + " VNĐ";
+            totalProfit.textBox.Text = profit.ToString("#,##0") + " VNĐ";
+            DateTime currentDate = DateTime.Now;
+            DateTime firstDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
+
+            // Đợi 1 giây
+            await Task.Delay(1000);
+            datePickerRevenueProfitMonth.SelectedDate = firstDayOfMonth;
+            datePickerBookMonth.SelectedDate = firstDayOfMonth;
         }
         private void ShowMonthlyRevenueAndProfit(int year, int month)
         {
@@ -82,6 +89,7 @@ namespace DoAn1.UI.Windows
                     ColumnPadding = 3,
                 }
             };
+            titleRevenueProfitChart.Text = $"Revenue And Profit Of {month}/{year}";
         }
 
         private void ShowYearlyRevenueAndProfit(int year)
@@ -113,6 +121,8 @@ namespace DoAn1.UI.Windows
                     ColumnPadding = 3,
                 }
             };
+            titleRevenueProfitChart.Text = $"Revenue And Profit Of {year}";
+
         }
 
         private void ShowTopBookSoldInMonth(int month, int year)
@@ -133,6 +143,7 @@ namespace DoAn1.UI.Windows
                     RowPadding = 7
                 });
             }
+            titleBookChart.Text = $"Top 7 Bestselling Books Of {month}/{year}";
         }
         private void ShowTopBookSoldInYear(int year)
         {
@@ -152,6 +163,7 @@ namespace DoAn1.UI.Windows
                     RowPadding = 7
                 });
             }
+            titleBookChart.Text = $"Top 7 Bestselling Books Of {year}";
         }
 
 
@@ -266,14 +278,14 @@ namespace DoAn1.UI.Windows
             int month = 0, year = 0;
             if (loaded == true && (datePickerBookMonth.SelectedDate != null || datePickerBookYear.SelectedDate != null))
             {
-                if (filter == 0)
+                if (filterBook == 0)
                 {
                     selecteDate = (DateTime)datePickerBookMonth.SelectedDate;
                     month = selecteDate.Month;
                     year = selecteDate.Year;
                     ShowTopBookSoldInMonth(month, year);
                 }
-                else if (filter == 1)
+                else if (filterBook == 1)
                 {
                     selecteDate = (DateTime)datePickerBookYear.SelectedDate;
                     year = selecteDate.Year;
@@ -284,12 +296,12 @@ namespace DoAn1.UI.Windows
 
         void UpdateDatePickerBookVisibility(int filterIndex)
         {
-            datePickerRevenueProfitMonth.IsEnabled = filterIndex == 0 && loaded;
-            datePickerRevenueProfitMonth.Visibility = filter == 0 ? Visibility.Visible : Visibility.Collapsed;
-            datePickerRevenueProfitYear.IsEnabled = filterIndex == 1 && loaded;
-            datePickerRevenueProfitYear.Visibility = filter == 1 ? Visibility.Visible : Visibility.Collapsed;
-            Canvas.SetZIndex(datePickerRevenueProfitMonth, filterIndex == 0 ? 1 : 0);
-            Canvas.SetZIndex(datePickerRevenueProfitYear, filterIndex == 1 ? 1 : 0);
+            datePickerBookMonth.IsEnabled = filterIndex == 0 && loaded;
+            datePickerBookMonth.Visibility = filterIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+            datePickerBookYear.IsEnabled = filterIndex == 1 && loaded;
+            datePickerBookYear.Visibility = filterIndex == 1 ? Visibility.Visible : Visibility.Collapsed;
+            Canvas.SetZIndex(datePickerBookMonth, filterIndex == 0 ? 1 : 0);
+            Canvas.SetZIndex(datePickerBookYear, filterIndex == 1 ? 1 : 0);
         }
 
 
@@ -297,8 +309,8 @@ namespace DoAn1.UI.Windows
         {
             if (loaded == true)
             {
-                filterBook = sortCombobox.SelectedIndex;
-                UpdateDatePickerBookVisibility(filter);
+                filterBook = sortBookCombobox.SelectedIndex;
+                UpdateDatePickerBookVisibility(filterBook);
             }
         }
     }
