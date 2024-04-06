@@ -115,31 +115,116 @@ namespace DoAn1
             }
             else return _db.Orders.Count(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword));
         }
-        public decimal CalculateDailyRevenueAndProfit(DateTime date)
+        public Tuple<decimal, decimal> CalculateDailyRevenueAndProfit(DateTime date)
         {
-            var orders = _db.Orders.Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Date == date.Date).ToList();
-            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
-            decimal totalCost = (decimal) orders.Sum(o => o.OrderBooks.Sum(ob => ob.Book.CostPrice * ob.NumOfBook));
+            var ordersWithBooks = _db.Orders
+           .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Date == date.Date)
+           .Include(o => o.OrderBooks)
+               .ThenInclude(ob => ob.Book)
+           .ToList();
+
+            decimal totalRevenue = (decimal)ordersWithBooks.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = ordersWithBooks
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
             decimal totalProfit = totalRevenue - totalCost;
-            return totalProfit;
+            return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
         }
 
-        public decimal CalculateMonthlyRevenueAndProfit(int year, int month)
+        public Tuple<decimal, decimal> CalculateMonthlyRevenueAndProfit(int year, int month)
         {
-            var orders = _db.Orders.Where(o => o.CreatedAt.Value.Year == year && o.CreatedAt.Value.Month == month).ToList();
+            var orders = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Year == year && o.CreatedAt.Value.Month == month)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
             decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
-            decimal totalCost = (decimal)orders.Sum(o => o.OrderBooks.Sum(ob => ob.Book.CostPrice * ob.NumOfBook));
+            decimal totalCost = orders
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
             decimal totalProfit = totalRevenue - totalCost;
-            return totalProfit;
+            return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
         }
 
-        public decimal CalculateYearlyRevenueAndProfit(int year)
+        public Tuple<decimal, decimal> CalculateYearlyRevenueAndProfit(int year)
         {
-            var orders = _db.Orders.Where(o => o.CreatedAt.Value.Year == year).ToList();
+            var orders = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Year == year)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
             decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
-            decimal totalCost = (decimal)orders.Sum(o => o.OrderBooks.Sum(ob => ob.Book.CostPrice * ob.NumOfBook));
+            decimal totalCost = orders
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
             decimal totalProfit = totalRevenue - totalCost;
-            return totalProfit;
+            return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
+        }
+        public Tuple<string, string> CalculateOverallRevenueAndProfit()
+        {
+            var orders = _db.Orders
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = orders
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
+            decimal totalProfit = totalRevenue - totalCost;
+            return new Tuple<string, string>(totalRevenue.ToString(), totalProfit.ToString());
+        }
+
+        public List<Tuple<Book, int>> GetTopSellingBooksInMonth(int month, int year, int limit = 7)
+        {
+            // Lấy danh sách tất cả các đơn hàng cùng với các sách đã được đặt hàng trong tháng và năm cụ thể
+            var ordersWithBooks = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Month == month && o.CreatedAt.Value.Year == year)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            // Tính tổng số lượng của mỗi cuốn sách đã được bán
+            var bookSales = ordersWithBooks
+                .SelectMany(o => o.OrderBooks)
+                .GroupBy(ob => ob.Book)
+                .Select(g => new Tuple<Book, int>(g.Key, (int)g.Sum(ob => ob.NumOfBook)))
+                .OrderByDescending(tuple => tuple.Item2)
+                .Take(limit)
+                .ToList();
+
+            return bookSales;
+        }
+
+        public List<Tuple<Book, int>> GetTopSellingBooksInYear(int year, int limit = 7)
+        {
+            // Lấy danh sách tất cả các đơn hàng cùng với các sách đã được đặt hàng trong năm cụ thể
+            var ordersWithBooks = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Year == year)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            // Tính tổng số lượng của mỗi cuốn sách đã được bán
+            var bookSales = ordersWithBooks
+                .SelectMany(o => o.OrderBooks)
+                .GroupBy(ob => ob.Book)
+                .Select(g => new Tuple<Book, int>(g.Key, (int)g.Sum(ob => ob.NumOfBook)))
+                .OrderByDescending(tuple => tuple.Item2)
+                .Take(limit)
+                .ToList();
+
+            return bookSales;
         }
     }
 }
