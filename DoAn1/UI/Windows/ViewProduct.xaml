@@ -8,13 +8,13 @@
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        xmlns:converter="clr-namespace:DoAn1.Converter"
+        xmlns:converter="clr-namespace:DoAn1.UI.Converters"
         Title="Quản lý sách - Dashboard" Height="720" Width="1080"
         Loaded="Window_Loaded">
     <Window.Resources>
         <converter:RelativeToAbsoluteConverter x:Key="absoluteConverter"/>
         <converter:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter"/>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <converter:FloatToVNDConverter x:Key="floatToVNDConverter"/>
 
         <Style TargetType="TextBox" x:Key="PlaceholderTextBoxStyle">
             <Setter Property="Template">
@@ -168,11 +168,6 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="TextAlignment" Value="Center"/>
         </Style>
-
-
-
-
-
     </Window.Resources>
 
     <Grid>
@@ -180,26 +175,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border BorderThickness="0 0 1 0" BorderBrush="#593122" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_DarkerBackground}">
-            <DockPanel x:Name="menuPanel" Margin="20 40 20 40" Width="200">
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center">
-                    <userControl:IconOnlyButtonUC UC_Kind="Menu" Click="switchMenuMode"/>
-                    <TextBlock Margin="20 0 0 0" Text="Dashboard" FontWeight="Bold" FontSize="20"/>
-                </StackPanel>
-                <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Cấu hình" UC_Kind="WrenchSettings" Click="configBtn_Click"/>
-                <StackPanel Margin="0 60 0 0">
-                    <StackPanel.Resources>
-                        <Style TargetType="userControl:IconWithTextButtonUC">
-                            <Setter Property="Margin" Value="0 0 0 10"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <userControl:IconWithTextButtonUC UC_Text="Quản lý sách" UC_Kind="Bookshelf" />
-                    <userControl:IconWithTextButtonUC UC_Text="Quản lý hoá đơn" UC_Kind="TextBox"/>
-                    <userControl:IconWithTextButtonUC UC_Text="Quản lý mã giảm giá" UC_Kind="TicketPercent"/>
-                    <userControl:IconWithTextButtonUC UC_Text="Thống kê báo cáo" UC_Kind="BarChart"/>
-                </StackPanel>
-            </DockPanel>
-        </Border>
+        <userControl:NavigationUC/>
 
         <!-- Main section-->
         <Grid Grid.Column="1">
@@ -232,17 +208,8 @@
                 <TextBlock Text="Book management" FontSize="28" FontWeight="SemiBold"
                            DockPanel.Dock="Left"  VerticalAlignment="Center"/>
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
-                    <Button x:Name="addButton" Background="#593122" Foreground="#ffffff" Height="30" Width="150" Margin="0" FontSize="13"  Click="addButton_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Add New Book"/>
-                        </StackPanel>
-                    </Button>
-
-                    <Button x:Name="importButton" Background="#593122" Foreground="#ffffff" Height="30" Width="150" Margin="0 5 0 0" FontSize="13"  Click="importButton_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Import from csv"/>
-                        </StackPanel>
-                    </Button>
+                    <userControl:TextOnlyButtonUC  UC_Text="Add new book" x:Name="addButton" Click="addButton_Click" Width="150" Height="30" Margin="0 5 0 0"/>
+                    <userControl:TextOnlyButtonUC  UC_Text="Import from csv" x:Name="importButton" Click="importButton_Click" Width="150" Height="30" Margin="0 5 0 0"/>
                 </StackPanel>
             </DockPanel>
 
@@ -321,9 +288,9 @@
                                     Source="{Binding Cover, Converter={StaticResource absoluteConverter }}"/>
                                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="White">
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="16" FontWeight="SemiBold" 
-                                        TextWrapping="WrapWithOverflow" Text="{Binding Name}" Width="200" Margin="5"  />
+                                        TextWrapping="WrapWithOverflow" Text="{Binding Name}" Width="200" Margin="5" Height="40"  />
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12" FontWeight="Light" 
-                                        TextWrapping="WrapWithOverflow" Text="{Binding Price}" Width="200"   />
+                                        TextWrapping="WrapWithOverflow" Text="{Binding Price, Converter={StaticResource floatToVNDConverter}}" Width="200"   />
                                     <TextBlock Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12" FontWeight="Light" 
                                         TextWrapping="WrapWithOverflow" Text="{Binding Author}" Width="200"/>
 

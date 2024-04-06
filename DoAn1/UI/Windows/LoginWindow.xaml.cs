@@ -1,28 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-//using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using System.Windows.Threading;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Firebase.Auth;
-using Firebase.Auth.Providers;
-using Firebase.Auth.Repository;
-using Firebase.Database;
-using Firebase.Database.Query;
-using Microsoft.IdentityModel.Tokens;
-using System.Globalization;
 using System.ComponentModel;
+using DoAn1.BUS;
 
 namespace DoAn1.UI.Windows
 {
@@ -40,10 +19,6 @@ namespace DoAn1.UI.Windows
         public string AccountPassword { get; set; } = string.Empty;
         public string ActivationKey {  get; set; } = string.Empty;
 
-        FirebaseAuthClient client;
-        UserCredential userCredential;
-        FirebaseClient firebase = new FirebaseClient("https://bookmanager-fbfe2-default-rtdb.asia-southeast1.firebasedatabase.app/");
-
         MyShopContext database = new MyShopContext();
 
         public LoginWindow()
@@ -51,30 +26,10 @@ namespace DoAn1.UI.Windows
             InitializeComponent();
 
             loginPanel.DataContext = this;
-
-            // Configure...
-            var config = new FirebaseAuthConfig
-            {
-                ApiKey = "AIzaSyAOpm9dK3MdwQX_rwLux4IOFFtYTcIZ4QM",
-                AuthDomain = "bookmanager-fbfe2.firebaseapp.com",
-                Providers = new FirebaseAuthProvider[]
-                {
-                // Add and configure individual providers
-                new EmailProvider()
-                    // ...
-                },
-                // WPF:
-                UserRepository = new FileUserRepository("BookManager") // persist data into %AppData%\FirebaseSample
-            };
-
-            client = new FirebaseAuthClient(config);
         }
 
-        async private void loginBtn_Click(object sender, RoutedEventArgs e)
+        async private void Login()
         {
-            //Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
-            //return;
-
             if (AccountEmail == string.Empty || AccountPassword == string.Empty) {
                 loginResult.Text = "Enter your Email and password!";
                 return;
@@ -83,67 +38,85 @@ namespace DoAn1.UI.Windows
             loginProgressBar.Visibility = Visibility.Visible;
             loginBtn.IsEnabled = false;
 
-            try
-            {
-                userCredential = await Task.Run(() => {
-                    // Test khi chạy quá nhanh
-                    System.Threading.Thread.Sleep(1000);
+            var result = await FirebaseBUS.Instance.Login(AccountEmail, AccountPassword);
 
-                    try
-                    {
-                        var _userCredential = client.SignInWithEmailAndPasswordAsync(AccountEmail, AccountPassword);
-                        return _userCredential;
-                    }
-
-                    catch (Exception)
-                    {
-                        return null;
-                    }
-                });
-
-                if (userCredential != null)
-                {
-                    //Validation Account
-                    var obj = await firebase.Child("Accounts").Child(userCredential.User.Uid).Child("ExpirationDate").OnceAsJsonAsync();
-
-                    var expDateStr = obj.ToString().Replace("\"", "").Trim();
-
-                    if (string.IsNullOrEmpty(expDateStr)) {
-
-                        Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
-
-                    } else //Not activated yet
-                    {
-                        DateTime dt = DateTime.ParseExact(expDateStr, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-
-                        int daysRemaining = int.Max((dt.Date - DateTime.Now.Date).Days, 0);
-
-                        daysRemainingTxt.Text = daysRemaining.ToString();
-
-                        if (daysRemaining == 0) skipBtn.Visibility = Visibility.Collapsed;
-
-                        activationResult.Text = "";
-
-                        Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 1));
-                    }
-
-                    loginResult.Text = string.Empty;
-                }
-
-            } catch (Exception ex)
+            if (result.Result == FirebaseBUS.LoginResult.LoginResultType.Failed)
             {
                 loginResult.Text = "Failed to log in!";
+            }
+            else
+            {
+                if (result.Result == FirebaseBUS.LoginResult.LoginResultType.Activated)
+                {
+                    if (!(await openLastWindow())) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+                }
+                
+                else
+                {
+                    daysRemainingTxt.Text = result.DayRemain.ToString();
+
+                    if (result.DayRemain == 0) skipBtn.Visibility = Visibility.Collapsed;
+
+                    Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 1));
+                }
+
+                loginResult.Text = string.Empty;
             }
 
             loginProgressBar.Visibility = Visibility.Hidden;
             loginBtn.IsEnabled = true;
         }
 
-        private void skipBtn_Click(object sender, RoutedEventArgs e)
+        async private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            database.LoadConnectionPropertiesFromSettings();
-            
-            Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
+            Login();
+        }
+
+        private async Task<bool> openLastWindow()
+        {
+
+            if (!DoAn1.Properties.Settings.Default.OpenLastWindow) return false;
+
+            if (!(await ConnectDatabase())) return false;
+
+            var lastWindow = DoAn1.Properties.Settings.Default.LastWindow;
+
+            if (string.IsNullOrEmpty(lastWindow) || lastWindow == "Dashboard")
+            {
+                var window = new DashboardWindow();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Book Management")
+            {
+                var window = new ViewProduct();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Invoice Management")
+            {
+                var window = new ViewOrder();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Coupon Management")
+            {
+                var window = new DashboardWindow();
+                window.Show();
+                this.Close();
+            }
+            else if (lastWindow == "Statistical Reporting")
+            {
+                var window = new StatisticsWindow();
+                window.Show();
+                this.Close();
+            }
+            return true;
+        }
+
+        private async void skipBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(await openLastWindow())) Dispatcher.BeginInvoke((Action)(() => myTabControl.SelectedIndex = 2));
         }
 
         private void returnToLoginBtn_Click(object sender, RoutedEventArgs e)
@@ -154,24 +127,28 @@ namespace DoAn1.UI.Windows
             }
         }
 
-        async private void connectDatabaseBtn_Click(object sender, RoutedEventArgs e)
+        async private Task<bool> ConnectDatabase()
         {
             database.UpdateConnectionString();
+
+            if (string.IsNullOrWhiteSpace(database._Server) || string.IsNullOrWhiteSpace(database._Database)) return false;
 
             connectionProgressBar.Visibility = Visibility.Visible;
             connectionDatabaseBtn.IsEnabled = false;
             fromDatabaseToLoginBtn.IsEnabled = false;
 
-            var canConnect = await Task.Run(() => {
+            var canConnect = await database.Database.CanConnectAsync();
 
-                var _canConnect = database.Database.CanConnectAsync();
+            connectionProgressBar.Visibility = Visibility.Hidden;
 
-                // Test khi chạy quá nhanh
-                System.Threading.Thread.Sleep(1000);
-                return _canConnect;
-            });
+            return canConnect;
+        }
 
-            if (canConnect)
+        async private void connectDatabaseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var result = await ConnectDatabase();
+
+            if (result)
             {
                 DoAn1.Properties.Settings.Default.SQLServer_Server = database._Server;
                 DoAn1.Properties.Settings.Default.SQLServer_Database = database._Database;
@@ -201,8 +178,6 @@ namespace DoAn1.UI.Windows
                 connectionDatabaseBtn.IsEnabled = true;
                 fromDatabaseToLoginBtn.IsEnabled = false;
             }
-
-            connectionProgressBar.Visibility = Visibility.Hidden;
         }
 
         async private void activateKeyBtn_Click(object sender, RoutedEventArgs e)
@@ -210,16 +185,14 @@ namespace DoAn1.UI.Windows
             activationProgressBar.Visibility = Visibility.Visible;
             activateKeyBtn.IsEnabled = false;
 
-            var obj = await firebase.Child("ActivationKeys").Child(ActivationKey).OnceAsJsonAsync();
+            var result = await FirebaseBUS.Instance.ActivateAccount(ActivationKey);
 
-            if (obj != "true")
+            if (!result)
             {
                 activationResult.Text = "Invalid Key!";
             }
             else
             {
-                await firebase.Child("Accounts").Child(userCredential.User.Uid).Child("ExpirationDate").PutAsync("\"\"");
-
                 activationResult.Text = "Thank you for purchasing!";
                 skipBtn.UC_Text = "Next";
                 skipBtn.Visibility = Visibility.Visible;
@@ -232,16 +205,23 @@ namespace DoAn1.UI.Windows
 
         private void databasePanel_Loaded(object sender, RoutedEventArgs e)
         {
+            database.LoadConnectionPropertiesFromSettings();
             databasePanel.DataContext = database;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (DoAn1.Properties.Settings.Default.AutoLogin)
+            {
+                AccountEmail = DoAn1.Properties.Settings.Default.Email;
+                AccountPassword = DoAn1.Properties.Settings.Default.Password;
+                rememberMeCheckBox.IsChecked = true;
+                Login();
+            }
         }
 
         private void loginPanel_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (DoAn1.Properties.Settings.Default.RememberAccount != 0)
+        {if (DoAn1.Properties.Settings.Default.AutoLogin)
             {
                 AccountEmail = DoAn1.Properties.Settings.Default.Email;
                 AccountPassword = DoAn1.Properties.Settings.Default.Password;
@@ -253,6 +233,7 @@ namespace DoAn1.UI.Windows
                 AccountPassword = "";
                 rememberMeCheckBox.IsChecked = false;
             }
+            
         }
 
         private void loginPanel_Unloaded(object sender, RoutedEventArgs e)
@@ -263,9 +244,14 @@ namespace DoAn1.UI.Windows
                 DoAn1.Properties.Settings.Default.Password = AccountPassword;
             }
 
-            DoAn1.Properties.Settings.Default.RememberAccount = (rememberMeCheckBox.IsChecked == true) ? 1 : 0;
+            DoAn1.Properties.Settings.Default.AutoLogin = (rememberMeCheckBox.IsChecked == true);
 
             DoAn1.Properties.Settings.Default.Save();
+        }
+
+        private void activationPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+            activationResult.Text = "";
         }
     }
 }

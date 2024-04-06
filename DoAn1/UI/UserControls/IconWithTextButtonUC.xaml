@@ -7,10 +7,53 @@
              mc:Ignorable="d"
              xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              d:Background="WhiteSmoke">
-    <Button x:Name="button" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Background="{Binding UC_Background}" d:Background="{x:Null}">
-        <DockPanel>
-            <materialIcons:MaterialIcon Kind="{Binding UC_Kind}" Height="{Binding UC_IconSize}" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" DockPanel.Dock="Left"/>
-            <TextBlock Text="{Binding UC_Text}" d:Text="Button" FontSize="{Binding UC_FontSize}" Margin="20 10 0 10" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" FontWeight="Bold" VerticalAlignment="Center"/>
-        </DockPanel>
+    <Button x:Name="button" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Background="{Binding UC_Background}" d:Background="{x:Null}" Cursor='Hand'>
+        <Button.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Button.Resources>
+        <Grid>
+            <DockPanel>
+                <materialIcons:MaterialIcon Kind="{Binding UC_Kind}" Height="{Binding UC_IconSize}" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" DockPanel.Dock="Left"/>
+                <TextBlock Text="{Binding UC_Text}" d:Text="Button" FontSize="{Binding UC_FontSize}" Margin="20 10 0 10" Foreground="{Binding UC_Foreground}" d:Foreground="#593122" FontWeight="Bold" VerticalAlignment="Center"/>
+            </DockPanel>
+            <Grid Background="Black" Opacity="0.1">
+                <Grid.Resources>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Value="True">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+            </Grid>
+            <Grid Background="White" Opacity="0.1">
+                <Grid.Resources>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+            </Grid>
+        </Grid>
     </Button>
 </UserControl>

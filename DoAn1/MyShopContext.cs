@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -47,7 +48,6 @@ public partial class MyShopContext : DbContext
         _Database = DoAn1.Properties.Settings.Default.SQLServer_Database;
         _UserID = DoAn1.Properties.Settings.Default.SQLServer_UserID;
         _Password = DoAn1.Properties.Settings.Default.SQLServer_Password;
-
         UpdateConnectionString();
     }
 

@@ -25,28 +25,10 @@ namespace DoAn1.UI.Windows
             InitializeComponent();
         }
 
-        private void Btn_Click(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Success");
-        }
-
-        private void switchMenuMode(object sender, RoutedEventArgs e)
-        {
-            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
-            if (menuPanel.Width > size)
-            {
-                menuPanel.Width = size;
-            } else
-            {
-                menuPanel.Width = 200;
-            }
-        }
-
-        private void configBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ConfigurationWindow configurationWindow = new ConfigurationWindow();
-            configurationWindow.Owner = this;
-            configurationWindow.ShowDialog();
+            DoAn1.Properties.Settings.Default.LastWindow = "Dashboard";
+            DoAn1.Properties.Settings.Default.Save();
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="DoAn1.UI.UserControls.NavigationUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoAn1.UI.UserControls"
+             xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
+             xmlns:properties="clr-namespace:DoAn1.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="200" Loaded="Window_Loaded">
+    <Border BorderThickness="0 0 1 0" BorderBrush="#593122" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_DarkerBackground}">
+        <DockPanel x:Name="menuPanel" Margin="20 40 20 40" Width="{Binding UC_Width}">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center">
+                <userControl:IconOnlyButtonUC UC_Kind="Menu" Click="switchMenuMode"/>
+                <TextBlock Margin="20 0 0 0" Text="Menu" FontWeight="Bold" FontSize="20"/>
+            </StackPanel>
+            <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Configuration" UC_Kind="WrenchSettings" Click="configBtn_Click"/>
+            <StackPanel Margin="0 60 0 0">
+                <StackPanel.Resources>
+                    <Style TargetType="userControl:IconWithTextButtonUC">
+                        <Setter Property="Margin" Value="0 0 0 10"/>
+                    </Style>
+                </StackPanel.Resources>
+                <userControl:IconWithTextButtonUC UC_Text="Dashboard" UC_Kind="Bookshelf" Click="swithToDashboardWindow"/>
+                <userControl:IconWithTextButtonUC UC_Text="Book Management" UC_Kind="Bookshelf" Click="swithToBookManagementWindow"/>
+                <userControl:IconWithTextButtonUC UC_Text="Invoice Management" UC_Kind="TextBox" Click="swithToInvoiceManagementWindow"/>
+                <userControl:IconWithTextButtonUC UC_Text="Coupon Management" UC_Kind="TicketPercent" Click="swithToCouponManagementWindow"/>
+                <userControl:IconWithTextButtonUC UC_Text="Statistical Reporting" UC_Kind="BarChart" Click="swithToStatisticalReportingWindow"/>
+            </StackPanel>
+        </DockPanel>
+    </Border>
+</UserControl>

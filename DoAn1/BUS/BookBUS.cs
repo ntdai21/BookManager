@@ -1,12 +1,16 @@
 ﻿using DoAn1.BUS;
 using DoAn1.DAO;
 using DoAn1.UI.Windows;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -33,7 +37,7 @@ namespace DoAn1.BUS
 
         private BookBUS() { }
 
-        public (BindingList<Book>,int) LoadBook(BindingList<Book>? books, int page, int pageSize,
+        public (BindingList<Book>, int) LoadBook(BindingList<Book>? books, int page, int pageSize,
             Category? category,
             double minPrice, double maxPrice,
             string searchTerm,
@@ -52,7 +56,7 @@ namespace DoAn1.BUS
                 books.Add(book);
             }
 
-            return (books,totalPage);
+            return (books, totalPage);
 
         }
 
@@ -76,12 +80,12 @@ namespace DoAn1.BUS
 
         public bool HandleAddBook(Book book, Grid productGrid)
         {
-            if (AreTextBoxesFilled(productGrid) && book.Cover!=null && book.CategoryId!=null)
+            if (AreTextBoxesFilled(productGrid) && book.Cover != null && book.CategoryId != null)
             {
                 string imagePath = SaveImageToFolder(book.Cover, "Resources/BookCovers");
                 book.Cover = imagePath;
                 BookDAO.Instance.AddBook(book);
-                return  true;
+                return true;
             }
             else
             {
@@ -94,7 +98,7 @@ namespace DoAn1.BUS
             if (AreTextBoxesFilled(productGrid))
             {
 
-                if(clientImagePath!=null)
+                if (clientImagePath != null)
                 {
                     string imagePath = SaveImageToFolder(clientImagePath, "Resources/BookCovers");
                     string oldPath = book.Cover;
@@ -171,7 +175,7 @@ namespace DoAn1.BUS
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi lưu ảnh: " + ex.Message);
+                MessageBox.Show("Error while saving the image: " + ex.Message);
                 return null;
             }
         }
@@ -180,7 +184,7 @@ namespace DoAn1.BUS
         {
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.webp)|*.png;*.jpg;*.jpeg;*.gif;*.bmp;*.webp";
-            
+
             if (openFileDialog.ShowDialog() == true)
             {
                 string imagePath = openFileDialog.FileName;
@@ -197,5 +201,114 @@ namespace DoAn1.BUS
             return null;
         }
 
+        public bool importFromExcel(string filename, int catRow,int bookRow)
+        {
+            var document = SpreadsheetDocument.Open(filename, false);
+            Hashtable refTable = new Hashtable();
+
+            var wbPart = document.WorkbookPart!;
+            var sheets = wbPart.Workbook.Descendants<Sheet>()!;
+
+            var categorySheet = sheets.FirstOrDefault(s => s.Name == "Category");
+            var categoryWsPart = (WorksheetPart)(wbPart!.GetPartById(categorySheet.Id!));
+            var categoryCells = categoryWsPart.Worksheet.Descendants<Cell>();
+
+            int row = catRow;
+            Cell nameCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+            Cell idCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
+
+            while (nameCell != null)
+            {
+                string stringId = nameCell!.InnerText;
+                var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
+                string name = stringTable.SharedStringTable.ElementAt(int.Parse(stringId)).
+                InnerText;
+
+                int oldId = int.Parse(idCell!.InnerText);
+
+                Category newCategory = new Category();
+                newCategory.Name = name;
+
+                int newId = CategoryDAO.Instance.AddCategory(newCategory);
+
+                refTable.Add(oldId, newId);
+
+                row++;
+                nameCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"C{row}")!;
+                idCell = categoryCells.FirstOrDefault(c => c?.CellReference == $"B{row}")!;
+            }
+
+            var bookSheet = sheets.FirstOrDefault(s => s.Name == "Book");
+            var bookWsPart = (WorksheetPart)(wbPart!.GetPartById(bookSheet.Id!));
+            var bookCells = bookWsPart.Worksheet.Descendants<Cell>();
+
+            var bookColumnInfo = new List<(string columnName, string columnIndex, string type)>()
+            {
+                ("Name","B","string"),
+                ("Price","C","double"),
+                ("NumOfPage","D","int"),
+                ("PublishingCompany","E","string"),
+                ("Author","F","string"),
+                ("Cover","G","string"),
+                ("CostPrice","H","double"),
+                ("Description","I","string"),
+                ("CategoryId","J","int"),
+                ("Quantity","K","int")
+            };
+
+            row = bookRow;//configure able?
+            Cell testCell = bookCells.FirstOrDefault(b => b?.CellReference == $"B{row}")!;
+
+            while (testCell != null)
+            {
+                Book newBook = new Book();
+                foreach (var item in bookColumnInfo)
+                {
+
+                    Cell cell = bookCells.FirstOrDefault(b => b?.CellReference == $"{item.columnIndex}{row}");
+
+                    if (cell == null)
+                    {
+                        MessageBox.Show("Invalid data in excel file");
+                        return false;
+                    }
+
+                    string stringId = cell!.InnerText;
+                    string rawData = stringId;
+                    bool isSharedString = cell.DataType != null && cell.DataType.Value == CellValues.SharedString;
+
+                    if (isSharedString == true)
+                    {
+                        var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault()!;
+                        rawData = stringTable.SharedStringTable.ElementAt(int.Parse(stringId)).InnerText;
+                    }
+
+                    PropertyInfo propertyInfo = typeof(Book).GetProperty(item.columnName);
+
+                    if (propertyInfo != null)
+                    {
+                        switch (item.type)
+                        {
+                            case "double":
+                                propertyInfo.SetValue(newBook, double.Parse(rawData));
+                                break;
+                            case "string":
+                                propertyInfo.SetValue(newBook, (string)rawData);
+                                break;
+                            case "int":
+                                propertyInfo.SetValue(newBook, int.Parse(rawData));
+                                break;
+                        }
+                    }
+                }
+
+                newBook.CategoryId = (int?)refTable[newBook.CategoryId];
+                BookDAO.Instance.AddBook(newBook);
+                row++;
+                testCell = bookCells.FirstOrDefault(b => b?.CellReference == $"B{row}")!;
+            }
+
+            return true;
+        }
     }
 }

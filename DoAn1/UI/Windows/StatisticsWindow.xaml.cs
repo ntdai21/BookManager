@@ -311,7 +311,6 @@ namespace DoAn1.UI.Windows
                 filterBook = sortCombobox.SelectedIndex;
                 UpdateDatePickerBookVisibility(filter);
             }
-        }
     }
 }
 

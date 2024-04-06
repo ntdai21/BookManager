@@ -51,7 +51,11 @@ namespace DoAn1.UI.Windows
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
+            var screen = new CreateOrderWindow();
+            if (screen.ShowDialog() == true)
+            {
 
+            }
         }
 
         private void deleteOrderButton_Click(object sender, RoutedEventArgs e)
@@ -63,7 +67,13 @@ namespace DoAn1.UI.Windows
 
         private void editOrderButton_Click(object sender, RoutedEventArgs e)
         {
+            var button = (Button)e.OriginalSource;
+            Order selectedOrder = (Order)button.DataContext;
+            var screen = new EditOrderWindow(selectedOrder);
+            if (screen.ShowDialog() == true)
+            {
 
+            }
         }
 
         private void PreviousPageBtn_Click(object sender, RoutedEventArgs e)
@@ -103,7 +113,13 @@ namespace DoAn1.UI.Windows
 
         private void detailOrderButton_Click(object sender, RoutedEventArgs e)
         {
+            var button = (Button)e.OriginalSource;
+            Order selectedOrder = (Order)button.DataContext;
+            var screen = new OrderDetailWindow(selectedOrder);
+            if (screen.ShowDialog() == true)
+            {
 
+            }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -117,6 +133,9 @@ namespace DoAn1.UI.Windows
         {
             isLoaded = true;
             loadAll();
+
+            DoAn1.Properties.Settings.Default.LastWindow = "Invoice Management";
+            DoAn1.Properties.Settings.Default.Save();
         }
 
         private void TextOnlyButtonUC_Loaded(object sender, RoutedEventArgs e)

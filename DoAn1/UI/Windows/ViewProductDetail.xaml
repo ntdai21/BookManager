@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoAn1.UI.Windows"
         mc:Ignorable="d"
-        xmlns:converter="clr-namespace:DoAn1.Converter"
+        xmlns:converter="clr-namespace:DoAn1.UI.Converters"
+        xmlns:usercontrol="clr-namespace:DoAn1.UI.UserControls"
         WindowStartupLocation="CenterScreen"
         Title="ViewProductDetail" Height="720" Width="1080">
 
@@ -31,7 +32,7 @@
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.ColumnSpan="2" Text="LOGO TO BỰ" FontSize="35" HorizontalAlignment="Center"/>
+        <TextBlock Grid.ColumnSpan="2" Text="MyShop" FontSize="35" HorizontalAlignment="Center"/>
 
         <!-- Image on the left -->
         <Border Grid.Column="0" Grid.RowSpan="2" Grid.Row="1" BorderBrush="Gray" BorderThickness="1">
@@ -58,12 +59,12 @@
                 <TabItem Header="Information" Background="Transparent">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <WrapPanel Orientation="Vertical">
-                            <TextBlock FontSize="16" Text="{Binding NumOfPage, StringFormat='Số lượng trang: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding PublishingCompany, StringFormat='Nhà xuất bản: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding Author, StringFormat='Tác giả: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding CostPrice, StringFormat='Giá vốn: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding PublishingCompany, StringFormat='Nhà xuất bản: {0}'}"/>
-                            <TextBlock FontSize="16" Text="{Binding CategoryName, StringFormat='Thể loại: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding NumOfPage, StringFormat='Number of page: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding PublishingCompany, StringFormat='Publishing : {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding Author, StringFormat='Author: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding CostPrice, StringFormat='Cost price: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding Quantity, StringFormat='Quantity: {0}'}"/>
+                            <TextBlock FontSize="16" Text="{Binding CategoryName, StringFormat='Category: {0}'}"/>
 
                         </WrapPanel>
                     </ScrollViewer>
@@ -71,18 +72,10 @@
             </TabControl>
 
             <DockPanel LastChildFill="False">
-                <Button x:Name="editButton"  Background="#593122" Foreground="#ffffff" Height="60" Width="250" 
-                         Margin="0 20 0 0" FontSize="13" HorizontalAlignment="Right" Click="editButton_Click"  >
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Sửa"/>
-                    </StackPanel>
-                </Button>
-                <Button x:Name="deleteButton"  Background="#593122" Foreground="#ffffff" Height="60"
-                        Width="250" Margin="0 20 0 0" FontSize="13" DockPanel.Dock="Right" Click="deleteButton_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Xóa"/>
-                    </StackPanel>
-                </Button>
+                <usercontrol:TextOnlyButtonUC x:Name="editButton" Height="60" Width="250" HorizontalAlignment="Right" 
+                                              Click="editButton_Click"  UC_Text="Edit" Margin="0 20 0 0"/>
+                <usercontrol:TextOnlyButtonUC x:Name="deleteButton" Height="60" Width="250" Margin="0 20 0 0" 
+                                              DockPanel.Dock="Right" Click="deleteButton_Click" UC_Text="Delete"/>
             </DockPanel>
 
         </StackPanel>

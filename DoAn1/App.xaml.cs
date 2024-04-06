@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Windows;
 
 namespace DoAn1
@@ -15,6 +16,9 @@ namespace DoAn1
             {
                 DefaultValue = Application.Current.FindResource(typeof(Window))
             });
+
+            if (Debugger.IsAttached)
+                DoAn1.Properties.Settings.Default.Reset();
         }
     }
 

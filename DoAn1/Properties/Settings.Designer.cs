@@ -160,13 +160,49 @@ namespace DoAn1.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int RememberAccount {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoLogin {
             get {
-                return ((int)(this["RememberAccount"]));
+                return ((bool)(this["AutoLogin"]));
             }
             set {
-                this["RememberAccount"] = value;
+                this["AutoLogin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenLastWindow {
+            get {
+                return ((bool)(this["OpenLastWindow"]));
+            }
+            set {
+                this["OpenLastWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastWindow {
+            get {
+                return ((string)(this["LastWindow"]));
+            }
+            set {
+                this["LastWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int ItemsPerPage {
+            get {
+                return ((int)(this["ItemsPerPage"]));
+            }
+            set {
+                this["ItemsPerPage"] = value;
             }
         }
     }

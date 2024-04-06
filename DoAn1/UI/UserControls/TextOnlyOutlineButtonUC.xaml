@@ -5,8 +5,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:properties="clr-namespace:DoAn1.Properties"
              xmlns:local="clr-namespace:DoAn1.UI.UserControls"
-             mc:Ignorable="d">
-    <Button x:Name="button" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#01FFFFFF" BorderBrush="{Binding UC_Foreground}" d:BorderBrush="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}" BorderThickness="1">
-        <TextBlock Text="{Binding UC_Text}" d:Text="Button" FontWeight="SemiBold" Foreground="{Binding UC_Foreground}" Margin="10 5 10 5" d:Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
-    </Button>
+             mc:Ignorable="d" Height="31" Width="109">
+    <Border BorderBrush="{Binding UC_Foreground}" d:BorderBrush="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}" BorderThickness="1" CornerRadius="8">
+        <Button x:Name="button" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent" Cursor="Hand">
+            <Button.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+            <Grid>
+                <TextBlock Text="{Binding UC_Text}" d:Text="Button" FontWeight="SemiBold" Foreground="{Binding UC_Foreground}" Margin="10 5 10 5" d:Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Grid Background="Black" Opacity="0.1">
+                    <Grid.Resources>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Value="True">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                </Grid>
+                <Grid Background="White" Opacity="0.1">
+                    <Grid.Resources>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                </Grid>
+            </Grid>
+            
+        </Button>
+    </Border>
 </UserControl>

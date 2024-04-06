@@ -7,33 +7,14 @@
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         Title="Book Manager - Dashboard" Height="720" Width="1080">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border BorderThickness="0 0 1 0" BorderBrush="#593122" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_DarkerBackground}">
-            <DockPanel x:Name="menuPanel" Margin="20 40 20 40" Width="200">
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center">
-                    <userControl:IconOnlyButtonUC UC_Kind="Menu" Click="switchMenuMode"/>
-                    <TextBlock Margin="20 0 0 0" Text="Dashboard" FontWeight="Bold" FontSize="20"/>
-                </StackPanel>
-                <userControl:IconWithTextButtonUC DockPanel.Dock="Bottom" UC_Text="Configuration" UC_Kind="WrenchSettings" Click="configBtn_Click"/>
-                <StackPanel Margin="0 60 0 0">
-                    <StackPanel.Resources>
-                        <Style TargetType="userControl:IconWithTextButtonUC">
-                            <Setter Property="Margin" Value="0 0 0 10"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <userControl:IconWithTextButtonUC UC_Text="Book Management" UC_Kind="Bookshelf" Click="Btn_Click"/>
-                    <userControl:IconWithTextButtonUC UC_Text="Invoice Management" UC_Kind="TextBox"/>
-                    <userControl:IconWithTextButtonUC UC_Text="Coupon Management" UC_Kind="TicketPercent"/>
-                    <userControl:IconWithTextButtonUC UC_Text="Statistical Reporting" UC_Kind="BarChart"/>
-                </StackPanel>
-            </DockPanel>
-        </Border>
+        <userControl:NavigationUC/>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
             <StackPanel Margin="40">
@@ -47,7 +28,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="0 0 15 0" Style="{StaticResource emptyButton}" Click="Btn_Click">
+                    <Button Grid.Column="0" Margin="0 0 15 0" Style="{StaticResource emptyButton}">
                         <userControl:NumberFrameUC UC_Title="Number of Books" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
                     </Button>
                     <Button Grid.Column="1" Margin="15 0 15 0" Style="{StaticResource emptyButton}">
