@@ -3,6 +3,7 @@ using DoAn1.DAO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -284,5 +285,66 @@ namespace DoAn1
 
             return bookSales;
         }
+        public Tuple<decimal, decimal> CalculateWeeklyRevenueAndProfit(DateTime date)
+        {
+            // Xác định tuần thứ mấy của năm
+            int weekNumber = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            // Tính ngày đầu tiên và ngày cuối cùng của tuần
+            DateTime startDate = FirstDateOfWeekISO8601(date.Year, weekNumber);
+            DateTime endDate = startDate.AddDays(6);
+
+            var orders = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value >= startDate && o.CreatedAt.Value <= endDate)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = orders
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
+            decimal totalProfit = totalRevenue - totalCost;
+            return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
+        }
+
+        public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = weekOfYear;
+            if (firstWeek <= 1)
+            {
+                weekNum -= 1;
+            }
+            var result = firstThursday.AddDays(weekNum * 7);
+            return result.AddDays(-3);
+        }
+        public Tuple<float, float, float> GetOrderCounts(DateTime today)
+        {
+            float ordersToday = _db.Orders
+                .Count(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Date == today.Date);
+
+            int weekNumber = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            DateTime startDateOfWeek = FirstDateOfWeekISO8601(today.Year, weekNumber);
+            DateTime endDateOfWeek = startDateOfWeek.AddDays(6);
+
+            float ordersThisWeek = _db.Orders
+                .Count(o => o.CreatedAt.HasValue && o.CreatedAt.Value >= startDateOfWeek && o.CreatedAt.Value <= endDateOfWeek);
+
+            float ordersThisMonth = _db.Orders
+                .Count(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Month == today.Month && o.CreatedAt.Value.Year == today.Year);
+
+            return new Tuple<float, float, float>(ordersToday, ordersThisWeek, ordersThisMonth);
+        }
+
     }
 }
