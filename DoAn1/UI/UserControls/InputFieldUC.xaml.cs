@@ -47,6 +47,8 @@ namespace DoAn1.UI.UserControls
             set { SetValue(UC_TextInputProperty, value); }
         }
 
+        public String UC_FontFamily { get; set; } = "Segoe UI";
+
         public bool FiringValidationsAsDefault { get; set; } = true;
 
         public InputFieldUC()

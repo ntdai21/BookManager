@@ -69,11 +69,6 @@ namespace DoAn1.UI.Windows
 
         async private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            DashboardWindow dashboardWindow = new DashboardWindow();
-            dashboardWindow.Show();
-            this.Close();
-            return;
-
             Login();
         }
 
@@ -219,7 +214,7 @@ namespace DoAn1.UI.Windows
             if (DoAn1.Properties.Settings.Default.AutoLogin)
             {
                 AccountEmail = DoAn1.Properties.Settings.Default.Email;
-                AccountPassword = DoAn1.Properties.Settings.Default.Password;
+                AccountPassword = AccountBUS.GetSavedAccountPassword();
                 rememberMeCheckBox.IsChecked = true;
                 Login();
             }
@@ -229,7 +224,7 @@ namespace DoAn1.UI.Windows
         {if (DoAn1.Properties.Settings.Default.AutoLogin)
             {
                 AccountEmail = DoAn1.Properties.Settings.Default.Email;
-                AccountPassword = DoAn1.Properties.Settings.Default.Password;
+                AccountPassword = AccountBUS.GetSavedAccountPassword();
                 rememberMeCheckBox.IsChecked = true;
             }
             else
@@ -246,7 +241,7 @@ namespace DoAn1.UI.Windows
             if (rememberMeCheckBox.IsChecked == true)
             {
                 DoAn1.Properties.Settings.Default.Email = AccountEmail;
-                DoAn1.Properties.Settings.Default.Password = AccountPassword;
+                AccountBUS.SaveAccountPassword(AccountPassword);
             }
 
             DoAn1.Properties.Settings.Default.AutoLogin = (rememberMeCheckBox.IsChecked == true);

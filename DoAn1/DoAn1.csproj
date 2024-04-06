@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\password.ttf" />
     <None Remove="Resources\Images\logo.png" />
   </ItemGroup>
 
@@ -48,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Fonts\password.ttf" />
     <Resource Include="Resources\Images\banner.jpg" />
   </ItemGroup>
 

@@ -60,15 +60,14 @@ namespace DoAn1.UI.Windows
 
         private void deleteOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            Order selected = orderDataGrid.SelectedItem as Order;
-            OrderBUS.Instance.HandleDeleteOrder(selected, _orders);
+            var selectedOrder = (Order)orderDataGrid.SelectedItem;
+            OrderBUS.Instance.HandleDeleteOrder(selectedOrder, _orders);
             loadAll();
         }
 
         private void editOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = (Button)e.OriginalSource;
-            Order selectedOrder = (Order)button.DataContext;
+            var selectedOrder = (Order)orderDataGrid.SelectedItem;
             var screen = new EditOrderWindow(selectedOrder);
             if (screen.ShowDialog() == true)
             {
@@ -113,8 +112,7 @@ namespace DoAn1.UI.Windows
 
         private void detailOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = (Button)e.OriginalSource;
-            Order selectedOrder = (Order)button.DataContext;
+            var selectedOrder = (Order)orderDataGrid.SelectedItem;
             var screen = new OrderDetailWindow(selectedOrder);
             if (screen.ShowDialog() == true)
             {
@@ -163,12 +161,6 @@ namespace DoAn1.UI.Windows
         {
             dateCreated = newDate;
         }
-  
-        private void configBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ConfigurationWindow configurationWindow = new ConfigurationWindow();
-            configurationWindow.Owner = this;
-            configurationWindow.ShowDialog();
-        }
+
     }
 }

@@ -17,8 +17,8 @@ namespace DoAn1
                 DefaultValue = Application.Current.FindResource(typeof(Window))
             });
 
-            if (Debugger.IsAttached)
-                DoAn1.Properties.Settings.Default.Reset();
+            //if (Debugger.IsAttached)
+            //    DoAn1.Properties.Settings.Default.Reset();
         }
     }
 
