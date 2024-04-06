@@ -27,6 +27,7 @@ namespace DoAn1.UI.UserControls
         public NavigationUC()
         {
             InitializeComponent();
+            menuPanel.Width = UC_Width;
         }
 
         private void switchMenuMode(object sender, RoutedEventArgs e)

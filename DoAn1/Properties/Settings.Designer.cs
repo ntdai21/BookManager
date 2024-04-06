@@ -205,5 +205,29 @@ namespace DoAn1.Properties {
                 this["ItemsPerPage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AccountPasswordEntropy {
+            get {
+                return ((string)(this["AccountPasswordEntropy"]));
+            }
+            set {
+                this["AccountPasswordEntropy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SQLServer_PasswordEntropy {
+            get {
+                return ((string)(this["SQLServer_PasswordEntropy"]));
+            }
+            set {
+                this["SQLServer_PasswordEntropy"] = value;
+            }
+        }
     }
 }

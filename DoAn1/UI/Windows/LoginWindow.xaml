@@ -73,7 +73,7 @@
                                     </Binding>
                                 </userControl:InputFieldUC.UC_TextInput>
                             </userControl:InputFieldUC>
-                            <userControl:InputFieldUC UC_Title="Password">
+                            <userControl:InputFieldUC UC_Title="Password" UC_FontFamily="/Resources/Fonts/#password">
                                 <userControl:InputFieldUC.UC_TextInput>
                                     <Binding Path="AccountPassword">
                                         <Binding.ValidationRules>
@@ -142,7 +142,7 @@
                                 </userControl:InputFieldUC.UC_TextInput>
                             </userControl:InputFieldUC>
                             <userControl:InputFieldUC UC_Title="User ID" UC_TextInput="{Binding _UserID}"/>
-                            <userControl:InputFieldUC UC_Title="Password" UC_TextInput="{Binding _Password}" Margin="0"/>
+                            <userControl:InputFieldUC UC_Title="Password" UC_TextInput="{Binding _Password}" Margin="0" UC_FontFamily="/Resources/Fonts/#password"/>
                             <TextBlock x:Name="databaseConnectionResult" Style="{StaticResource StatusTxt}"/>
                         </StackPanel>
                     </DockPanel>
