@@ -69,6 +69,11 @@ namespace DoAn1.UI.Windows
 
         async private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
+            DashboardWindow dashboardWindow = new DashboardWindow();
+            dashboardWindow.Show();
+            this.Close();
+            return;
+
             Login();
         }
 

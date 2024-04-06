@@ -34,6 +34,11 @@ namespace DoAn1.DAO
             return _db.Discounts.FirstOrDefault(d => d.Id == id);
         }
 
+        public Discount? FindDiscountByCode(string code)
+        {
+            return _db.Discounts.FirstOrDefault(c => c.Code == code);
+        }
+
         public List<Discount> GetDiscountsWithPagination(int page, int pageSize, string keyword = "", string sortBy = "")
         {
             if (sortBy == "Latest")
@@ -67,6 +72,23 @@ namespace DoAn1.DAO
                 _db.Discounts.Remove(discount);
                 _db.SaveChanges();
             }
+        }
+
+        public void UpdateDiscount(Discount discount)
+        {
+            Discount? existingDiscount = _db.Discounts.Find(discount.Id);
+
+            if (existingDiscount != null)
+            {
+                existingDiscount = discount;
+                _db.SaveChanges();
+            }
+        }
+
+        public void AddDiscount(Discount discount)
+        {
+            _db.Discounts.Add(discount);
+            _db.SaveChanges();
         }
     }
 }

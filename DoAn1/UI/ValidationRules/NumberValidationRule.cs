@@ -17,7 +17,7 @@ namespace DoAn1.UI.ValidationRules
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string input = (string)value;
+            string input = (string)value ?? "";
             string numberPattern = @"^[-+]?[0-9]*\.?[0-9]+$";
 
             if (Regex.IsMatch(input, numberPattern))

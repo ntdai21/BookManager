@@ -70,7 +70,15 @@ namespace DoAn1.UI.Windows
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
+            var discount = (Discount)discountDataGrid.SelectedItem;
 
+            AddDiscountWindow window = new AddDiscountWindow();
+            window.Owner = this;
+
+            if (window.ShowDialog() == true)
+            {
+                LoadAll();
+            }
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -89,7 +97,15 @@ namespace DoAn1.UI.Windows
 
         private void editBtn_Click(object sender, RoutedEventArgs e)
         {
+            var discount = (Discount)discountDataGrid.SelectedItem;
 
+            EditDiscountWindow window = new EditDiscountWindow(discount);
+            window.Owner = this;
+            
+            if (window.ShowDialog() == true)
+            {
+                LoadAll();
+            }
         }
 
         private void removeBtn_Click(object sender, RoutedEventArgs e)

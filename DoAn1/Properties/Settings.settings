@@ -27,7 +27,7 @@
       <Value Profile="(Default)">SQLEXPRESS</Value>
     </Setting>
     <Setting Name="SQLServer_Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">DoAn1WindowsDb</Value>
     </Setting>
     <Setting Name="SQLServer_UserID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

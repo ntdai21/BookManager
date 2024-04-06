@@ -1,0 +1,18 @@
+﻿<Window x:Class="DoAn1.UI.Windows.AddDiscountWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoAn1.UI.Windows"
+        xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="None"
+        Title="EditDiscountWindow" Height="252" Width="381" Loaded="Window_Loaded">
+    <DockPanel Margin="10" LastChildFill="True">
+        <TextBlock Text="Edit Discount" TextAlignment="Center" DockPanel.Dock="Top" FontSize="18" FontWeight="SemiBold"/>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <userControl:TextOnlyButtonUC UC_Text="Add" Width="100" Margin="0 0 5 0" Click="addBtn_Click"/>
+            <userControl:TextOnlyOutlineButtonUC UC_Text="Cancel" Width="100" Margin="5 0 0 0" Click="cancelBtn_Click"/>
+        </StackPanel>
+        <userControl:EditDiscountUC ID_Enabled="False" x:Name="editDiscount"/>
+    </DockPanel>
+</Window>

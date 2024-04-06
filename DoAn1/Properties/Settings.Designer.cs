@@ -100,7 +100,7 @@ namespace DoAn1.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DoAn1WindowsDb")]
         public string SQLServer_Database {
             get {
                 return ((string)(this["SQLServer_Database"]));
