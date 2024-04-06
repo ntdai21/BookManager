@@ -168,18 +168,7 @@ namespace DoAn1.UI.Windows
             ShowYearlyRevenueAndProfit(year);
         }
 
-        private void switchMenuMode(object sender, RoutedEventArgs e)
-        {
-            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
-            if (menuPanel.Width > size)
-            {
-                menuPanel.Width = size;
-            }
-            else
-            {
-                menuPanel.Width = 200;
-            }
-        }
+
         private void configBtn_Click(object sender, RoutedEventArgs e)
         {
             ConfigurationWindow configurationWindow = new ConfigurationWindow();
@@ -311,6 +300,7 @@ namespace DoAn1.UI.Windows
                 filterBook = sortCombobox.SelectedIndex;
                 UpdateDatePickerBookVisibility(filter);
             }
+        }
     }
 }
 
