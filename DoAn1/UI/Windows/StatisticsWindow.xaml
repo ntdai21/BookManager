@@ -10,7 +10,7 @@
         xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:properties="clr-namespace:DoAn1.Properties" Loaded="Window_Loaded"
+        xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Statistics Window" Height="720" Width="1080" Loaded="StatisticsWindow_Loaded">
     <Window.Resources>
