@@ -169,6 +169,13 @@ namespace DoAn1.UI.Windows
         }
 
 
+        private void configBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigurationWindow configurationWindow = new ConfigurationWindow();
+            configurationWindow.Owner = this;
+            configurationWindow.ShowDialog();
+        }
+
         void UpdateDatePickerVisibility(int filterIndex)
         {
             datePickerRevenueProfitMonth.IsEnabled = filterIndex == 0 && loaded;
