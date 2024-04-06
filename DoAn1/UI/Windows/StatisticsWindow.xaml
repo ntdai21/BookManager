@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DoAn1.UI.Windows"
+        xmlns:local="clr-namespace:DoAn1.UI.UserControls"
         xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:icon="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -12,7 +12,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:properties="clr-namespace:DoAn1.Properties" Loaded="Window_Loaded"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Statistics Window" Height="720" Width="1080">
+        Title="Statistics Window" Height="720" Width="1080" Loaded="StatisticsWindow_Loaded">
     <Window.Resources>
         <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
             <Setter Property="Margin" Value="0 4 0 0" />
@@ -287,26 +287,130 @@
         </Grid.ColumnDefinitions>
         <userControl:NavigationUC/>
 
-        <Grid Grid.Column="1" Margin="30 20 20 20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
 
-            <!--Page Title -->
-            <TextBlock Text="Revenue and profit statistics" Grid.Row="0" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" HorizontalAlignment="Left" />
-           
-          
-            <Separator Height="1" Grid.Row="2" Background="#593122" Margin="0 10 0 10"/>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible">
+            <Grid Margin="30 20 20 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-         
-        </Grid>
+                <!--Page Title -->
+                <TextBlock Text="Revenue and profit statistics" Grid.Row="0" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" HorizontalAlignment="Left" />
+                <Separator Height="1" Grid.Row="1" Background="#593122" Margin="0 10 0 10"/>
 
+                <Grid Width="255" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,125,30" icon:Grid.RowSpan="1">
+                    <icon:Grid.ColumnDefinitions>
+                        <icon:ColumnDefinition Width="17*"/>
+                        <icon:ColumnDefinition Width="363*"/>
+                    </icon:Grid.ColumnDefinitions>
+                    <ComboBox Name ="sortCombobox" FontSize="14" SelectionChanged="ComboBoxTypeDate_SelectionChanged" SelectedIndex="0" Style="{DynamicResource theComboBox}" Padding="15,5,15,5" HorizontalContentAlignment="Left" FontWeight="SemiBold" VerticalAlignment="Top" MinWidth="100" MaxWidth="375" ItemContainerStyle="{DynamicResource theComboBoxItem}" Margin="20,10,20,0" icon:Grid.Column="1" HorizontalAlignment="Center" Width="180">
+                        <ComboBoxItem>Displayed By: Month</ComboBoxItem>
+                        <ComboBoxItem>Displayed By: Year</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+                <StackPanel icon:Grid.Row="2" Margin="0,0,355,0" icon:Grid.RowSpan="1">
+                    <userControl:InputFieldUC x:Name="totalRevenue" UC_Title="Total Revenue:" UC_TitleWidth="130" Margin="0,0,0,10" FontSize="16" UC_IsReadOnly="True"/>
+                    <userControl:InputFieldUC x:Name="totalProfit" UC_Title="Total Profit:"  UC_TitleWidth="130" Margin="0,0,0,10" FontSize="16" UC_IsReadOnly="True"/>
+                </StackPanel>
+                <Grid Width="106" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,4,30" icon:Grid.RowSpan="1" >
+                    <icon:Grid.ColumnDefinitions>
+                        <icon:ColumnDefinition Width="45*"/>
+                        <icon:ColumnDefinition Width="61*"/>
+                    </icon:Grid.ColumnDefinitions>
+                    <icon:Grid.RowDefinitions>
+                        <icon:RowDefinition Height="5*"/>
+                        <icon:RowDefinition Height="4*"/>
+                    </icon:Grid.RowDefinitions>
+                    <DatePicker SelectedDate="{Binding Today}" CalendarOpened="DatePicker_Opened" Name="datePickerRevenueProfitMonth" VerticalAlignment="Top" Margin="1,15,2,0" Language="en-US" IsEnabled="True" Panel.ZIndex="1" icon:Grid.RowSpan="2" SelectedDateChanged="datePickerRevenueProfit_SelectedDateChanged" icon:Grid.ColumnSpan="2" Loaded="DatePicker_Loaded">
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox x:Name="PART_TextBox"
+                        Text="{Binding Path=SelectedDate, StringFormat = {}{0:MM-yyyy}, 
+                        RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                    <DatePicker local:DatePickerCalendarYear.IsYear="True" Name="datePickerRevenueProfitYear" VerticalAlignment="Top" local:DatePickerDateFormat.DateFormat="yyyy" Margin="1,15,2,0" Language="en-US" IsEnabled="True" Panel.ZIndex="0" icon:Grid.RowSpan="2" SelectedDateChanged="datePickerRevenueProfit_SelectedDateChanged" icon:Grid.ColumnSpan="2"/>
+                </Grid>
+
+                <lvc:CartesianChart x:Name="RevenueProfitChart" LegendLocation="Left" Margin="10,10,10,10" icon:Grid.Row="3" Series="{Binding SeriesCollection}" MinHeight="420">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Labels="{Binding Labels}" MinValue="1" FontSize="16"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis MinValue="0" ></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+
+                <!--Page Title -->
+                <TextBlock Text="Books statistics" Grid.Row="4" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" HorizontalAlignment="Left" />
+                <Separator Height="1" Grid.Row="5" Background="#593122" Margin="0 10 0 10"/>
+                <StackPanel icon:Grid.Row="6" Margin="0,0,355,0" icon:Grid.RowSpan="1">
+                    <userControl:InputFieldUC x:Name="top1BookSold" UC_Title="Total Revenue:" UC_TitleWidth="130" Margin="0,0,0,10" FontSize="16" UC_IsReadOnly="True"/>
+                    <userControl:InputFieldUC x:Name="top2BookSold" UC_Title="Total Profit:"  UC_TitleWidth="130" Margin="0,0,0,10" FontSize="16" UC_IsReadOnly="True"/>
+                </StackPanel>
+                <Grid Width="255" Grid.Row="6" HorizontalAlignment="Right" Margin="0,0,125,30" icon:Grid.RowSpan="1">
+                    <icon:Grid.ColumnDefinitions>
+                        <icon:ColumnDefinition Width="17*"/>
+                        <icon:ColumnDefinition Width="363*"/>
+                    </icon:Grid.ColumnDefinitions>
+                    <ComboBox Name ="sortBookCombobox" FontSize="14" SelectionChanged="ComboBoxBookTypeDate_SelectionChanged" SelectedIndex="0" Style="{DynamicResource theComboBox}" Padding="15,5,15,5" HorizontalContentAlignment="Left" FontWeight="SemiBold" VerticalAlignment="Top" MinWidth="100" MaxWidth="375" ItemContainerStyle="{DynamicResource theComboBoxItem}" Margin="20,10,20,0" icon:Grid.Column="1" HorizontalAlignment="Center" Width="180">
+                        <ComboBoxItem>Displayed By: Month</ComboBoxItem>
+                        <ComboBoxItem>Displayed By: Year</ComboBoxItem>
+                        <ComboBoxItem>Displayed By: All Time</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+                <Grid Width="106" Grid.Row="6" HorizontalAlignment="Right" Margin="0,0,4,30" icon:Grid.RowSpan="1" >
+                    <icon:Grid.ColumnDefinitions>
+                        <icon:ColumnDefinition Width="45*"/>
+                        <icon:ColumnDefinition Width="61*"/>
+                    </icon:Grid.ColumnDefinitions>
+                    <icon:Grid.RowDefinitions>
+                        <icon:RowDefinition Height="5*"/>
+                        <icon:RowDefinition Height="4*"/>
+                    </icon:Grid.RowDefinitions>
+                    <DatePicker CalendarOpened="DatePickerBook_Opened" Name="datePickerBookMonth" VerticalAlignment="Top" Margin="1,15,2,0" Language="en-US" IsEnabled="True" Panel.ZIndex="1" icon:Grid.RowSpan="2" SelectedDateChanged="datePickerBook_SelectedDateChanged" icon:Grid.ColumnSpan="2">
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox x:Name="PART_TextBox"
+         Text="{Binding Path=SelectedDate, StringFormat = {}{0:MM-yyyy}, 
+         RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                    <DatePicker local:DatePickerCalendarYear.IsYear="True" Name="datePickerBookYear" VerticalAlignment="Top" local:DatePickerDateFormat.DateFormat="yyyy" Margin="1,15,2,0" Language="en-US" IsEnabled="True" Panel.ZIndex="0" icon:Grid.RowSpan="2" SelectedDateChanged="datePickerBook_SelectedDateChanged" icon:Grid.ColumnSpan="2"/>
+                </Grid>
+                <lvc:CartesianChart x:Name="BookChart" LegendLocation="Right" Margin="10,10,10,20" icon:Grid.Row="7" icon:Grid.RowSpan="2" MinHeight="420">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis MinValue="1" FontSize="16"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis MinValue="0" Labels="{Binding RankLabels}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+            </Grid>
+        </ScrollViewer>
 
     </Grid>
 </Window>
