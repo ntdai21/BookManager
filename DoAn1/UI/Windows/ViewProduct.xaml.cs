@@ -42,6 +42,7 @@ namespace DoAn1.UI.Windows
 
         int _page = 1;
         int _totalPage = 0;
+        int _itemsPerPage=DoAn1.Properties.Settings.Default.ItemsPerPage;
 
         public ViewProduct()
         {
@@ -49,7 +50,7 @@ namespace DoAn1.UI.Windows
 
             //Get all book
             _page = 1;
-            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
             bookListView.ItemsSource = _books;
 
             //Get all category
@@ -70,7 +71,7 @@ namespace DoAn1.UI.Windows
         {
             _maxPrice = (double)e.NewValue;
             _page = 1;
-            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
             if (currentPageButton != null)
             {
@@ -82,7 +83,7 @@ namespace DoAn1.UI.Windows
         {
             _minPrice = (double)e.NewValue;
             _page = 1;
-            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
             if (currentPageButton != null)
             {
@@ -100,7 +101,7 @@ namespace DoAn1.UI.Windows
 
                 _filters = BookBUS.Instance.ModifySortCondition(_filters, book => book.Name, sortBy);
                 _page = 1;
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
                 if (currentPageButton != null)
                 {
@@ -119,7 +120,7 @@ namespace DoAn1.UI.Windows
 
                 _filters = BookBUS.Instance.ModifySortCondition(_filters, book => book.Price, sortBy);
                 _page = 1;
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
                 if (currentPageButton != null)
                 {
@@ -143,7 +144,7 @@ namespace DoAn1.UI.Windows
 
 
                 _currentSearchTerm = searchTextbox.Text;
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
                 if (currentPageButton != null)
                 {
@@ -166,7 +167,7 @@ namespace DoAn1.UI.Windows
 
 
                 _currentSearchTerm = searchTextbox.Text;
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
                 if (currentPageButton != null)
                 {
@@ -190,7 +191,7 @@ namespace DoAn1.UI.Windows
                     _selectedCategory = selectedItem;
                 }
 
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
                 _page = 1;
 
                 if (currentPageButton != null)
@@ -220,7 +221,7 @@ namespace DoAn1.UI.Windows
                 screen.Closed += Screen_Closed;
                 this.Hide();
                 screen.ShowDialog();
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
                 currentPageButton.Content = $"{_page} of {_totalPage}";
 
             }
@@ -252,7 +253,7 @@ namespace DoAn1.UI.Windows
             if (_page > 1)
             {
                 _page--;
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
                 if (currentPageButton != null)
                 {
@@ -266,7 +267,7 @@ namespace DoAn1.UI.Windows
             if (_page < _totalPage)
             {
                 _page++;
-                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
                 if (currentPageButton != null)
                 {
@@ -278,14 +279,14 @@ namespace DoAn1.UI.Windows
         private void firstPageButton_Click(object sender, RoutedEventArgs e)
         {
             _page = 1;
-            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
             currentPageButton.Content = $"{_page} of {_totalPage}";
         }
 
         private void lastPageButton_Click(object sender, RoutedEventArgs e)
         {
             _page = _totalPage;
-            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+            (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
 
             if (currentPageButton != null)
             {
@@ -315,7 +316,7 @@ namespace DoAn1.UI.Windows
                         _categories = CategoryBUS.Instance.InsertToList(_categories, "All", 0);
 
                         _books.Clear();
-                        (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, 10, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
+                        (_books, _totalPage) = BookBUS.Instance.LoadBook(_books, _page, _itemsPerPage, _selectedCategory, _minPrice, _maxPrice, _currentSearchTerm, _filters);
                         currentPageButton.Content = $"{_page} of {_totalPage}";
                     }
 

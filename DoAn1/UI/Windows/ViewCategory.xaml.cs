@@ -26,31 +26,18 @@ namespace DoAn1.UI.Windows
         BindingList<Category> _categories;
         int _page = 1;
         int _totalPage = 1;
-        int _pageSize = 5;
+        int _itemsPerPage=DoAn1.Properties.Settings.Default.ItemsPerPage;
         public ViewCategory()
         {
             InitializeComponent();
             
             _categories =new BindingList<Category>();
 
-            (_categories,_totalPage)=CategoryBUS.Instance.LoadCategory(_categories,_page,_pageSize);
+            (_categories,_totalPage)=CategoryBUS.Instance.LoadCategory(_categories,_page, _itemsPerPage);
             categoryDataGrid.ItemsSource = _categories;
 
             currentPageButton.Content = $"{_page} of {_totalPage}";
 
-        }
-
-        private void switchMenuMode(object sender, RoutedEventArgs e)
-        {
-            var size = DoAn1.Properties.Settings.Default.ButtonSize + 2;
-            if (menuPanel.Width > size)
-            {
-                menuPanel.Width = size;
-            }
-            else
-            {
-                menuPanel.Width = 200;
-            }
         }
 
         private void configBtn_Click(object sender, RoutedEventArgs e)
@@ -83,7 +70,7 @@ namespace DoAn1.UI.Windows
         {
             _page = 1;
             _categories.Clear();
-            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _pageSize);
+            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _itemsPerPage);
             currentPageButton.Content = $"{_page} of {_totalPage}";
         }
 
@@ -95,7 +82,7 @@ namespace DoAn1.UI.Windows
             }
 
             _categories.Clear();
-            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _pageSize);
+            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _itemsPerPage);
             currentPageButton.Content = $"{_page} of {_totalPage}";
         }
 
@@ -107,7 +94,7 @@ namespace DoAn1.UI.Windows
             }
 
             _categories.Clear();
-            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _pageSize);
+            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _itemsPerPage);
             currentPageButton.Content = $"{_page} of {_totalPage}";
         }
 
@@ -116,7 +103,7 @@ namespace DoAn1.UI.Windows
             _page = _totalPage;
 
             _categories.Clear();
-            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _pageSize);
+            (_categories, _totalPage) = CategoryBUS.Instance.LoadCategory(_categories, _page, _itemsPerPage);
             currentPageButton.Content = $"{_page} of {_totalPage}";
         }
     }

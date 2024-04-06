@@ -22,7 +22,8 @@
                     </Style>
                 </StackPanel.Resources>
                 <userControl:IconWithTextButtonUC UC_Text="Dashboard" UC_Kind="Bookshelf" Click="swithToDashboardWindow"/>
-                <userControl:IconWithTextButtonUC UC_Text="Book Management" UC_Kind="Bookshelf" Click="swithToBookManagementWindow"/>
+                <userControl:IconWithTextButtonUC UC_Text="Book Management" UC_Kind="BookVariant" Click="swithToBookManagementWindow"/>
+                <userControl:IconWithTextButtonUC UC_Text="Category Management" UC_Kind="BookOutline" Click="switchToCategoryManagementWindow" />
                 <userControl:IconWithTextButtonUC UC_Text="Invoice Management" UC_Kind="TextBox" Click="swithToInvoiceManagementWindow"/>
                 <userControl:IconWithTextButtonUC UC_Text="Coupon Management" UC_Kind="TicketPercent" Click="swithToCouponManagementWindow"/>
                 <userControl:IconWithTextButtonUC UC_Text="Statistical Reporting" UC_Kind="BarChart" Click="swithToStatisticalReportingWindow"/>

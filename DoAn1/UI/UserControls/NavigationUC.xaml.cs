@@ -56,6 +56,13 @@ namespace DoAn1.UI.UserControls
             parentWindow.Close();
         }
 
+        private void switchToCategoryManagementWindow(object sender, RoutedEventArgs e)
+        {
+            var window = new ViewCategory();
+            window.Show();
+            parentWindow.Close();
+        }
+
         private void swithToBookManagementWindow(object sender, RoutedEventArgs e)
         {
             var window = new ViewProduct();
