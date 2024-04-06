@@ -26,6 +26,7 @@ namespace DoAn1.UI.Windows
         int totalItems = 0;
         string keyword = "";
         string sortBy = "Latest";
+        public string dateCreated { get; set; }
         bool isLoaded = false;
         ObservableCollection<Order> _orders = new ObservableCollection<Order>();
         public ViewOrder()
@@ -39,16 +40,22 @@ namespace DoAn1.UI.Windows
         public async void loadAll()
         {
             if(!isLoaded) { return; }
-            (totalPages, totalItems) = OrderBUS.Instance.AddDataToTable(_orders, currentPage, rowsPerPage, keyword, sortBy);
+            (totalPages, totalItems) = OrderBUS.Instance.AddDataToTable(_orders, currentPage, rowsPerPage, keyword, sortBy, dateCreated);
             showingItemsText.Text = _orders.Count.ToString();
             totalItemsText.Text = totalItems.ToString();
             currentPageText.Text = currentPage.ToString();
             totalPagesText.Text = totalPages.ToString();
         }
 
+
+
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
+            var screen = new CreateOrderWindow();
+            if (screen.ShowDialog() == true)
+            {
 
+            }
         }
 
         private void deleteOrderButton_Click(object sender, RoutedEventArgs e)
@@ -60,7 +67,13 @@ namespace DoAn1.UI.Windows
 
         private void editOrderButton_Click(object sender, RoutedEventArgs e)
         {
+            var button = (Button)e.OriginalSource;
+            Order selectedOrder = (Order)button.DataContext;
+            var screen = new EditOrderWindow(selectedOrder);
+            if (screen.ShowDialog() == true)
+            {
 
+            }
         }
 
         private void PreviousPageBtn_Click(object sender, RoutedEventArgs e)
@@ -90,6 +103,12 @@ namespace DoAn1.UI.Windows
         {
             keyword = txtSearch.Text;
             loadAll();
+            if (totalItems == 0) { 
+                MessageBox.Show("No matching results were found!");
+                keyword = "";
+                loadAll();
+            }
+            else MessageBox.Show("Searching successfully");
         }
 
         private void detailOrderButton_Click(object sender, RoutedEventArgs e)
@@ -117,6 +136,32 @@ namespace DoAn1.UI.Windows
 
             DoAn1.Properties.Settings.Default.LastWindow = "Invoice Management";
             DoAn1.Properties.Settings.Default.Save();
+        }
+
+        private void TextOnlyButtonUC_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void dateCreated_Click(object sender, RoutedEventArgs e)
+        {
+            CalenderWindow calenderWindow = new CalenderWindow(dateCreated);
+            if (calenderWindow.ShowDialog() == true)
+            {
+                if (dateCreated != "")
+                {
+                    dateButton.UC_Text = dateCreated;
+                }
+                else
+                {
+                    dateButton.UC_Text = "Date Created";
+                }
+                loadAll();
+            }
+        }
+        public void UpdateDateCreated(string newDate)
+        {
+            dateCreated = newDate;
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DoAn1.BUS;
+using DoAn1.DAO;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DoAn1
 {
@@ -50,6 +53,62 @@ namespace DoAn1
             return order.Id;
         }
 
+        public void UpdateOrderBook(Order order, Book book,int qty)
+        {
+            Order? selectedOrder = _db.Orders.Find(order.Id);
+
+            if (selectedOrder != null)
+            {
+                OrderBook? dbBook = (OrderBook)order.OrderBooks.FirstOrDefault(ob => ob.BookId == book.Id);
+                bool isExists = dbBook == null ? false : true;
+
+                if (isExists)
+                {
+                    dbBook.NumOfBook = qty;
+                } 
+                else
+                {
+                    selectedOrder.OrderBooks.Add(new OrderBook() { BookId = book.Id, NumOfBook = qty});
+                }
+            }
+        }
+
+        public int UpdateOrder(Order order)
+        {
+            Order? selectedOrder = _db.Orders.Include("OrderBooks").Single(o => o.Id == order.Id);
+
+            if (selectedOrder != null)
+            {
+                selectedOrder.DiscountId = order.DiscountId;
+                selectedOrder.CustomerName = order.CustomerName;
+                selectedOrder.ShippingAddress = order.ShippingAddress;
+                _db.SaveChanges();
+
+
+                /*foreach (OrderBook orderBook in NewOrder.OrderBooks)
+                {
+                    orderBook.Book = null;
+                }*/
+
+                foreach (OrderBook ob in selectedOrder.OrderBooks.ToList())
+                {
+                    if (order.OrderBooks.FirstOrDefault(orderBook => orderBook.BookId == ob.BookId) == null)
+                    {
+                        selectedOrder.OrderBooks.Remove(ob);
+                    }
+                }
+
+                foreach (OrderBook ob in order.OrderBooks)
+                {
+                    UpdateOrderBook(selectedOrder, ob.Book, (int)ob.NumOfBook);
+                }
+
+                _db.SaveChanges();
+
+                return order.Id;
+            }
+            return -1;
+        }
 
         public bool DeleteOrderById(int orderId)
         {
@@ -78,31 +137,152 @@ namespace DoAn1
         }
 
 
-        public List<Order> GetOrdersWithPagination(int page, int pageSize, string keyword = "", string sortBy="")
+        public List<Order> GetOrdersWithPagination(int page, int pageSize, string keyword = "", string sortBy = "", string dateCreated = "")
         {
+            var query = _db.Orders
+                           .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword));
+
+            if (!string.IsNullOrEmpty(dateCreated) && DateTime.TryParseExact(dateCreated, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime searchDate))
+            {
+                query = query.Where(order => order.CreatedAt.HasValue && order.CreatedAt.Value.Date == searchDate.Date);
+            }
+
             if (sortBy == "Latest")
             {
-                return _db.Orders
-                   .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword))
-                   .OrderByDescending(order => order.CreatedAt) // Sắp xếp theo thời gian tạo mới nhất
-                   .Skip((page - 1) * pageSize)
-                   .Take(pageSize)
-                   .ToList();
+                query = query.OrderByDescending(order => order.CreatedAt);
             }
-            else return _db.Orders
-                   .Where(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword))
-                   .OrderBy(order => order.CreatedAt) // Sắp xếp theo thời gian tạo mới nhất
-                   .Skip((page - 1) * pageSize)
-                   .Take(pageSize)
-                   .ToList();
+            else
+            {
+                query = query.OrderBy(order => order.CreatedAt);
+            }
+
+            return query.Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
         }
 
-    
-
-        public int CountTotalOrders(string keyword = "")
+        public int CountTotalOrders(string keyword = "", string dateCreated = "")
         {
-            return _db.Orders.Count(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword));
+            string dateFormat = "MM/dd/yyyy";
+            DateTime dateTime;
+            bool success = DateTime.TryParseExact(dateCreated, dateFormat, null, System.Globalization.DateTimeStyles.None, out dateTime);
+            if (success == true)
+            {
+                DateTime searchDate = dateTime.Date;
+                return _db.Orders.Count(order => (string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword)) && order.CreatedAt.Value.Date == searchDate);
+            }
+            else return _db.Orders.Count(order => string.IsNullOrEmpty(keyword) || order.CustomerName.Contains(keyword) || order.ShippingAddress.Contains(keyword));
+        }
+        public Tuple<decimal, decimal> CalculateDailyRevenueAndProfit(DateTime date)
+        {
+            var ordersWithBooks = _db.Orders
+           .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Date == date.Date)
+           .Include(o => o.OrderBooks)
+               .ThenInclude(ob => ob.Book)
+           .ToList();
+
+            decimal totalRevenue = (decimal)ordersWithBooks.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = ordersWithBooks
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
+            decimal totalProfit = totalRevenue - totalCost;
+            return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
         }
 
+        public Tuple<decimal, decimal> CalculateMonthlyRevenueAndProfit(int year, int month)
+        {
+            var orders = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Year == year && o.CreatedAt.Value.Month == month)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = orders
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
+            decimal totalProfit = totalRevenue - totalCost;
+            return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
+        }
+
+        public Tuple<decimal, decimal> CalculateYearlyRevenueAndProfit(int year)
+        {
+            var orders = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Year == year)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = orders
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
+            decimal totalProfit = totalRevenue - totalCost;
+            return new Tuple<decimal, decimal>(totalRevenue, totalProfit);
+        }
+        public Tuple<string, string> CalculateOverallRevenueAndProfit()
+        {
+            var orders = _db.Orders
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            decimal totalRevenue = (decimal)orders.Sum(o => o.TotalPrice ?? 0);
+            decimal totalCost = orders
+                .SelectMany(o => o.OrderBooks.Select(ob => new { Book = ob.Book, Quantity = ob.NumOfBook }))
+                .Where(x => x.Book != null)
+                .Sum(x => (decimal)(x.Book.CostPrice * x.Quantity));
+
+            decimal totalProfit = totalRevenue - totalCost;
+            return new Tuple<string, string>(totalRevenue.ToString(), totalProfit.ToString());
+        }
+
+        public List<Tuple<Book, int>> GetTopSellingBooksInMonth(int month, int year, int limit = 7)
+        {
+            // Lấy danh sách tất cả các đơn hàng cùng với các sách đã được đặt hàng trong tháng và năm cụ thể
+            var ordersWithBooks = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Month == month && o.CreatedAt.Value.Year == year)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            // Tính tổng số lượng của mỗi cuốn sách đã được bán
+            var bookSales = ordersWithBooks
+                .SelectMany(o => o.OrderBooks)
+                .GroupBy(ob => ob.Book)
+                .Select(g => new Tuple<Book, int>(g.Key, (int)g.Sum(ob => ob.NumOfBook)))
+                .OrderByDescending(tuple => tuple.Item2)
+                .Take(limit)
+                .ToList();
+
+            return bookSales;
+        }
+
+        public List<Tuple<Book, int>> GetTopSellingBooksInYear(int year, int limit = 7)
+        {
+            // Lấy danh sách tất cả các đơn hàng cùng với các sách đã được đặt hàng trong năm cụ thể
+            var ordersWithBooks = _db.Orders
+                .Where(o => o.CreatedAt.HasValue && o.CreatedAt.Value.Year == year)
+                .Include(o => o.OrderBooks)
+                    .ThenInclude(ob => ob.Book)
+                .ToList();
+
+            // Tính tổng số lượng của mỗi cuốn sách đã được bán
+            var bookSales = ordersWithBooks
+                .SelectMany(o => o.OrderBooks)
+                .GroupBy(ob => ob.Book)
+                .Select(g => new Tuple<Book, int>(g.Key, (int)g.Sum(ob => ob.NumOfBook)))
+                .OrderByDescending(tuple => tuple.Item2)
+                .Take(limit)
+                .ToList();
+
+            return bookSales;
+        }
     }
 }

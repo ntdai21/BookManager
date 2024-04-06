@@ -191,7 +191,7 @@
 
             <usercontrol:InputFieldUC Grid.Row="6" Grid.Column="0"  Height="30" UC_Title="Quantity">
                 <usercontrol:InputFieldUC.UC_TextInput>
-                    <Binding Path="CostPrice"/>
+                    <Binding Path="Quantity"/>
                 </usercontrol:InputFieldUC.UC_TextInput>
             </usercontrol:InputFieldUC>
 

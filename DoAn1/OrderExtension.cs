@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveCharts.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DoAn1
 {
-    public partial class OrderBook : INotifyPropertyChanged, ICloneable
+    public partial class Order : ICloneable, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

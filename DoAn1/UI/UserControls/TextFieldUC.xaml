@@ -17,6 +17,6 @@
             <Run d:Text="Title" Text="{Binding UC_Title, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" FontSize="{Binding UC_TitleSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
             <Run Text=":"/>
         </TextBlock>
-        <TextBlock x:Name="textBox" d:Text="   ABC" FontWeight="{Binding UC_InputTextFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"  Text="{Binding UC_TextInput, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" FontSize="{Binding UC_TextInputSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" TextWrapping="Wrap" ></TextBlock>
+        <TextBlock x:Name="textBox" d:Text="   ABC" FontWeight="{Binding UC_InputTextFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"  Text="{Binding UC_TextInput, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" FontSize="{Binding UC_TextInputSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" TextWrapping="Wrap" TextAlignment="Right" ></TextBlock>
     </DockPanel>
 </UserControl>

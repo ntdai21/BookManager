@@ -23,6 +23,7 @@ namespace DoAn1.UI.UserControls
 
     public partial class InputFieldUC : UserControl, INotifyPropertyChanged
     {
+        public string UC_IsReadOnly { get; set; } = "False";
         public string UC_Title {  get; set; }
         public int UC_TitleWidth { get; set; } = 70;
 

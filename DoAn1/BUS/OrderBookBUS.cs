@@ -25,9 +25,28 @@ namespace DoAn1.BUS
 
         private OrderBookBUS() { }
 
-        public List<OrderBook> GetOrdersWithoutPagination()
+        public List<OrderBook> GetOrderBooksWithoutPagination()
         {
             List<OrderBook> orderBooks = OrderBookDAO.Instance.GetOrderBooks();
+            foreach (OrderBook orderBook in orderBooks)
+            {
+                orderBook.Book = BookDAO.Instance.FindBookById(orderBook.BookId);
+            }
+            return orderBooks;
+        }
+
+        public void DeteleOrderBooksByOrderId(int orderId)
+        {
+            List<OrderBook> orderBooks = OrderBookDAO.Instance.FindOrderBooksByOrderIdWithoutPagination(orderId);
+             foreach (OrderBook orderBook in orderBooks)
+            {
+                OrderBookDAO.Instance.DeleteOrderBook(orderBook);
+            }
+        }
+
+        public List<OrderBook> GetOrderBooksByOrderIdWithoutPagination(int orderId)
+        {
+            List<OrderBook> orderBooks = OrderBookDAO.Instance.FindOrderBooksByOrderIdWithoutPagination(orderId);
             foreach (OrderBook orderBook in orderBooks)
             {
                 orderBook.Book = BookDAO.Instance.FindBookById(orderBook.BookId);

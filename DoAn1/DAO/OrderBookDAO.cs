@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DoAn1.DAO
 {
-    public  class OrderBookDAO
+    public class OrderBookDAO
     {
         readonly private MyShopContext _db;
         private static OrderBookDAO instance;
@@ -31,5 +33,18 @@ namespace DoAn1.DAO
         {
             return _db.OrderBooks.ToList();
         }
+
+        public void DeleteOrderBook(OrderBook orderBook)
+        {
+            _db.OrderBooks.Remove(orderBook);
+            _db.SaveChanges();
+        }
+        public List<OrderBook> FindOrderBooksByOrderIdWithoutPagination(int orderId)
+        {
+            return _db.OrderBooks.AsNoTracking()
+                .Where(orderBook =>  orderBook.OrderId == orderId)
+                .ToList();
+        }
+
     }
 }

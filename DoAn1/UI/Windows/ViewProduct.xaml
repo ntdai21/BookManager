@@ -209,7 +209,7 @@
                            DockPanel.Dock="Left"  VerticalAlignment="Center"/>
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
                     <userControl:TextOnlyButtonUC  UC_Text="Add new book" x:Name="addButton" Click="addButton_Click" Width="150" Height="30" Margin="0 5 0 0"/>
-                    <userControl:TextOnlyButtonUC  UC_Text="Import from csv" x:Name="importButton" Click="addButton_Click" Width="150" Height="30" Margin="0 5 0 0"/>
+                    <userControl:TextOnlyButtonUC  UC_Text="Import from csv" x:Name="importButton" Click="importButton_Click" Width="150" Height="30" Margin="0 5 0 0"/>
                 </StackPanel>
             </DockPanel>
 

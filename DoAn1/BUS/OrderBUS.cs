@@ -22,10 +22,10 @@ namespace DoAn1.BUS
 
         private OrderBUS() { }
 
-        public Tuple<int,int> AddDataToTable(ObservableCollection<Order> table, int currentPage,int rowsPerPage, string keyword, string sortBy)
+        public Tuple<int,int> AddDataToTable(ObservableCollection<Order> table, int currentPage,int rowsPerPage, string keyword, string sortBy, string dateCreated)
         {
             int totalItems = 0;
-            var list = OrderBUS.Instance.GetOrdersWithPagination(currentPage, rowsPerPage, out totalItems, keyword, sortBy);
+            var list = OrderBUS.Instance.GetOrdersWithPagination(currentPage, rowsPerPage, out totalItems, keyword, sortBy, dateCreated);
             table.Clear();
             foreach (var order in list)
             {
@@ -35,10 +35,10 @@ namespace DoAn1.BUS
         }
 
 
-        public List<Order> GetOrdersWithPagination(int page, int pageSize, out int totalItems, string keyword = "", string sortBy = "")
+        public List<Order> GetOrdersWithPagination(int page, int pageSize, out int totalItems, string keyword = "", string sortBy = "", string dateCreated = "")
         {
-            totalItems = OrderDAO.Instance.CountTotalOrders(keyword);
-            return OrderDAO.Instance.GetOrdersWithPagination(page, pageSize, keyword, sortBy);
+            totalItems = OrderDAO.Instance.CountTotalOrders(keyword,dateCreated);
+            return OrderDAO.Instance.GetOrdersWithPagination(page, pageSize, keyword, sortBy, dateCreated);
         }
 
         public void HandleDeleteOrder(Order selected, ObservableCollection<Order> orders)
@@ -58,5 +58,6 @@ namespace DoAn1.BUS
                 }
             }
         }
+
     }
 }
