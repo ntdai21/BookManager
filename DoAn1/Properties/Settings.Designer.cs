@@ -88,7 +88,7 @@ namespace DoAn1.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MYSQLSERVER")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SQLEXPRESS")]
         public string SQLServer_Server {
             get {
                 return ((string)(this["SQLServer_Server"]));

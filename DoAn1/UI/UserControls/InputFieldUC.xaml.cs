@@ -27,6 +27,16 @@ namespace DoAn1.UI.UserControls
         public string UC_Title {  get; set; }
         public int UC_TitleWidth { get; set; } = 70;
 
+        public static readonly DependencyProperty UC_IsEnabledProperty =
+            DependencyProperty.Register("UC_IsEnabled", typeof(bool),
+                typeof(InputFieldUC), new FrameworkPropertyMetadata(true));
+
+        public bool UC_IsEnabled
+        {
+            get { return (bool)GetValue(UC_IsEnabledProperty); }
+            set { SetValue(UC_IsEnabledProperty, value); }
+        }
+
         public static readonly DependencyProperty UC_TextInputProperty =
             DependencyProperty.Register("UC_TextInput", typeof(String),
                 typeof(InputFieldUC), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -37,9 +47,17 @@ namespace DoAn1.UI.UserControls
             set { SetValue(UC_TextInputProperty, value); }
         }
 
+        public bool FiringValidationsAsDefault { get; set; } = true;
+
         public InputFieldUC()
         {
             InitializeComponent();
+
+        }
+
+        public bool HasError
+        {
+            get => Validation.GetHasError(textBox);
         }
 
         private void textBox_Loaded(object sender, RoutedEventArgs e)
@@ -52,6 +70,8 @@ namespace DoAn1.UI.UserControls
                 foreach (ValidationRule vRule in textBinding.ParentBinding.ValidationRules)
                     mainTxtBxBinding.ParentBinding.ValidationRules.Add(vRule);
             }
+
+            if (FiringValidationsAsDefault) textBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
         }
     }
 }

@@ -18,11 +18,22 @@ namespace DoAn1.UI.UserControls
     /// <summary>
     /// Interaction logic for EditDiscountUC.xaml
     /// </summary>
+    /// 
     public partial class EditDiscountUC : UserControl
     {
+        public bool ID_Enabled { get; set; } = true;
+
         public EditDiscountUC()
         {
             InitializeComponent();
+        }
+
+        public bool HasError
+        {
+            get
+            {
+                return codeTextBox.HasError || discountPercentTextBox.HasError || maxDiscountTextBox.HasError;
+            }
         }
     }
 }

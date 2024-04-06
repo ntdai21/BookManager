@@ -45,5 +45,23 @@ namespace DoAn1.BUS
             }
             return new Tuple<int, int>((int)Math.Ceiling((double)totalItems / rowsPerPage), totalItems);
         }
+
+        public enum DiscountValidationResult
+        {
+            Valid,
+            CodeAlreadyExists,
+        }
+
+        public static DiscountValidationResult ValidateDiscount(Discount discount)
+        {
+            var existingDiscount = DiscountDAO.Instance.FindDiscountByCode(discount.Code);
+
+            if (existingDiscount != null && existingDiscount.Id != discount.Id)
+            {
+                return DiscountValidationResult.CodeAlreadyExists;
+            }
+
+            return DiscountValidationResult.Valid;
+        }
     }
 }

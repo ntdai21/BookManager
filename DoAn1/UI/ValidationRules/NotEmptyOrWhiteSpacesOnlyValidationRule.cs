@@ -12,7 +12,7 @@ namespace DoAn1.UI.ValidationRules
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string text = (string)value;
+            string text = (string)value ?? "";
 
             if (text.Trim().Length == 0)
             {

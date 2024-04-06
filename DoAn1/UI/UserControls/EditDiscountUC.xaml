@@ -5,16 +5,49 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DoAn1.UI.UserControls"
              xmlns:userControl="clr-namespace:DoAn1.UI.UserControls"
+             xmlns:validationRules="clr-namespace:DoAn1.UI.ValidationRules"
              mc:Ignorable="d" d:Background="White">
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="109" Width="348">
+    <StackPanel VerticalAlignment="Center">
         <StackPanel.Resources>
             <Style TargetType="userControl:InputFieldUC">
                 <Setter Property="Margin" Value="0 0 0 10"/>
             </Style>
         </StackPanel.Resources>
-        <userControl:InputFieldUC UC_Title="ID"></userControl:InputFieldUC>
-        <userControl:InputFieldUC UC_Title="Code"></userControl:InputFieldUC>
-        <userControl:InputFieldUC UC_Title="Discount Percent"></userControl:InputFieldUC>
-        <userControl:InputFieldUC UC_Title="Code"></userControl:InputFieldUC>
+        <userControl:InputFieldUC UC_Title="ID" UC_TitleWidth="120" UC_IsEnabled="{Binding ID_Enabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+            <userControl:InputFieldUC.UC_TextInput>
+                <Binding Path="Id">
+                    <Binding.ValidationRules>
+                        <validationRules:NotEmptyOrWhiteSpacesOnlyValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </userControl:InputFieldUC.UC_TextInput>
+        </userControl:InputFieldUC>
+        <userControl:InputFieldUC UC_Title="Code" UC_TitleWidth="120" x:Name="codeTextBox">
+            <userControl:InputFieldUC.UC_TextInput>
+                <Binding Path="Code">
+                    <Binding.ValidationRules>
+                        <validationRules:NotEmptyOrWhiteSpacesOnlyValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </userControl:InputFieldUC.UC_TextInput>
+        </userControl:InputFieldUC>
+        <userControl:InputFieldUC UC_Title="Discount Percent" UC_TitleWidth="120" x:Name="discountPercentTextBox">
+            <userControl:InputFieldUC.UC_TextInput>
+                <Binding Path="DiscountPercent">
+                    <Binding.ValidationRules>
+                        <validationRules:NumberValidationRule Min="0" Max="100"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </userControl:InputFieldUC.UC_TextInput>
+        </userControl:InputFieldUC>
+        <userControl:InputFieldUC UC_Title="Max Discount" UC_TitleWidth="120" x:Name="maxDiscountTextBox">
+            <userControl:InputFieldUC.UC_TextInput>
+                <Binding Path="MaxDiscount">
+                    <Binding.ValidationRules>
+                        <validationRules:NumberValidationRule Min="0"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </userControl:InputFieldUC.UC_TextInput>
+        </userControl:InputFieldUC>
     </StackPanel>
 </UserControl>

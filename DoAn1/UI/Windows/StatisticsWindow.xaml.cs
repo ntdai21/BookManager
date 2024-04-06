@@ -32,7 +32,7 @@ namespace DoAn1.UI.Windows
         int filter = 0;
         int filterBook = 0;
         List<string> Labels = new List<string>();
-        List<string> RankLabels = new List<string> ();  
+        List<string> RankLabels = new List<string>();
 
         public StatisticsWindow()
         {
@@ -46,7 +46,7 @@ namespace DoAn1.UI.Windows
             (revenue, profit) = OrderDAO.Instance.CalculateOverallRevenueAndProfit();
             totalRevenue.textBox.Text = revenue;
             totalProfit.textBox.Text = profit;
-            ShowTopBookSoldInMonth(3,2024);
+            ShowTopBookSoldInMonth(3, 2024);
         }
         private void ShowMonthlyRevenueAndProfit(int year, int month)
         {
@@ -115,11 +115,11 @@ namespace DoAn1.UI.Windows
             };
         }
 
-        private void ShowTopBookSoldInMonth (int month, int year)
+        private void ShowTopBookSoldInMonth(int month, int year)
         {
             RankLabels.Clear();
             BookChart.Series.Clear();
-            List<Tuple<Book, int>> topSellingBooks = OrderDAO.Instance.GetTopSellingBooksInMonth(month,year);
+            List<Tuple<Book, int>> topSellingBooks = OrderDAO.Instance.GetTopSellingBooksInMonth(month, year);
 
             foreach (var tuple in topSellingBooks)
             {
@@ -128,7 +128,7 @@ namespace DoAn1.UI.Windows
                 RankLabels.Add(topSellingBooks.IndexOf(tuple).ToString());
                 BookChart.Series.Add(new RowSeries
                 {
-                    Title = book.Name, 
+                    Title = book.Name,
                     Values = new ChartValues<decimal> { quantitySold },
                     RowPadding = 7
                 });
@@ -199,7 +199,7 @@ namespace DoAn1.UI.Windows
         {
             DateTime selecteDate = new DateTime();
             int month = 0, year = 0;
-            if (loaded == true && (datePickerRevenueProfitMonth.SelectedDate !=null || datePickerRevenueProfitYear.SelectedDate !=null))
+            if (loaded == true && (datePickerRevenueProfitMonth.SelectedDate != null || datePickerRevenueProfitYear.SelectedDate != null))
             {
                 if (filter == 0)
                 {

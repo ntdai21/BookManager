@@ -16,7 +16,7 @@
         <TextBlock DockPanel.Dock="Left" FontWeight="DemiBold" Width="{Binding UC_TitleWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
             <Run d:Text="Title" Text="{Binding UC_Title, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
             <Run Text=":"/>
-        </TextBlock>
+        </TextBlock> 
         <Grid DockPanel.Dock="Right">
             <materialIcons:MaterialIcon Kind="Error" Margin="10 0 0 0" Foreground="OrangeRed" Height="20">
                 <materialIcons:MaterialIcon.Resources>
@@ -33,7 +33,7 @@
                 </materialIcons:MaterialIcon.Resources>
             </materialIcons:MaterialIcon>
         </Grid>
-        <TextBox x:Name="textBox" d:Text="ABC" Text="{Binding UC_TextInput, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" Loaded="textBox_Loaded" IsReadOnly="{Binding UC_IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+        <TextBox x:Name="textBox" d:Text="ABC" Text="{Binding UC_TextInput, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" Loaded="textBox_Loaded" IsEnabled="{Binding UC_IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" IsReadOnly="{Binding UC_IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
             <TextBox.Resources>
                 <Style TargetType="TextBox" x:Name="textBoxStyle">
                     <Style.Triggers>
