@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:DoAn1"
              xmlns:windows="clr-namespace:DoAn1.UI.Windows"
              Startup="Application_Startup"
-             StartupUri="UI/Windows/ViewProduct.xaml">
+             StartupUri="UI/Windows/LoginWindow.xaml">
     <Application.Resources>
         <Style TargetType="{x:Type Window}">
             <Setter Property="Background" Value="#F2F0EB"/>

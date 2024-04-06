@@ -19,9 +19,30 @@ namespace DoAn1.UI.Windows
     /// </summary>
     public partial class ConfigurationWindow : Window
     {
+        public bool AutoLogin { get; set; } = DoAn1.Properties.Settings.Default.AutoLogin;
+        public bool OpenLastWindow { get; set; } = DoAn1.Properties.Settings.Default.OpenLastWindow;
+        public int NumOfItemsPerPage { get; set; } = DoAn1.Properties.Settings.Default.ItemsPerPage;
+
         public ConfigurationWindow()
         {
             InitializeComponent();
+            DataContext = this;
+        }
+
+        private void saveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DoAn1.Properties.Settings.Default.AutoLogin = AutoLogin;
+            DoAn1.Properties.Settings.Default.OpenLastWindow = OpenLastWindow;
+            DoAn1.Properties.Settings.Default.ItemsPerPage = NumOfItemsPerPage;
+
+            DoAn1.Properties.Settings.Default.Save();
+
+            DialogResult = true;
+        }
+
+        private void cancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
         }
     }
 }

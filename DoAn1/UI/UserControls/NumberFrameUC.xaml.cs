@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +19,19 @@ namespace DoAn1.UI.UserControls
     /// <summary>
     /// Interaction logic for NumberFrameUC.xaml
     /// </summary>
-    public partial class NumberFrameUC : UserControl
+    public partial class NumberFrameUC : UserControl, INotifyPropertyChanged
     {
         public string UC_Title { get; set; } = "Title";
-        public float UC_Number { get; set; } = 0;
+        public float UC_Number
+        {
+            get { return (float)GetValue(UC_NumberProperty); }
+            set { SetValue(UC_NumberProperty, value); }
+        }
+
+        public static readonly DependencyProperty UC_NumberProperty =
+            DependencyProperty.Register("UC_Number", typeof(float),
+                typeof(NumberFrameUC), new FrameworkPropertyMetadata(0f));
+
         public string UC_Foreground { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_Background;
         public string UC_BorderBrush { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_SubBackground;
 
@@ -40,5 +50,7 @@ namespace DoAn1.UI.UserControls
             InitializeComponent();
             this.DataContext = this;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

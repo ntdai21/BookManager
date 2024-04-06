@@ -27,6 +27,7 @@ namespace DoAn1.UI.Windows
         int _page = 1;
         int _totalPage = 1;
         int _itemsPerPage=DoAn1.Properties.Settings.Default.ItemsPerPage;
+
         public ViewCategory()
         {
             InitializeComponent();

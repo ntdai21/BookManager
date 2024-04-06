@@ -29,13 +29,13 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Margin="0 0 15 0" Style="{StaticResource emptyButton}">
-                        <userControl:NumberFrameUC UC_Title="Number of Books" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
+                        <userControl:NumberFrameUC UC_Title="Number of Books" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}" UC_Number="{Binding NumOfBooks, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                     </Button>
                     <Button Grid.Column="1" Margin="15 0 15 0" Style="{StaticResource emptyButton}">
-                        <userControl:NumberFrameUC UC_Title="Number of Invoices" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
+                        <userControl:NumberFrameUC UC_Title="Number of Invoices" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}" UC_Number="{Binding NumOfOrders, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                     </Button>
                     <Button Grid.Column="2" Margin="15 0 0 0" Style="{StaticResource emptyButton}">
-                        <userControl:NumberFrameUC UC_Title="Number of Coupons" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}"/>
+                        <userControl:NumberFrameUC UC_Title="Number of Coupons" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_ButtonColor}" UC_Number="{Binding NumOfDiscounts, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                     </Button>
                 </Grid>
                 <DockPanel>
@@ -48,8 +48,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Invoices"/>
-                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersDay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueDay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 </Grid>
                 <TextBlock Text="This week" Margin="20 20 0 0" FontSize="16" FontWeight="SemiBold"/>
                 <Grid Height="100" Margin="20 10 20 10">
@@ -57,8 +57,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Invoices"/>
-                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersWeek, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueWeek, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 </Grid>
                 <TextBlock Text="This month" Margin="20 20 0 0" FontSize="16" FontWeight="SemiBold"/>
                 <Grid Height="100" Margin="20 10 20 60">
@@ -66,11 +66,11 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Invoices"/>
-                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersMonth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueMonth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 </Grid>
                 <DockPanel>
-                    <TextBlock Text="Warning" FontWeight="Bold" FontSize="18"/>
+                    <TextBlock Text="Warnings" FontWeight="Bold" FontSize="18"/>
                     <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
                 </DockPanel>
                 <Grid Margin="20 20 20 30">
@@ -80,20 +80,13 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Books in low stock" Margin="0 0 0 10" FontSize="16" FontWeight="SemiBold"/>
-                    <TextBlock Grid.Column="1" Text="About-to-expire Coupons" Margin="15 0 0 10" FontSize="16" FontWeight="SemiBold"/>
-                    <DataGrid Grid.Row="1" Margin="0 0 15 0">
+                    <DataGrid Grid.Row="1" Margin="0 0 15 0" x:Name="lowStockBookDataGrid">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Width="*"/>
-                            <DataGridTextColumn Header="Stock" Width="*"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <DataGrid Grid.Row="1" Grid.Column="1" Margin="15 0 0 0">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Width="*"/>
-                            <DataGridTextColumn Header="Expiration Date" Width="*"/>
+                            <DataGridTextColumn Header="ID" Width="100" IsReadOnly="True" CanUserResize="False" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Name" Width="*" IsReadOnly="True" CanUserResize="False" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Stock" Width="100" IsReadOnly="True" CanUserResize="False" Binding="{Binding Id}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
