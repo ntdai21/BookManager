@@ -28,7 +28,7 @@ namespace DoAn1.UI.Windows
     {
         
         public Order NewOrder { get; set; } = null;
-        BindingList<OrderBook> _orderBooks = new BindingList<OrderBook>();
+        BindingList<OrderBook> _orderBooks = null;
         public double GrossPrice { get; set; } = 0;
         public double Discount { get; set; } = 0;
         public double TotalPrice { get; set; } = 0;
@@ -43,6 +43,7 @@ namespace DoAn1.UI.Windows
             InitializeComponent();
             NewOrder = new Order();
             this.DataContext = this;
+            _orderBooks = new BindingList<OrderBook>((IList<OrderBook>)NewOrder.OrderBooks);
             booksDataGrid.ItemsSource = _orderBooks;
             MyShopContext db = new MyShopContext();
             DiscountComboBox.ItemsSource = new BindingList<Discount>(db.Discounts.ToList());
@@ -74,7 +75,7 @@ namespace DoAn1.UI.Windows
         private void ClearScreen()
         {
             NewOrder = new Order();
-            _orderBooks.Clear();
+            _orderBooks = new BindingList<OrderBook>((IList<OrderBook>)NewOrder.OrderBooks);
             CustomerNameInputFieldUC.UC_TextInput = "";
             ShippingAddressInputFieldUC.UC_TextInput = "";
             GrossPrice = 0;

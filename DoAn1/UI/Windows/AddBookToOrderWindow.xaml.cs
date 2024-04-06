@@ -166,7 +166,7 @@ namespace DoAn1.UI.Windows
                 else
                 {
                     orderBook = new OrderBook() { OrderId = NewOrders.Id, BookId = book.Id, NumOfBook = screen.BookQuantity, Book = book };
-                    NewOrders.OrderBooks.Add(orderBook);
+                    //NewOrders.OrderBooks.Add(orderBook);
                     OrderBooksBindingList.Insert(0, orderBook);
                 }
             }

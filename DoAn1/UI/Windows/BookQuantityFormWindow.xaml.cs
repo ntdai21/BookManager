@@ -34,7 +34,14 @@ namespace DoAn1.UI.Windows
         private void AddToOrder()
         {
             BookQuantity = Int32.Parse(quantityInputField.UC_TextInput);
-            DialogResult = true;
+            if (BookQuantity <= 0)
+            {
+                MessageBox.Show("Quantity must be above 0", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } 
+            else
+            {
+                DialogResult = true;
+            }
         }
 
         private void AddToOrderButton_Click(object sender, RoutedEventArgs e)

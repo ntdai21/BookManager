@@ -61,8 +61,8 @@ namespace DoAn1.UI.Windows
         public OrderDetailWindow(Order order)
         {
             InitializeComponent();
-            _order = order;
-            _order.OrderBooks = OrderBookBUS.Instance.GetOrderBooksByOrderIdWithoutPagination(order.Id);
+            _order = (Order)order.Clone();
+            _order.OrderBooks =(ICollection<OrderBook>) OrderBookBUS.Instance.GetOrderBooksByOrderIdWithoutPagination(order.Id);
             Coupon = DiscountDAO.Instance.FindDiscountById((int)_order.DiscountId);
         }
 

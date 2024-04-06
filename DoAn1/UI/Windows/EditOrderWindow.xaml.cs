@@ -17,6 +17,9 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using DoAn1.Models;
 using DocumentFormat.OpenXml.Drawing.Charts;
+using DoAn1.DAO;
+using DoAn1.BUS;
+using static Azure.Core.HttpHeader;
 
 namespace DoAn1.UI.Windows
 {
@@ -35,17 +38,19 @@ namespace DoAn1.UI.Windows
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-
-
         public EditOrderWindow(Order order)
         {
             InitializeComponent();
             NewOrder = (Order) order.Clone();
+            NewOrder.OrderBooks = OrderBookBUS.Instance.GetOrderBooksByOrderIdWithoutPagination(order.Id);
+            
+            Discount Coupon = DiscountDAO.Instance.FindDiscountById((int)NewOrder.DiscountId);
+            DiscountComboBox.ItemsSource = new BindingList<Discount>(DiscountDAO.Instance.GetDiscounts());
+            DiscountComboBox.SelectedItem = Coupon;
+            calculateTotalPrice();
+            this.DataContext = this;
             _orderBooks = new BindingList<OrderBook>((IList<OrderBook>)NewOrder.OrderBooks);
             booksDataGrid.ItemsSource = _orderBooks;
-            MyShopContext db = new MyShopContext();
-            DiscountComboBox.ItemsSource = new BindingList<Discount>();
-            this.DataContext = this;
 
         }
 
@@ -62,6 +67,7 @@ namespace DoAn1.UI.Windows
             }
             else
             {
+                NewOrder.Discount = DiscountDAO.Instance.FindDiscountById((int)NewOrder.DiscountId);
                 Discount = (double)(GrossPrice * (NewOrder.Discount.DiscountPercent / 100));
                 if (Discount > NewOrder.Discount.MaxDiscount)
                 {
@@ -114,7 +120,6 @@ namespace DoAn1.UI.Windows
             var dataCxtx = tb.DataContext;
 
             OrderBook orderBook = NewOrder.OrderBooks.SingleOrDefault(ob => ob.BookId == ((OrderBook)dataCxtx).BookId);
-            NewOrder.OrderBooks.Remove(orderBook);
             _orderBooks.Remove(orderBook);
             calculateTotalPrice();
             MessageBox.Show("Deleted the selected book successfully!");
@@ -157,13 +162,13 @@ namespace DoAn1.UI.Windows
             NewOrder.CustomerName = CustomerNameInputFieldUC.UC_TextInput;
             NewOrder.ShippingAddress = ShippingAddressInputFieldUC.UC_TextInput;
 
-            if (NewOrder.CustomerName != "")
+            if (NewOrder.CustomerName == "")
             {
                 MessageBox.Show("You have to insert your customer's name", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (NewOrder.ShippingAddress != "")
+            if (NewOrder.ShippingAddress == "")
             {
                 MessageBox.Show("You have to insert shipping address", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -175,8 +180,21 @@ namespace DoAn1.UI.Windows
                 return;
             }
 
-            OrderDAO.Instance.AddOrder(NewOrder);
-            MessageBox.Show("Added a order successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            NewOrder.TotalPrice = TotalPrice;
+            NewOrder.CreatedAt = DateTime.Now;
+
+            NewOrder.Discount = null;
+            /*foreach (OrderBook orderBook in NewOrder.OrderBooks)
+            {
+                orderBook.Book = null;
+            }*/
+            int result = OrderDAO.Instance.UpdateOrder(NewOrder);
+            if (result != -1)
+            {
+                MessageBox.Show("Updated a order successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+            }
         }
     }
 }

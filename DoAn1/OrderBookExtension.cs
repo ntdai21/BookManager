@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace DoAn1
 {
-    public partial class OrderBook : INotifyPropertyChanged
+    public partial class OrderBook : INotifyPropertyChanged, ICloneable
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

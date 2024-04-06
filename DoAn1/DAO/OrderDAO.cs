@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DoAn1.BUS;
+using DoAn1.DAO;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +52,62 @@ namespace DoAn1
             return order.Id;
         }
 
+        public void UpdateOrderBook(Order order, Book book,int qty)
+        {
+            Order? selectedOrder = _db.Orders.Find(order.Id);
+
+            if (selectedOrder != null)
+            {
+                OrderBook? dbBook = (OrderBook)order.OrderBooks.FirstOrDefault(ob => ob.BookId == book.Id);
+                bool isExists = dbBook == null ? false : true;
+
+                if (isExists)
+                {
+                    dbBook.NumOfBook = qty;
+                } 
+                else
+                {
+                    selectedOrder.OrderBooks.Add(new OrderBook() { BookId = book.Id, NumOfBook = qty});
+                }
+            }
+        }
+
+        public int UpdateOrder(Order order)
+        {
+            Order? selectedOrder = _db.Orders.Include("OrderBooks").Single(o => o.Id == order.Id);
+
+            if (selectedOrder != null)
+            {
+                selectedOrder.DiscountId = order.DiscountId;
+                selectedOrder.CustomerName = order.CustomerName;
+                selectedOrder.ShippingAddress = order.ShippingAddress;
+                _db.SaveChanges();
+
+
+                /*foreach (OrderBook orderBook in NewOrder.OrderBooks)
+                {
+                    orderBook.Book = null;
+                }*/
+
+                foreach (OrderBook ob in selectedOrder.OrderBooks.ToList())
+                {
+                    if (order.OrderBooks.FirstOrDefault(orderBook => orderBook.BookId == ob.BookId) == null)
+                    {
+                        selectedOrder.OrderBooks.Remove(ob);
+                    }
+                }
+
+                foreach (OrderBook ob in order.OrderBooks)
+                {
+                    UpdateOrderBook(selectedOrder, ob.Book, (int)ob.NumOfBook);
+                }
+
+                _db.SaveChanges();
+
+                return order.Id;
+            }
+            return -1;
+        }
 
         public bool DeleteOrderById(int orderId)
         {

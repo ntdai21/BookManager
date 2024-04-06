@@ -9,5 +9,10 @@ namespace DoAn1
     public partial class Book
     {
         public int Quantity { get; set; }
+
+        public static explicit operator Book(OrderBook? v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
