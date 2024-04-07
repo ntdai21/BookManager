@@ -29,6 +29,12 @@ namespace DoAn1.DAO
             _db = new MyShopContext();
         }
 
+        public Discount Reload(Discount discount)
+        {
+            _db.Entry(discount).Reload();
+            return discount;
+        }
+
         public Discount? FindDiscountById(int id)
         {
             return _db.Discounts.FirstOrDefault(d => d.Id == id);

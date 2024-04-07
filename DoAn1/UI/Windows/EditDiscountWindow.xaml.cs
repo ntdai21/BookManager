@@ -55,6 +55,7 @@ namespace DoAn1.UI.Windows
 
         private void cancelBtn_Click(object sender, RoutedEventArgs e)
         {
+            discount = DiscountDAO.Instance.Reload(discount);
             DialogResult = false;
         }
     }

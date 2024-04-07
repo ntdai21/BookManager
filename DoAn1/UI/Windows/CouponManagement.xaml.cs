@@ -113,7 +113,11 @@ namespace DoAn1.UI.Windows
             
             if (window.ShowDialog() == true)
             {
-                LoadAll();
+
+            }
+            else
+            {
+                _discounts[_discounts.IndexOf(discount)] = window.discount;
             }
         }
 
