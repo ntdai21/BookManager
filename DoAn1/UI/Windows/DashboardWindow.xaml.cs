@@ -28,9 +28,9 @@ namespace DoAn1.UI.Windows
         public double NumOfOrders { get; set; }
         public double NumOfDiscounts { get; set; }
 
-        public double NewOrdersDay { get; set; }
-        public double NewOrdersWeek { get; set; }
-        public double NewOrdersMonth { get; set; }
+        public float NewOrdersDay { get; set; }
+        public float NewOrdersWeek { get; set; }
+        public float NewOrdersMonth { get; set; }
 
         public double RevenueDay { get; set; }
         public double RevenueWeek { get; set; }
@@ -55,9 +55,9 @@ namespace DoAn1.UI.Windows
 
             (NewOrdersDay, NewOrdersWeek, NewOrdersMonth) = OrderDAO.Instance.GetOrderCounts(_today);
 
-            RevenueDay = (float)OrderDAO.Instance.CalculateDailyRevenueAndProfit(_today).Item1;
-            RevenueWeek = (float)OrderDAO.Instance.CalculateWeeklyRevenueAndProfit(_today).Item1;
-            RevenueMonth = (float)OrderDAO.Instance.CalculateMonthlyRevenueAndProfit(_today.Year, _today.Month).Item1;
+            RevenueDay = (double)OrderDAO.Instance.CalculateDailyRevenueAndProfit(_today).Item1;
+            RevenueWeek = (double)OrderDAO.Instance.CalculateWeeklyRevenueAndProfit(_today).Item1;
+            RevenueMonth = (double)OrderDAO.Instance.CalculateMonthlyRevenueAndProfit(_today.Year, _today.Month).Item1;
 
             //
             List<(Expression<Func<Book, object>>, bool)> _filters = new List<(Expression<Func<Book, object>>, bool)>();

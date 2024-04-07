@@ -315,8 +315,8 @@ xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersDay, Converter={StaticResource toVNDConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueDay, Converter={StaticResource toVNDConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersDay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueDay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 </Grid>
                 <TextBlock Text="This week" Margin="20 20 0 0" FontSize="16" FontWeight="SemiBold"/>
                 <Grid Height="100" Margin="20 10 20 10">
@@ -324,8 +324,8 @@ xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersWeek, Converter={StaticResource toVNDConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueWeek, Converter={StaticResource toVNDConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersWeek, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueWeek, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 </Grid>
                 <TextBlock Text="This month" Margin="20 20 0 0" FontSize="16" FontWeight="SemiBold"/>
                 <Grid Height="100" Margin="20 10 20 60">
@@ -333,8 +333,8 @@ xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersMonth, Converter={StaticResource toVNDConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueMonth, Converter={StaticResource toVNDConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="0" Margin="0 0 15 0" UC_Title="New Orders" UC_Number="{Binding NewOrdersMonth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <userControl:NumberFrameUC Grid.Column="1" Margin="15 0 0 0" UC_Title="Revenue" UC_Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}" UC_Number="{Binding RevenueMonth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 </Grid>
                 <DockPanel>
                     <TextBlock Text="Warnings" FontWeight="Bold" FontSize="18"/>

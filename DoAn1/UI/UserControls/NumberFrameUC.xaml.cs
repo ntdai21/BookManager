@@ -22,15 +22,15 @@ namespace DoAn1.UI.UserControls
     public partial class NumberFrameUC : UserControl, INotifyPropertyChanged
     {
         public string UC_Title { get; set; } = "Title";
-        public float UC_Number
+        public double UC_Number
         {
-            get { return (float)GetValue(UC_NumberProperty); }
+            get { return (double)GetValue(UC_NumberProperty); }
             set { SetValue(UC_NumberProperty, value); }
         }
 
         public static readonly DependencyProperty UC_NumberProperty =
-            DependencyProperty.Register("UC_Number", typeof(float),
-                typeof(NumberFrameUC), new FrameworkPropertyMetadata(0f));
+            DependencyProperty.Register("UC_Number", typeof(double),
+                typeof(NumberFrameUC), new FrameworkPropertyMetadata(0.0));
 
         public string UC_Foreground { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_Background;
         public string UC_BorderBrush { get; set; } = DoAn1.Properties.Settings.Default.ColorPalatte_SubBackground;

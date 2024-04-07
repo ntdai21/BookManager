@@ -12,7 +12,7 @@
         <DockPanel Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:NumberFrameUC}}, Path=UC_Background}" d:Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_DarkerSubBackground}">
             <Grid DockPanel.Dock="Top">
                 <TextBlock d:Text="Title" Text="{Binding UC_Title}" Margin="10 5 0 0" FontSize="18" FontWeight="Light" Foreground="{Binding UC_Foreground}" d:Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}" TextWrapping="Wrap"/>
-                <TextBlock d:Text="100" Text="{Binding UC_Number}" Margin="0 0 10 5" FontSize="32" FontWeight="Bold" Foreground="{Binding UC_Foreground}" d:Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}" TextAlignment="Right" VerticalAlignment="Bottom"/>
+                <TextBlock d:Text="100" Text="{Binding UC_Number, StringFormat=N0}" Margin="0 0 10 5" FontSize="32" FontWeight="Bold" Foreground="{Binding UC_Foreground}" d:Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Background}" TextAlignment="Right" VerticalAlignment="Bottom"/>
             </Grid>
         </DockPanel>
         
