@@ -14,14 +14,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Application Files\DoAn1_1_0_0_0\DoAn1.dll.manifest" size="48556">
+    <dependentAssembly dependencyType="install" codebase="Application Files\DoAn1_1_0_0_0\DoAn1.dll.manifest" size="48557">
       <assemblyIdentity name="DoAn1.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>eHkJu/Qu+/I+aMmBEhoyZXFy/ShgrZuvTPAoQU4i4rA=</dsig:DigestValue>
+        <dsig:DigestValue>CfIpwCRQ28d2M2Al36g/tfQBsPXlE25PfPzVNhW/Dpw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

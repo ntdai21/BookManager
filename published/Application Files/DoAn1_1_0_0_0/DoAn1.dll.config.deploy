@@ -36,7 +36,7 @@
     <userSettings>
         <DoAn1.Properties.Settings>
             <setting name="SQLServer_Server" serializeAs="String">
-                <value>SQLEXPRESS</value>
+                <value>MYSQLSERVER</value>
             </setting>
             <setting name="SQLServer_Database" serializeAs="String">
                 <value>DoAn1WindowsDb</value>
@@ -53,13 +53,22 @@
             <setting name="Password" serializeAs="String">
                 <value />
             </setting>
-            <setting name="RememberAccount" serializeAs="String">
-                <value>0</value>
+            <setting name="AutoLogin" serializeAs="String">
+                <value>False</value>
             </setting>
             <setting name="OpenLastWindow" serializeAs="String">
-                <value>1</value>
+                <value>True</value>
             </setting>
             <setting name="LastWindow" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="ItemsPerPage" serializeAs="String">
+                <value>5</value>
+            </setting>
+            <setting name="AccountPasswordEntropy" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="SQLServer_PasswordEntropy" serializeAs="String">
                 <value />
             </setting>
         </DoAn1.Properties.Settings>

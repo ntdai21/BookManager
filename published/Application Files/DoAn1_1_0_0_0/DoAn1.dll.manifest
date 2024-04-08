@@ -135,22 +135,22 @@
       <dsig:DigestValue>JoH+PWaVQK0g2lJhrjGnQSp5FP3z6/3A15SbOosGoqo=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DoAn1.dll" size="814080">
+  <file name="DoAn1.dll" size="1226240">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>WbmE1nOkNxfTGZyMIAyu0AgtL7YXqhj/INERGGP0RS4=</dsig:DigestValue>
+      <dsig:DigestValue>hqUMbsXXaxtTzuD9s1dQLV/MZt6HHwUy4KUXhVcbstI=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DoAn1.dll.config" size="3293">
+  <file name="DoAn1.dll.config" size="3670">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>dhz9MNvXmVK0/SpIvQAsqOmQ0q99wShc0na825qB/sU=</dsig:DigestValue>
+      <dsig:DigestValue>AJ1mDzximXH2jngUbiZJF6itGeUyEZ1zr2NuwcKPCeQ=</dsig:DigestValue>
     </hash>
   </file>
   <file name="DoAn1.exe" size="399872">
@@ -159,7 +159,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>SM3TtzkLepkLunvHyhWXC9Tzc4/bFH4vUgtB8dH3BXc=</dsig:DigestValue>
+      <dsig:DigestValue>bm8isP2QPTF1cQesS9a3qOdLGJC8TWKxCrqzr0uTZDA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="DoAn1.runtimeconfig.json" size="527">
