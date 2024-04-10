@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="DoAn1.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+        </sectionGroup>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="DoAn1.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+        </sectionGroup>
+    </configSections>
+    <applicationSettings>
+        <DoAn1.Properties.Settings>
+            <setting name="ButtonSize" serializeAs="String">
+                <value>30</value>
+            </setting>
+            <setting name="ColorPalatte_Background" serializeAs="String">
+                <value>#F2F0EB</value>
+            </setting>
+            <setting name="ColorPalatte_Foreground" serializeAs="String">
+                <value>#593122</value>
+            </setting>
+            <setting name="ColorPalatte_ButtonColor" serializeAs="String">
+                <value>#D95F18</value>
+            </setting>
+            <setting name="ColorPalatte_SubBackground" serializeAs="String">
+                <value>#BFAE99</value>
+            </setting>
+            <setting name="ColorPalatte_DarkerSubBackground" serializeAs="String">
+                <value>#A6774E</value>
+            </setting>
+            <setting name="ColorPalatte_DarkerBackground" serializeAs="String">
+                <value>#E1DDD2</value>
+            </setting>
+        </DoAn1.Properties.Settings>
+    </applicationSettings>
+    <userSettings>
+        <DoAn1.Properties.Settings>
+            <setting name="SQLServer_Server" serializeAs="String">
+                <value>SQLEXPRESS</value>
+            </setting>
+            <setting name="SQLServer_Database" serializeAs="String">
+                <value>DoAn1WindowsDb</value>
+            </setting>
+            <setting name="SQLServer_UserID" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="SQLServer_Password" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="Email" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="Password" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="AutoLogin" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="OpenLastWindow" serializeAs="String">
+                <value>True</value>
+            </setting>
+            <setting name="LastWindow" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="ItemsPerPage" serializeAs="String">
+                <value>5</value>
+            </setting>
+            <setting name="AccountPasswordEntropy" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="SQLServer_PasswordEntropy" serializeAs="String">
+                <value />
+            </setting>
+        </DoAn1.Properties.Settings>
+    </userSettings>
+</configuration>
