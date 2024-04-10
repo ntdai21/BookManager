@@ -9,7 +9,7 @@
         xmlns:properties="clr-namespace:DoAn1.Properties"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="AddBookToOrder" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="AddBookToOrder" Height="720" Width="1080" Loaded="Window_Loaded">
     <Window.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
             <Grid>
@@ -403,7 +403,7 @@
                       CellStyle="{StaticResource DataGridCellStyle1}" Style="{StaticResource DataGridStyle1}" Name="bookDataGrid">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="80" Binding="{Binding Id}"/>
-                        <DataGridTextColumn Header="Quantity" IsReadOnly="True" CanUserResize="False" Width="80" Binding="{Binding Quantity}"/>
+                        <DataGridTextColumn Header="Quantity" IsReadOnly="True" CanUserResize="False" Width="80" Binding="{Binding Quantity, StringFormat={}{0:N0}}"/>
                         <DataGridTextColumn Header="NumOfPage" IsReadOnly="True" CanUserResize="False" Width="80" Binding="{Binding NumOfPage}"/>
                         <DataGridTextColumn Header="Name" IsReadOnly="True" CanUserResize="False" Width="4*" Binding="{Binding Name}"/>
                         <DataGridTextColumn Header="Author" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Author}"/>

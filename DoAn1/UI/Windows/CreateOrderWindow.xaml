@@ -280,8 +280,8 @@
                         <DataGridTextColumn Header="Tên Sách" IsReadOnly="True" CanUserResize="False" Width="4*" Binding="{Binding Book.Name}"/>
                         <DataGridTextColumn Header="Tác giả" IsReadOnly="True" CanUserResize="False" Width="3*" Binding="{Binding Book.Author}"/>
                         <DataGridTextColumn Header="Thể loại" IsReadOnly="True" CanUserResize="False" Width="3*" Binding="{Binding Book.CategoryName}"/>
-                        <DataGridTextColumn Header="Giá bán" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Price}"/>
-                        <DataGridTextColumn Header="Số lượng" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding NumOfBook}"/>
+                        <DataGridTextColumn Header="Giá bán" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Price, StringFormat={}{0:N0}}"/>
+                        <DataGridTextColumn Header="Số lượng" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding NumOfBook, StringFormat={}{0:N0}}"/>
                         <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="3*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -330,9 +330,9 @@
                     <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
                 </DockPanel>
                 <StackPanel Grid.Row="6" Name="PricesStackPanel">
-                    <userControl:TextFieldUC x:Name="GrossPriceTextFieldUC"  UC_Title="Gross price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding GrossPrice,  UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
-                    <userControl:TextFieldUC x:Name="DiscountTextFieldUC"  UC_Title="Discount" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding Discount, UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
-                    <userControl:TextFieldUC x:Name="TotalPriceTextFieldUC"  UC_Title="Total Price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding TotalPrice, UpdateSourceTrigger=PropertyChanged}"  Margin="10"  UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC x:Name="GrossPriceTextFieldUC"  UC_Title="Gross price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding GrossPrice, StringFormat={}{0:N0},  UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC x:Name="DiscountTextFieldUC"  UC_Title="Discount" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding Discount, StringFormat={}{0:N0}, UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC x:Name="TotalPriceTextFieldUC"  UC_Title="Total Price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding TotalPrice, StringFormat={}{0:N0}, UpdateSourceTrigger=PropertyChanged}"  Margin="10"  UC_TitleWidth="100"/>
 
                 </StackPanel>
                 <userControl:TextOnlyButtonUC VerticalAlignment="Top"  UC_Text="Create a new order" Width="120" Height="46" Background="White"  Grid.Row="7" x:Name="CreateButton" Click="CreateButton_Click"/>

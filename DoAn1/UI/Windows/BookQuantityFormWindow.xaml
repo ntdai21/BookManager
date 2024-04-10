@@ -200,7 +200,7 @@
 
             <userControl:TextFieldUC DockPanel.Dock="Top" d:UC_TextInput="Nguyễn Văn A" UC_TextInput="{Binding Author}"  UC_Title="Author" UC_TitleWidth="90" Margin="0, 20, 0, 0"/>
             <userControl:TextFieldUC DockPanel.Dock="Top"  UC_TextInput="{Binding CategoryName}" UC_Title="Category" UC_TitleWidth="90" Margin="0, 20, 0, 0"/>
-            <userControl:TextFieldUC DockPanel.Dock="Top" UC_TextInput="{Binding Price}" UC_Title="Price" UC_TitleWidth="90" Margin="0, 20, 0, 0"/>
+            <userControl:TextFieldUC DockPanel.Dock="Top" UC_TextInput="{Binding Price, StringFormat={}{0:N0}}" UC_Title="Price" UC_TitleWidth="90" Margin="0, 20, 0, 0"/>
 
             <userControl:InputFieldUC DockPanel.Dock="Top" UC_Title="Quantity" Height="30" UC_TitleWidth="90" Margin="0, 20, 0, 0" x:Name="quantityInputField" UC_TextInput="{Binding BookQuantity}" KeyDown="quantityInputField_KeyDown"/>
 

@@ -350,7 +350,7 @@
                     <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="Customer Name" IsReadOnly="True" CanUserResize="False" Width="3*" Binding="{Binding CustomerName}"/>
                     <DataGridTextColumn Header="Shipping Address" IsReadOnly="True" CanUserResize="False" Width="5*" Binding="{Binding ShippingAddress}"/>
-                    <DataGridTextColumn Header="Total Price" IsReadOnly="True" CanUserResize="False" Width="2.5*" Binding="{Binding TotalPrice}"/>
+                    <DataGridTextColumn Header="Total Price" IsReadOnly="True" CanUserResize="False" Width="2.5*" Binding="{Binding TotalPrice, StringFormat={}{0:N0}}"/>
                     <DataGridTextColumn Header="Created At" IsReadOnly="True" CanUserResize="False" Width="4*" Binding="{Binding CreatedAt}"/>
                     <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="4*">
                         <DataGridTemplateColumn.CellTemplate>
