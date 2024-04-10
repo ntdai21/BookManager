@@ -10,12 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\BookCovers\placeholder.jpg" />
     <None Remove="Resources\Fonts\password.ttf" />
     <None Remove="Resources\Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Images\logo.ico" />
+    <Content Include="Resources\BookCovers\placeholder.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Images\logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
