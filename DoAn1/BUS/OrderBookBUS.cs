@@ -25,6 +25,11 @@ namespace DoAn1.BUS
 
         private OrderBookBUS() { }
 
+        public OrderBook GetOrderBookByOrderIdAndBookId(int orderId, int bookId)
+        {
+            return OrderBookDAO.Instance.GetOrderBookByOrderIdAndBookId(orderId, bookId);
+        }
+
         public List<OrderBook> GetOrderBooksWithoutPagination()
         {
             List<OrderBook> orderBooks = OrderBookDAO.Instance.GetOrderBooks();
@@ -54,6 +59,45 @@ namespace DoAn1.BUS
             return orderBooks;
         }
 
+        public bool isValidNewOrderBooks(List<OrderBook> orderBooks)
+        {
+            foreach (OrderBook orderBook in orderBooks)
+            {
+                Book book = BookBUS.Instance.FindBookById(orderBook.BookId);
+                if (book == null || orderBook.NumOfBook > book.Quantity)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool isValidUpdateOrderBooks(List<OrderBook> oldOrderBooks, List<OrderBook> newOrderBooks)
+        {
+            foreach (OrderBook orderBook in newOrderBooks)
+            {
+                Book book = BookBUS.Instance.FindBookById(orderBook.BookId);
+                OrderBook oldOrderBook = oldOrderBooks.FirstOrDefault(oob => (oob.BookId ==  orderBook.BookId && oob.OrderId == orderBook.OrderId));
+                if (book == null) return false;
+                if (oldOrderBook == null)
+                {
+
+                }
+                if (book == null || oldOrderBook.NumOfBook + book.Quantity < orderBook.NumOfBook)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void descreaseBookQuantityInOrderBooks(List<OrderBook> orderBooks)
+        {
+            foreach (OrderBook orderBook in orderBooks)
+            {
+                BookBUS.Instance.DescreaseQuantity(orderBook.BookId, (int) orderBook.NumOfBook);
+            }
+        }
 
     }
 }

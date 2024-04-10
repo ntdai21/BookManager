@@ -73,6 +73,7 @@ namespace DoAn1.UI.Windows
             {
 
             }
+            loadAll();
         }
 
         private void PreviousPageBtn_Click(object sender, RoutedEventArgs e)

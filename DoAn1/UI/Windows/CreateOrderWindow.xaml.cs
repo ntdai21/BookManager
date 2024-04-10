@@ -18,6 +18,8 @@ using System.ComponentModel;
 using DoAn1.Models;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DoAn1.BUS;
+using DoAn1.DAO;
 
 namespace DoAn1.UI.Windows
 {
@@ -45,8 +47,8 @@ namespace DoAn1.UI.Windows
             this.DataContext = this;
             _orderBooks = new BindingList<OrderBook>((IList<OrderBook>)NewOrder.OrderBooks);
             booksDataGrid.ItemsSource = _orderBooks;
-            MyShopContext db = new MyShopContext();
-            DiscountComboBox.ItemsSource = new BindingList<Discount>(db.Discounts.ToList());
+            List<Discount> discounts = DiscountBUS.Instance.GetDiscounts();
+            DiscountComboBox.ItemsSource = new BindingList<Discount>(discounts);
         }
 
         private void calculateTotalPrice()
@@ -75,7 +77,9 @@ namespace DoAn1.UI.Windows
         private void ClearScreen()
         {
             NewOrder = new Order();
+            _orderBooks.Clear();
             _orderBooks = new BindingList<OrderBook>((IList<OrderBook>)NewOrder.OrderBooks);
+            booksDataGrid.ItemsSource = _orderBooks;
             CustomerNameInputFieldUC.UC_TextInput = "";
             ShippingAddressInputFieldUC.UC_TextInput = "";
             GrossPrice = 0;
@@ -114,8 +118,7 @@ namespace DoAn1.UI.Windows
             {
                 orderBook.Book = null;
             }
-            OrderDAO.Instance.AddOrder(NewOrder);
-
+            OrderBUS.Instance.CreateOrder(NewOrder);
             ClearScreen();
             MessageBox.Show("Added a order successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -126,7 +129,7 @@ namespace DoAn1.UI.Windows
             var dataCxtx = tb.DataContext;
 
             OrderBook orderBook = NewOrder.OrderBooks.SingleOrDefault(ob => ob.BookId == ((OrderBook)dataCxtx).BookId);
-            NewOrder.OrderBooks.Remove(orderBook);
+            //NewOrder.OrderBooks.Remove(orderBook);
             _orderBooks.Remove(orderBook);
             calculateTotalPrice();
             MessageBox.Show("Deleted the selected book successfully!");
@@ -136,6 +139,7 @@ namespace DoAn1.UI.Windows
             var screen = new AddBookToOrder(NewOrder, _orderBooks);
             if (screen.ShowDialog() == true)
             {
+
             }
 
             calculateTotalPrice();
@@ -144,9 +148,7 @@ namespace DoAn1.UI.Windows
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
             var tb = (Button)e.OriginalSource;
-            var dataCxtx = tb.DataContext;
-
-            OrderBook orderBook = (OrderBook)dataCxtx;
+            OrderBook orderBook = (OrderBook)tb.DataContext;
             var screen = new BookQuantityFormWindow(orderBook.Book, (int)orderBook.NumOfBook);
             if (screen.ShowDialog() == true)
             {

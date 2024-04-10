@@ -310,5 +310,21 @@ namespace DoAn1.BUS
 
             return true;
         }
+
+        public Book? FindBookById(int id)
+        {
+            return BookDAO.Instance.FindBookById(id);
+        }
+
+
+        public bool DescreaseQuantity(int bookId, int numOfBook)
+        {
+            return BookDAO.Instance.DescreaseQuantity(bookId, numOfBook);
+        }
+
+        public bool IncreaseQuantity(int bookId, int numOfBook)
+        {
+            return BookDAO.Instance.IncreaseQuantity(bookId, numOfBook);
+        }
     }
 }

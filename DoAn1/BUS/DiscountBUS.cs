@@ -28,6 +28,13 @@ namespace DoAn1.BUS
 
         private DiscountBUS() { }
 
+        public List<Discount> GetDiscounts()
+        {
+            List<Discount> discounts = DiscountDAO.Instance.GetDiscounts();
+            discounts.Insert(0, new Discount() { Code = "None", DiscountPercent = 0 });
+            return discounts;
+        }
+
         public List<Discount> GetDiscountsWithPagination(int page, int pageSize, out int totalItems, string keyword = "", string sortBy = "")
         {
             totalItems = DiscountDAO.Instance.CountTotalDiscounts(keyword);

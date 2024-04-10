@@ -83,6 +83,7 @@ GO
 
 INSERT INTO Discount (Code, DiscountPercent, MaxDiscount)
 VALUES
+	(N'None',0,50000),
 	(N'HAPPYNEWYEAR',10,50000),
 	(N'OPENING',15,30000),
 	(N'BDAY',20,100000);

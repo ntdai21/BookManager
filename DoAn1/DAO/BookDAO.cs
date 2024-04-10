@@ -108,6 +108,29 @@ namespace DoAn1
             }
         }
 
+        public bool DescreaseQuantity(int bookId, int numOfBook)
+        {
+            Book book = FindBookById(bookId);
+            if (book != null && numOfBook <= book.Quantity)
+            {
+                book.Quantity -= numOfBook;
+                _db.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool IncreaseQuantity(int bookId, int numOfBook)
+        {
+            Book book = FindBookById(bookId);
+            if (book != null)
+            {
+                book.Quantity += numOfBook;
+                _db.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
 

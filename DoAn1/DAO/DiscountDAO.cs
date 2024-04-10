@@ -1,4 +1,5 @@
 ﻿using DoAn1.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace DoAn1.DAO
 
         public List<Discount> GetDiscounts() 
         {
-            return _db.Discounts.ToList();
+            return _db.Discounts.AsNoTracking().ToList();
         }
 
         public List<Discount> GetDiscountsWithPagination(int page, int pageSize, string keyword = "", string sortBy = "")

@@ -34,6 +34,14 @@ namespace DoAn1.DAO
             return _db.OrderBooks.ToList();
         }
 
+        public OrderBook GetOrderBookByOrderIdAndBookId(int orderId, int bookId)
+        {
+            if (orderId == null || bookId == null) return null;
+            List<OrderBook> orderBooks = _db.OrderBooks.AsNoTracking().Where(orderBook => orderBook.OrderId == orderId && orderBook.BookId == bookId).ToList();
+            return orderBooks.Count == 0 ? null : orderBooks[0];
+        }
+
+
         public void DeleteOrderBook(OrderBook orderBook)
         {
             _db.OrderBooks.Remove(orderBook);

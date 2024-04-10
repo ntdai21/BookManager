@@ -352,9 +352,12 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="5">
-                                    <userControl:IconOnlyButtonUC UC_Kind="Information" x:Name="detailButton" Margin="0 0 5 0" Click="detailOrderButton_Click"/>
-                                    <userControl:IconOnlyButtonUC UC_Kind="Pencil" x:Name="editButton" Margin="0 0 5 0" Click="editOrderButton_Click"/>
-                                    <userControl:IconOnlyButtonUC UC_Kind="Delete" x:Name="deleteButton" Click="deleteOrderButton_Click"/>
+                                    <Button Margin="5 0 5 0" x:Name="detailButton" Click="detailOrderButton_Click" Style="{StaticResource gridDetailButton}" Content="Detail">
+                                    </Button>
+                                    <Button Margin="5 0 5 0" x:Name="editButton" Click="editOrderButton_Click" Style="{StaticResource gridEditButton}" Content="Edit">
+                                    </Button>
+                                    <Button Margin="5 0 5 0" x:Name="deleteButton" Click="deleteOrderButton_Click" Style="{StaticResource gridRemoveButton}" Content="Delete">
+                                    </Button>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

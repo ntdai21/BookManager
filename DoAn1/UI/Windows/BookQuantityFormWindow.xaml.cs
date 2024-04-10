@@ -33,15 +33,30 @@ namespace DoAn1.UI.Windows
 
         private void AddToOrder()
         {
-            BookQuantity = Int32.Parse(quantityInputField.UC_TextInput);
-            if (BookQuantity <= 0)
+            int number;
+
+            bool success = int.TryParse(quantityInputField.UC_TextInput, out number);
+            if (success)
             {
-                MessageBox.Show("Quantity must be above 0", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } 
+                BookQuantity = number;
+                if (BookQuantity <= 0)
+                {
+                    MessageBox.Show("Quantity must be above 0", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else if (BookQuantity > _book.Quantity)
+                {
+                    MessageBox.Show($"The quantity of the {_book.Name} book is {_book.Quantity} ", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else
+                {
+                    DialogResult = true;
+                }
+            }
             else
             {
-                DialogResult = true;
+                MessageBox.Show("Your input is not valid", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
         }
 
         private void AddToOrderButton_Click(object sender, RoutedEventArgs e)

@@ -44,9 +44,15 @@ namespace DoAn1.UI.Windows
             NewOrder = (Order) order.Clone();
             NewOrder.OrderBooks = OrderBookBUS.Instance.GetOrderBooksByOrderIdWithoutPagination(order.Id);
             
-            Discount Coupon = DiscountDAO.Instance.FindDiscountById((int)NewOrder.DiscountId);
-            DiscountComboBox.ItemsSource = new BindingList<Discount>(DiscountDAO.Instance.GetDiscounts());
+            if (NewOrder.DiscountId == null)
+            {
+                NewOrder.DiscountId = 0;
+            }
+            BindingList<Discount> discounts = new BindingList<Discount>(DiscountBUS.Instance.GetDiscounts());
+            Discount Coupon = discounts.FirstOrDefault(d => d.Id == NewOrder.DiscountId);
+            DiscountComboBox.ItemsSource = discounts;
             DiscountComboBox.SelectedItem = Coupon;
+
             calculateTotalPrice();
             this.DataContext = this;
             _orderBooks = new BindingList<OrderBook>((IList<OrderBook>)NewOrder.OrderBooks);
@@ -68,11 +74,19 @@ namespace DoAn1.UI.Windows
             else
             {
                 NewOrder.Discount = DiscountDAO.Instance.FindDiscountById((int)NewOrder.DiscountId);
-                Discount = (double)(GrossPrice * (NewOrder.Discount.DiscountPercent / 100));
-                if (Discount > NewOrder.Discount.MaxDiscount)
+                if (NewOrder.Discount != null)
                 {
-                    Discount = (double)NewOrder.Discount.MaxDiscount;
+                    Discount = (double)(GrossPrice * (NewOrder.Discount.DiscountPercent / 100));
+                    if (Discount > NewOrder.Discount.MaxDiscount)
+                    {
+                        Discount = (double)NewOrder.Discount.MaxDiscount;
+                    }
                 }
+                else
+                {
+                    Discount = 0;
+                }
+                
             }
             TotalPrice = GrossPrice - Discount;
         }
@@ -140,6 +154,13 @@ namespace DoAn1.UI.Windows
             var dataCxtx = tb.DataContext;
 
             OrderBook orderBook = (OrderBook)dataCxtx;
+            bool isExist = OrderBookBUS.Instance.GetOrderBookByOrderIdAndBookId(orderBook.OrderId, orderBook.BookId) != null;
+            int oldNumOfBook = 0;
+            if (isExist)
+            {
+                oldNumOfBook = (int)orderBook.NumOfBook;
+                BookBUS.Instance.IncreaseQuantity(orderBook.BookId, oldNumOfBook);
+            }
             var screen = new BookQuantityFormWindow(orderBook.Book, (int)orderBook.NumOfBook);
             if (screen.ShowDialog() == true)
             {
@@ -147,13 +168,16 @@ namespace DoAn1.UI.Windows
                 calculateTotalPrice();
                 MessageBox.Show($"Updated the selected book successfully! {NewOrder.OrderBooks}");
             }
+            if (isExist)
+            {
+                BookBUS.Instance.DescreaseQuantity(orderBook.BookId, oldNumOfBook);
+            }
         }
 
         private void DiscountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Discount discount = (Discount)DiscountComboBox.SelectedItem;
             NewOrder.DiscountId = discount.Id;
-            NewOrder.Discount = discount;
             calculateTotalPrice();
         }
 
@@ -182,7 +206,6 @@ namespace DoAn1.UI.Windows
 
 
             NewOrder.TotalPrice = TotalPrice;
-            NewOrder.CreatedAt = DateTime.Now;
 
             NewOrder.Discount = null;
             /*foreach (OrderBook orderBook in NewOrder.OrderBooks)

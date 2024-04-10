@@ -1,4 +1,5 @@
 ﻿using DoAn1.UI.Windows;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -21,6 +22,11 @@ namespace DoAn1.BUS
         }
 
         private OrderBUS() { }
+
+        public Order findOrderById(int orderId)
+        {
+            return OrderDAO.Instance.FindById(orderId);
+        }
 
         public Tuple<int,int> AddDataToTable(ObservableCollection<Order> table, int currentPage,int rowsPerPage, string keyword, string sortBy, string dateCreated)
         {
@@ -57,6 +63,20 @@ namespace DoAn1.BUS
                     orders.Remove(selected);
                 }
             }
+        }
+
+        public void CreateOrder(Order order)
+        {
+            if (OrderBookBUS.Instance.isValidNewOrderBooks((List<OrderBook>)order.OrderBooks))
+            {
+                OrderBookBUS.Instance.descreaseBookQuantityInOrderBooks((List<OrderBook>)order.OrderBooks);
+                OrderDAO.Instance.AddOrder(order);
+            }
+        }
+
+        public void UpdateOrder(Order order)
+        {
+
         }
 
     }

@@ -37,7 +37,7 @@ namespace DoAn1
 
         public List<Order> GetOrders()
         {
-            return _db.Orders.ToList();
+            return _db.Orders.AsNoTracking().ToList();
         }
 
         public Order? FindById(int orderId)
@@ -49,6 +49,10 @@ namespace DoAn1
         public int AddOrder(Order order)
         {
             _db.Orders.Add(order);
+            if (order.DiscountId == 0)
+            {
+                order.DiscountId = null;
+            }
             _db.SaveChanges();
 
             return order.Id;
@@ -65,11 +69,16 @@ namespace DoAn1
 
                 if (isExists)
                 {
+                    BookBUS.Instance.IncreaseQuantity(dbBook.BookId, (int)(dbBook.NumOfBook - qty));
                     dbBook.NumOfBook = qty;
-                } 
+                }
                 else
                 {
-                    selectedOrder.OrderBooks.Add(new OrderBook() { BookId = book.Id, NumOfBook = qty});
+                    if (book.Quantity >=  qty)
+                    {
+                        selectedOrder.OrderBooks.Add(new OrderBook() { BookId = book.Id, NumOfBook = qty});
+                        BookBUS.Instance.DescreaseQuantity(book.Id, qty);
+                    }
                 }
             }
         }
@@ -80,21 +89,16 @@ namespace DoAn1
 
             if (selectedOrder != null)
             {
-                selectedOrder.DiscountId = order.DiscountId;
+                selectedOrder.DiscountId = order.DiscountId == 0 ? null : order.DiscountId;
                 selectedOrder.CustomerName = order.CustomerName;
                 selectedOrder.ShippingAddress = order.ShippingAddress;
-                _db.SaveChanges();
-
-
-                /*foreach (OrderBook orderBook in NewOrder.OrderBooks)
-                {
-                    orderBook.Book = null;
-                }*/
+                selectedOrder.TotalPrice = order.TotalPrice;
 
                 foreach (OrderBook ob in selectedOrder.OrderBooks.ToList())
                 {
                     if (order.OrderBooks.FirstOrDefault(orderBook => orderBook.BookId == ob.BookId) == null)
                     {
+                        BookBUS.Instance.IncreaseQuantity(ob.BookId, (int)ob.NumOfBook);
                         selectedOrder.OrderBooks.Remove(ob);
                     }
                 }
@@ -157,7 +161,7 @@ namespace DoAn1
                 query = query.OrderBy(order => order.CreatedAt);
             }
 
-            return query.Skip((page - 1) * pageSize)
+            return query.AsNoTracking().Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
         }

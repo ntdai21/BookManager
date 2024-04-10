@@ -1,6 +1,7 @@
 ﻿using DoAn1.BUS;
 using DoAn1.DAO;
 using DoAn1.Models;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,7 +64,8 @@ namespace DoAn1.UI.Windows
             InitializeComponent();
             _order = (Order)order.Clone();
             _order.OrderBooks =(ICollection<OrderBook>) OrderBookBUS.Instance.GetOrderBooksByOrderIdWithoutPagination(order.Id);
-            Coupon = DiscountDAO.Instance.FindDiscountById((int)_order.DiscountId);
+            _order.DiscountId = _order.DiscountId == null ? 0 : _order.DiscountId;
+            Coupon = DiscountBUS.Instance.GetDiscounts().FirstOrDefault(d => d.Id == _order.DiscountId);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
