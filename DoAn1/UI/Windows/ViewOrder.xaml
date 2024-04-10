@@ -50,11 +50,12 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#a6774e"/>
-                    <Setter Property="Foreground" Value="#ffffff"/>
+                    <Setter Property="Background" Value="#FAFAFA"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#a6774e"/>
+                    <Setter Property="Background" Value="#CF9461"/>
                     <Setter Property="Foreground" Value="#ffffff"/>
                 </Trigger>
                 <MultiTrigger>
@@ -190,9 +191,9 @@
         </Style>
 
         <Style x:Key="gridEditButton" TargetType="Button">
-            <Setter Property="Background" Value="#D95F18" />
-            <Setter Property="BorderBrush" Value="#593122" />
-            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#D95F18" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Template" >
@@ -207,27 +208,29 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#D95F18" />
+                    <Setter Property="Foreground" Value="#FFFFFF" />
+
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="gridRemoveButton" TargetType="Button" BasedOn="{StaticResource gridEditButton}">
-            <Setter Property="Background" Value="#D32F2F" />
-            <Setter Property="BorderBrush" Value="#B71C1C" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#B71C1C" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#F44336" />
+                    <Setter Property="Background" Value="#B71C1C" />
+                    <Setter Property="Foreground" Value="#FFFFFF" />
                 </Trigger>
             </Style.Triggers>
         </Style>
 
+
         <Style x:Key="gridDetailButton" TargetType="Button">
-            <Setter Property="Background" Value="#6495ED" />
-            <!-- Màu nền xanh nhạt -->
-            <Setter Property="BorderBrush" Value="#4682B4" />
-            <!-- Màu đường viền -->
-            <Setter Property="Foreground" Value="#ffffff" />
-            <!-- Màu chữ trắng -->
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#6495ED" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <!-- Loại bỏ hiệu ứng focus -->
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -243,7 +246,8 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#ADD8E6" />
+                    <Setter Property="Background" Value="#6495ED" />
+                    <Setter Property="Foreground" Value="#FFFFFF" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -343,7 +347,7 @@
             <DataGrid Grid.Row="3" RowStyle="{StaticResource DataGridRowStyle1}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle1}"
           CellStyle="{StaticResource DataGridCellStyle1}" Style="{StaticResource DataGridStyle1}" x:Name="orderDataGrid">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="1*" Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="Customer Name" IsReadOnly="True" CanUserResize="False" Width="3*" Binding="{Binding CustomerName}"/>
                     <DataGridTextColumn Header="Shipping Address" IsReadOnly="True" CanUserResize="False" Width="5*" Binding="{Binding ShippingAddress}"/>
                     <DataGridTextColumn Header="Total Price" IsReadOnly="True" CanUserResize="False" Width="2.5*" Binding="{Binding TotalPrice}"/>
@@ -351,12 +355,15 @@
                     <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="4*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Margin="5">
-                                    <Button Margin="5 0 5 0" x:Name="detailButton" Click="detailOrderButton_Click" Style="{StaticResource gridDetailButton}" Content="Detail">
+                                <StackPanel Orientation="Horizontal" Margin="0">
+                                    <Button x:Name="detailButton" Click="detailOrderButton_Click" Style="{StaticResource gridDetailButton}">
+                                        <materialIcons:MaterialIcon Kind="Information"/>
                                     </Button>
-                                    <Button Margin="5 0 5 0" x:Name="editButton" Click="editOrderButton_Click" Style="{StaticResource gridEditButton}" Content="Edit">
+                                    <Button Margin="5 0 5 0" x:Name="editButton" Click="editOrderButton_Click" Style="{StaticResource gridEditButton}">
+                                        <materialIcons:MaterialIcon Kind="Pencil"/>
                                     </Button>
-                                    <Button Margin="5 0 5 0" x:Name="deleteButton" Click="deleteOrderButton_Click" Style="{StaticResource gridRemoveButton}" Content="Delete">
+                                    <Button x:Name="deleteButton" Click="deleteOrderButton_Click" Style="{StaticResource gridRemoveButton}">
+                                        <materialIcons:MaterialIcon Kind="Delete"/>
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>

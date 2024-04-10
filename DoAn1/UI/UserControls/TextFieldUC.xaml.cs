@@ -37,6 +37,8 @@ namespace DoAn1.UI.UserControls
 
         public string UC_InputTextFontWeight { get; set; }
 
+        public string UC_InputTextAlignment { get; set; } = "Right";
+
         public string UC_TextInput
         {
             get { return (string)GetValue(UC_TextInputProperty); }

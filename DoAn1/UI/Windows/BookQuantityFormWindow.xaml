@@ -193,8 +193,8 @@
         </Grid>
         <DockPanel Grid.Row="0" Grid.Column="1"   Margin="5" Grid.RowSpan="2" >
             <userControl:TextFieldUC DockPanel.Dock="Top" UC_TextInput="{Binding Name}" UC_Title="Name" UC_TitleWidth="90" Margin="0, 20, 0, 0"/>
-            <ScrollViewer Height="240" DockPanel.Dock="Top">
-                <userControl:TextFieldUC UC_TextInput="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. " UC_Title="Description" UC_TitleWidth="100" Margin="0, 20, 0, 0"/>
+            <ScrollViewer MaxHeight="240" DockPanel.Dock="Top" Margin="0, 20, 0, 0">
+                <userControl:TextFieldUC UC_TextInput="{Binding Description}" UC_InputTextAlignment="Right" UC_Title="Description" UC_TitleWidth="120" />
             </ScrollViewer>
             
 

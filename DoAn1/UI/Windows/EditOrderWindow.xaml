@@ -8,7 +8,7 @@
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:properties="clr-namespace:DoAn1.Properties"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="EditOrderWindow" Height="450" Width="800">
+        Title="EditOrderWindow" Height="720" Width="1080" >
     <Window.Resources>
         <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
             <Setter Property="Margin" Value="0 4 0 0" />
@@ -46,11 +46,12 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#a6774e"/>
-                    <Setter Property="Foreground" Value="#ffffff"/>
+                    <Setter Property="Background" Value="#FAFAFA"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#a6774e"/>
+                    <Setter Property="Background" Value="#CF9461"/>
                     <Setter Property="Foreground" Value="#ffffff"/>
                 </Trigger>
                 <MultiTrigger>
@@ -186,9 +187,9 @@
         </Style>
 
         <Style x:Key="gridEditButton" TargetType="Button">
-            <Setter Property="Background" Value="#D95F18" />
-            <Setter Property="BorderBrush" Value="#593122" />
-            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#D95F18" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Template" >
@@ -203,16 +204,20 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#D95F18" />
+                    <Setter Property="Foreground" Value="#FFFFFF" />
+
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="gridRemoveButton" TargetType="Button" BasedOn="{StaticResource gridEditButton}">
-            <Setter Property="Background" Value="#D32F2F" />
-            <Setter Property="BorderBrush" Value="#B71C1C" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#B71C1C" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#F44336" />
+                    <Setter Property="Background" Value="#B71C1C" />
+                    <Setter Property="Foreground" Value="#FFFFFF" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -271,18 +276,20 @@
               CellStyle="{StaticResource DataGridCellStyle1}" Style="{StaticResource DataGridStyle1}" x:Name="booksDataGrid" MinHeight="100" MaxHeight="360" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Book.Id}"/>
-                        <DataGridTextColumn Header="Tên Sách" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Name}"/>
-                        <DataGridTextColumn Header="Tác giả" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Author}"/>
-                        <DataGridTextColumn Header="Thể loại" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.CategoryName}"/>
-                        <DataGridTextColumn Header="Giá bán" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Book.Price}"/>
-                        <DataGridTextColumn Header="Số lượng" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding NumOfBook}"/>
-                        <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="*">
+                        <DataGridTextColumn Header="Tên Sách" IsReadOnly="True" CanUserResize="False" Width="4*" Binding="{Binding Book.Name}"/>
+                        <DataGridTextColumn Header="Tác giả" IsReadOnly="True" CanUserResize="False" Width="3*" Binding="{Binding Book.Author}"/>
+                        <DataGridTextColumn Header="Thể loại" IsReadOnly="True" CanUserResize="False" Width="3*" Binding="{Binding Book.CategoryName}"/>
+                        <DataGridTextColumn Header="Giá bán" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Price}"/>
+                        <DataGridTextColumn Header="Số lượng" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding NumOfBook}"/>
+                        <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="3*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" >
-                                        <Button Margin="5 0 5 0" x:Name="editButton" Click="editButton_Click" Style="{StaticResource gridEditButton}" Content="Edit">
+                                        <Button Margin="5 0 5 0" x:Name="editButton" Click="editButton_Click" Style="{StaticResource gridEditButton}">
+                                            <materialIcons:MaterialIcon Kind="Pencil"/>
                                         </Button>
-                                        <Button Margin="5 0 5 0" x:Name="deleteButton" Click="deleteButton_Click" Style="{StaticResource gridRemoveButton}" Content="Delete">
+                                        <Button Margin="5 0 5 0" x:Name="deleteButton" Click="deleteButton_Click" Style="{StaticResource gridRemoveButton}">
+                                            <materialIcons:MaterialIcon Kind="Delete"/>
                                         </Button>
                                     </StackPanel>
                                 </DataTemplate>
