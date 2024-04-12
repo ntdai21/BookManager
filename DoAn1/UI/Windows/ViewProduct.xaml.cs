@@ -333,7 +333,9 @@ namespace DoAn1.UI.Windows
 
                 if (choice == MessageBoxResult.OK)
                 {
-                    bool importResult = BookBUS.Instance.importFromExcel(openFileDialog.FileName,3,2);
+                    string selectedDirectory=System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+                    bool importResult = BookBUS.Instance.importFromExcel(openFileDialog.FileName,selectedDirectory,3,2);
+
 
                     if (importResult) 
                     { 

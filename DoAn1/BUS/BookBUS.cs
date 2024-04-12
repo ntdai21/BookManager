@@ -201,7 +201,7 @@ namespace DoAn1.BUS
             return null;
         }
 
-        public bool importFromExcel(string filename, int catRow,int bookRow)
+        public bool importFromExcel(string filename, string directory, int catRow, int bookRow)
         {
             var document = SpreadsheetDocument.Open(filename, false);
             Hashtable refTable = new Hashtable();
@@ -256,7 +256,7 @@ namespace DoAn1.BUS
                 ("Quantity","K","int")
             };
 
-            row = bookRow;//configure able?
+            row = bookRow;
             Cell testCell = bookCells.FirstOrDefault(b => b?.CellReference == $"B{row}")!;
 
             while (testCell != null)
@@ -293,6 +293,17 @@ namespace DoAn1.BUS
                                 propertyInfo.SetValue(newBook, double.Parse(rawData));
                                 break;
                             case "string":
+                                if (item.columnName == "Cover")
+                                {
+                                    int index = rawData.LastIndexOf('/');
+                                    string name = rawData.Substring(index + 1);
+
+                                    string fullPath = directory + rawData;
+                                    rawData = SaveImageToFolder(fullPath, "Resources/BookCovers");
+
+
+
+                                }
                                 propertyInfo.SetValue(newBook, (string)rawData);
                                 break;
                             case "int":
