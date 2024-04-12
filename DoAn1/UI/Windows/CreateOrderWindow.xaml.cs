@@ -132,7 +132,7 @@ namespace DoAn1.UI.Windows
             //NewOrder.OrderBooks.Remove(orderBook);
             _orderBooks.Remove(orderBook);
             calculateTotalPrice();
-            MessageBox.Show("Deleted the selected book successfully!");
+            MessageBox.Show("Deleted the selected book successfully!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         private void TextOnlyButtonUC_Click(object sender, RoutedEventArgs e)
         {
@@ -154,7 +154,7 @@ namespace DoAn1.UI.Windows
             {
                 orderBook.NumOfBook = screen.BookQuantity;
                 calculateTotalPrice();
-                MessageBox.Show($"Updated the selected book successfully! {NewOrder.OrderBooks}");
+                MessageBox.Show("Updated the selected book successfully!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

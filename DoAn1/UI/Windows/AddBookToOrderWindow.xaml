@@ -385,7 +385,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <!--Page Title -->
-                <TextBlock Text="Thêm sách vào hóa đơn" Grid.Row="1" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" />
+                <TextBlock Text="Add book to order" Grid.Row="1" FontSize="32" FontWeight="SemiBold" HorizontalAlignment="Left" />
 
 
                 <!--Add Button -->

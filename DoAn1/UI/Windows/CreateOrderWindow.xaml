@@ -270,7 +270,7 @@
 
                 <DockPanel  Grid.Row="2">
                     <TextBlock DockPanel.Dock="Left" Text="Ordered Books" FontWeight="Bold" FontSize="18"/>
-                    <userControl:TextOnlyButtonUC DockPanel.Dock="Right" UC_Text="Thêm sách" Width="80" Click="TextOnlyButtonUC_Click" Margin="0, 0, 20, 0"/>
+                    <userControl:TextOnlyButtonUC DockPanel.Dock="Right" UC_Text="Add books" Width="80" Click="TextOnlyButtonUC_Click" Margin="0, 0, 20, 0"/>
                     <TextBlock DockPanel.Dock="Right"/>
                 </DockPanel>
                 <DataGrid Grid.Row="3" RowStyle="{StaticResource DataGridRowStyle1}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle1}"
