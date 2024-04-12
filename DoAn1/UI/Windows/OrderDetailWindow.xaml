@@ -270,11 +270,11 @@
                   CellStyle="{StaticResource DataGridCellStyle1}" Style="{StaticResource DataGridStyle1}" x:Name="booksDataGrid" MinHeight="100" MaxHeight="360" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Book.Id}"/>
-                        <DataGridTextColumn Header="Tên Sách" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Name}"/>
-                        <DataGridTextColumn Header="Tác giả" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Author}"/>
-                        <DataGridTextColumn Header="Thể loại" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.CategoryName}"/>
-                        <DataGridTextColumn Header="Giá bán" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Book.Price}"/>
-                        <DataGridTextColumn Header="Số lượng" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding NumOfBook}"/>
+                        <DataGridTextColumn Header="Customer Name" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Name}"/>
+                        <DataGridTextColumn Header="Author" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.Author}"/>
+                        <DataGridTextColumn Header="Category" IsReadOnly="True" CanUserResize="False" Width="2*" Binding="{Binding Book.CategoryName}"/>
+                        <DataGridTextColumn Header="Price" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Book.Price, StringFormat={}{0:N0}}"/>
+                        <DataGridTextColumn Header="Quantity" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding NumOfBook, StringFormat={}{0:N0}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid  Grid.Row="4" Margin="0, 5, 0, 5" x:Name="DiscountGrid">
@@ -299,10 +299,10 @@
                     <Separator Margin="20 0 0 0" Background="{Binding Source={x:Static properties:Settings.Default}, Path=ColorPalatte_Foreground}"/>
                 </DockPanel>
                 <StackPanel Grid.Row="6" x:Name="PriceStackPanel">
-                    <userControl:TextFieldUC x:Name="GrossPriceTextFieldUC"  UC_Title="Gross price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding GrossPrice,  UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
-                    <userControl:TextFieldUC x:Name="DiscountTextFieldUC"  UC_Title="Discount" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding Discount, UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC x:Name="GrossPriceTextFieldUC"  UC_Title="Gross price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding GrossPrice, StringFormat={}{0:N0},  UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC x:Name="DiscountTextFieldUC"  UC_Title="Discount" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding Discount, StringFormat={}{0:N0}, UpdateSourceTrigger=PropertyChanged}" Margin="10"  UC_TitleWidth="100"/>
                     <Separator Margin="10 0 0 0" Background="Black"/>
-                    <userControl:TextFieldUC x:Name="TotalPriceTextFieldUC"  UC_Title="Total Price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding TotalPrice,  UpdateSourceTrigger=PropertyChanged}" UC_InputTextFontWeight="DemiBold"  Margin="10"  UC_TitleWidth="100"/>
+                    <userControl:TextFieldUC x:Name="TotalPriceTextFieldUC"  UC_Title="Total Price" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" UC_TextInput="{Binding TotalPrice, StringFormat={}{0:N0},  UpdateSourceTrigger=PropertyChanged}" UC_InputTextFontWeight="DemiBold"  Margin="10"  UC_TitleWidth="100"/>
                     
                 </StackPanel>
 

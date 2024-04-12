@@ -92,23 +92,35 @@ namespace DoAn1.UI.Windows
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            if (txtSearch.Text != "")
+            if (e.Key == System.Windows.Input.Key.Enter && txtSearch.Text != null)
             {
-                SearchTextBlock.Text = "";
+                SearchOrder();
             }
-            else SearchTextBlock.Text = "Search here...";
+            else
+            {
+                if (txtSearch.Text != "")
+                {
+                    SearchTextBlock.Text = "";
+                }
+                else SearchTextBlock.Text = "Search here...";
+            }
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private void SearchOrder()
         {
             keyword = txtSearch.Text;
             loadAll();
-            if (totalItems == 0) { 
+            if (totalItems == 0)
+            {
                 MessageBox.Show("No matching results were found!");
                 keyword = "";
                 loadAll();
             }
             else MessageBox.Show("Searching successfully");
+        }
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchOrder();
         }
 
         private void detailOrderButton_Click(object sender, RoutedEventArgs e)

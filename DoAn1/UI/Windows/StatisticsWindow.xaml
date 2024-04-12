@@ -402,7 +402,7 @@
                 <TextBlock Grid.Row="8" x:Name="titleBookChart" HorizontalAlignment="Center" FontSize="20" FontWeight="SemiBold" Height="auto"/>
                 <lvc:CartesianChart x:Name="BookChart" LegendLocation="Right" Margin="10,-50,10,20" icon:Grid.Row="9" icon:Grid.RowSpan="1" MinHeight="420">
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis MinValue="1" FontSize="16"></lvc:Axis>
+                        <lvc:Axis MinValue="0" FontSize="16"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis MinValue="0" Labels="{Binding RankLabels}"></lvc:Axis>

@@ -111,6 +111,14 @@ namespace DoAn1.UI.Windows
             {
                 searchBook();
             }
+            else
+            {
+                if (searchTextbox.Text != "")
+                {
+                    SearchTextBlock.Text = "";
+                }
+                else SearchTextBlock.Text = "Search here...";
+            }
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
