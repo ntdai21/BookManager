@@ -40,5 +40,5 @@ public partial class Book
 
     public virtual ICollection<OrderBook> OrderBooks { get; set; } = new List<OrderBook>();
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+
 }

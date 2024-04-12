@@ -39,9 +39,16 @@ namespace DoAn1.UI.Windows
             _book = book;
             InitializeComponent();
             string folder = AppDomain.CurrentDomain.BaseDirectory;
-            var bitmap = new BitmapImage(
-                new Uri($"{folder}{_book.Cover}", UriKind.Absolute));
-            coverImage.Source = bitmap;
+            string filePath = $"{folder}{_book.Cover}";
+
+            if (File.Exists(filePath))
+            {
+                var bitmap = new BitmapImage(new Uri(filePath, UriKind.Absolute));
+                coverImage.Source = bitmap;
+            }
+            //var bitmap = new BitmapImage(
+                //new Uri($"{folder}{_book.Cover}", UriKind.Absolute));
+
             _categories = CategoryBUS.Instance.LoadCategory(_categories);
             categoryComboBox.ItemsSource = _categories;
             this.DataContext = _book;

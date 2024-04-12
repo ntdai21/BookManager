@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DoAn1
 {
-    public partial class Book
+    public partial class Book : INotifyPropertyChanged
     {
         public int Quantity { get; set; }
 
@@ -14,5 +15,7 @@ namespace DoAn1
         {
             throw new NotImplementedException();
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

@@ -38,6 +38,7 @@ namespace DoAn1.UI.Windows
             if(screen.ShowDialog()==true)
             {
                 //Handle event success?
+                this.DataContext = _book;
             }
 
 
